@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Space">
+
+
+    <meta name="subtitle" content=" ">
+
+
+
+
+<title>C++ 类型转换 | Space Blog</title>
+
+
+
+    <link rel="icon" href="/favico.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Space Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Space Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">C++ 类型转换</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Space</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 29, 2021&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C-C/">C/C++</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="旧式转换与新式转换"><a href="#旧式转换与新式转换" class="headerlink" title="旧式转换与新式转换"></a>旧式转换与新式转换</h3><p><strong>旧式转型</strong> &emsp;C风格的强制类型<br>&emsp; &emsp; <strong>TYPE b=(TYPE)a</strong><br>    &emsp; &emsp;&emsp; &emsp;<strong>列如:<br>    &emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; int i=48<br>    &emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; char c=(char)i;</strong><br><strong>新式转型</strong>C++风格的类型转换提供了4种类型转换操作符来应对不同场合的应用。<br>格式：<br>        <strong>TYPE b = 类型操作符<TYPE>(a)<br>       类型操作符</strong>= <font color=Red>static_cast<br>             &emsp; &emsp; &emsp; &emsp;&emsp;  reinterpreter_cast<br>    &emsp; &emsp;    &emsp; &emsp;&emsp;   dynamic_cast<br>       &emsp; &emsp;&emsp;  &emsp; &emsp;&emsp; const_cast</font></p>
+<h1 id="static-cast"><a href="#static-cast" class="headerlink" title="static_cast"></a>static_cast</h1><p> 静态类型转换（斯文的劝导，温柔的转换）。如int转换成char<br>&emsp; &emsp;&emsp; <strong>主要用法：</strong><br>&emsp; &emsp;&emsp; &emsp; &emsp;&emsp; 用于类层次结构中基类（父类）和派生类（子类）之间指针或引用的转换。上行指针或引用(派生类到基类)转换安全，下行不安全<br>&emsp; &emsp;&emsp; &emsp; &emsp;&emsp; 用于基本数据类型之间的转换，如把int转换成char，把int转换成enum。这种转换的安全性也要开发人员来保证。<br>&emsp; &emsp;&emsp; &emsp; &emsp;&emsp; 把空指针转换成目标类型的空指针。<br>&emsp; &emsp;&emsp; &emsp; &emsp;&emsp; 把任何类型的表达式转换成void类型。</p>
+<p><em>代码示例:</em></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;喵喵瞄&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;汪汪汪&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">//第一种情况  父子类之间的类型转换</span></span><br><span class="line">	Dog* dog1 = <span class="keyword">new</span> <span class="built_in">Dog</span>();</span><br><span class="line">	Animal* a1 = <span class="keyword">static_cast</span>&lt;Animal*&gt;(dog1); <span class="comment">//子类的指针转型到父类指针</span></span><br><span class="line"></span><br><span class="line">	Dog* dog1_1 = <span class="keyword">static_cast</span>&lt;Dog*&gt;(a1);     <span class="comment">//父类的指针转型到子类的指针</span></span><br><span class="line">	Cat* cat1 = <span class="keyword">static_cast</span>&lt;Cat*&gt;(a1);       <span class="comment">//父子到子类，有风险，这样时不行的，会出问题</span></span><br><span class="line"></span><br><span class="line">	Dog dog2;</span><br><span class="line">	Animal&amp; a2 = <span class="keyword">static_cast</span>&lt;Animal&amp;&gt;(dog2); <span class="comment">//子类的引用转型到父类的引用</span></span><br><span class="line">	Dog &amp;dog2_2 = <span class="keyword">static_cast</span>&lt;Dog&amp;&gt;(a2);     <span class="comment">//父类到子类引用</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//第二种 基本类型的转换</span></span><br><span class="line">	<span class="keyword">int</span>  kk = <span class="number">234</span>;</span><br><span class="line">	<span class="keyword">char</span> cc = <span class="keyword">static_cast</span>&lt;<span class="keyword">char</span>&gt;(kk);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//第三种 把空指针转换成目标类型的空指针。</span></span><br><span class="line">	<span class="keyword">int</span>* p = <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>*&gt;(<span class="literal">NULL</span>);</span><br><span class="line">	Dog* dp = <span class="keyword">static_cast</span>&lt;Dog*&gt;(<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//第四种 把任何类型的表达式转换成void类型</span></span><br><span class="line">	<span class="keyword">int</span>* pi = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line">	<span class="keyword">void</span>* vp = <span class="keyword">static_cast</span>&lt;<span class="keyword">void</span>*&gt;(pi);</span><br><span class="line">	vp = pi;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="reinterpret-cast"><a href="#reinterpret-cast" class="headerlink" title="reinterpret_cast"></a>reinterpret_cast</h1><p>重新解释类型(挂羊头，卖狗肉) 不同类型间的互转，数值与指针间的互转</p>
+<p>&emsp; &emsp;&emsp;用法：<br>&emsp; &emsp;&emsp;&emsp; &emsp;&emsp; <strong>TYPE b = reinterpret_cast <TYPE> ( a )<br>&emsp; &emsp;&emsp;&emsp; &emsp;&emsp;TYPE</strong>必须是一个指针、引用、算术类型、函数指针.</p>
+<p><strong>忠告</strong>:<em>滥用 reinterpret_cast 运算符可能很容易带来风险。 除非所需转换本身是低级别的，否则应使用其他强制转换运算符之一。</em></p>
+<p><strong>注!</strong> :<strong><font color=Red>不同类型指针转换不能使用static_cast</strong></font><br><em>代码示例:</em></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;动物叫&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;喵喵瞄&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;汪汪汪&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//用法一   数值与指针之间的转换</span></span><br><span class="line">	<span class="keyword">int</span>* p = <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">int</span>*&gt;(<span class="number">0x99999</span>);</span><br><span class="line">	<span class="keyword">int</span> val = <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">int</span>&gt;(p);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//用法二  不同类型指针和引用之间的转换</span></span><br><span class="line">	Dog  dog1;</span><br><span class="line">	Animal* a1 = &amp;dog1;</span><br><span class="line">	a1-&gt;<span class="built_in">cry</span>();</span><br><span class="line"></span><br><span class="line">	Dog* dog1_p = <span class="keyword">reinterpret_cast</span>&lt;Dog*&gt;(a1);</span><br><span class="line">	Dog* dog2_p = <span class="keyword">static_cast</span>&lt;Dog*&gt;(a1);   <span class="comment">//如果能用static_cast ，static_cast 优先</span></span><br><span class="line"></span><br><span class="line">	Cat* cat2_p = <span class="keyword">reinterpret_cast</span>&lt;Cat*&gt;(dog1_p);</span><br><span class="line"></span><br><span class="line">	Animal&amp; a2 = dog1;</span><br><span class="line">	Dog&amp; dog3 = <span class="keyword">reinterpret_cast</span>&lt;Dog&amp;&gt;(a2);<span class="comment">//引用强转用法</span></span><br><span class="line"></span><br><span class="line">	dog1_p-&gt;<span class="built_in">cry</span>();</span><br><span class="line">	dog2_p-&gt;<span class="built_in">cry</span>();</span><br><span class="line"></span><br><span class="line">	cat2_p-&gt;<span class="built_in">cry</span>();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="dynamic-cast"><a href="#dynamic-cast" class="headerlink" title="dynamic_cast"></a>dynamic_cast</h1><p><strong>动态类型转换</strong><br>&emsp; &emsp;&emsp;&emsp; &emsp;&emsp;将一个基类对象指针cast到继承类指针，<strong>dynamic_cast</strong> 会根据基类指针是否真正指向继承类指针来做相应处理。失败返回null，成功返回正常cast后的对象指针；<br>&emsp; &emsp;&emsp;&emsp; &emsp;&emsp;将一个基类对象引用cast 继承类对象，<strong>dynamic_cast</strong> 会根据基类对象是否真正属于继承类来做相应处理。失败抛出异常bad_cast<br>注意：<strong>dynamic_cast</strong>在将父类cast到子类时，父类必须要有虚函数一起。</p>
+<p><em>代码示例:</em></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;喵喵瞄&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">play</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;爬爬树&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;汪汪汪&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">play</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;溜达溜达&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">animalPlay</span><span class="params">(Animal&amp; animal)</span> </span>&#123;</span><br><span class="line">	animal.<span class="built_in">cry</span>();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		Dog&amp; pDog = <span class="keyword">dynamic_cast</span>&lt;Dog&amp;&gt;(animal);</span><br><span class="line">		pDog.<span class="built_in">play</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in"><span class="keyword">catch</span></span> (std::bad_cast bc) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;不是狗，那应该是猫&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		Cat&amp; pCat = <span class="keyword">dynamic_cast</span>&lt;Cat&amp;&gt;(animal);</span><br><span class="line">		pCat.<span class="built_in">play</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in"><span class="keyword">catch</span></span> (std::bad_cast bc) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;不是猫，那应该是上面的狗&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">animalPlay</span><span class="params">(Animal* animal)</span> </span>&#123;</span><br><span class="line">	animal-&gt;<span class="built_in">cry</span>();</span><br><span class="line"></span><br><span class="line">	Dog* pDog = <span class="keyword">dynamic_cast</span>&lt;Dog*&gt;(animal);</span><br><span class="line">	<span class="keyword">if</span> (pDog) &#123;</span><br><span class="line">		pDog-&gt;<span class="built_in">play</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;<span class="comment">//pDog == NULL</span></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;不是狗，别骗我！&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	Cat* pCat = <span class="keyword">dynamic_cast</span>&lt;Cat*&gt;(animal);</span><br><span class="line">	<span class="keyword">if</span> (pCat) &#123;</span><br><span class="line">		pCat-&gt;<span class="built_in">play</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;<span class="comment">//pDog == NULL</span></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;不是猫，别骗我！&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	Dog* dog1 = <span class="keyword">new</span> <span class="built_in">Dog</span>();</span><br><span class="line">	Animal* a1 = dog1;</span><br><span class="line"></span><br><span class="line">	Dog dog2;</span><br><span class="line">	<span class="built_in">animalPlay</span>(dog2);</span><br><span class="line"></span><br><span class="line">	Cat* cat1 = <span class="keyword">new</span> <span class="built_in">Cat</span>();</span><br><span class="line">	Animal* a2 = cat1;</span><br><span class="line"></span><br><span class="line">	Cat cat2;</span><br><span class="line">	<span class="built_in">animalPlay</span>(cat2);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="const-cast"><a href="#const-cast" class="headerlink" title="const_cast"></a>const_cast</h1><p><strong>去const属性.(仅针对于指针和引用)</strong></p>
+<p><em>代码示例:</em></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">demo</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//对指针去掉cost 重新赋值</span></span><br><span class="line">	<span class="comment">//char* p1 = const_cast&lt;char *&gt;(p);</span></span><br><span class="line">	<span class="comment">//p1[0] = &#x27;A&#x27;;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//直接去掉const修改</span></span><br><span class="line">	<span class="keyword">const_cast</span>&lt;<span class="keyword">char</span>*&gt;(p)[<span class="number">0</span>] = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	cout &lt;&lt; p &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//字符串数组</span></span><br><span class="line">	<span class="comment">//char p[] = &quot;12345678&quot;;</span></span><br><span class="line">	<span class="comment">//demo(p);  //合情合理</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//常量字符串不能去掉const 修改</span></span><br><span class="line">	<span class="comment">//警告： 在去掉常量限定符之前，保证指针所指向的内存能够修改，不能修改则会引起异常。</span></span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span>* cp = <span class="string">&quot;987654321&quot;</span>;</span><br><span class="line">	<span class="built_in">demo</span>(cp);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="类型转换使用建议"><a href="#类型转换使用建议" class="headerlink" title="类型转换使用建议"></a>类型转换使用建议</h2><blockquote>
+<p><strong>1.static_cast静态类型转换，编译的时c++编译器会做编译时的类型检查；隐式转换；<br>基本类型转换，父子类之间合理转换<br>    2.若不同类型之间，进行强制类型转换，用reinterpret_cast&lt;&gt;() 进行重新解释<br>       建  议：<br>C语言中  能隐式类型转换的，在c++中可用 static_cast&lt;&gt;()进行类型转换。因C++编译器在编译检查一般都能通过；C语言中不能隐式类型转换的，在c++中可以用 reinterpret_cast&lt;&gt;() 进行强制类型解释。<br>总结：static_cast&lt;&gt;()和reinterpret_cast&lt;&gt;() 基本上把C语言中的 强制类型转换给覆盖，注意reinterpret_cast&lt;&gt;()很难保证移植性。<br>3.dynamic_cast&lt;&gt;()，动态类型转换，安全的虚基类和子类之间转换；运行时类型检查<br>    4.const_cast&lt;&gt;()，去除变量的只读属性<br>最后的忠告：程序员必须清楚的知道: 要转的变量，类型转换前是什么类型，类型转换                后是什么类型，转换后有什么后果。</strong></p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Space</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://spaceout.cn/2021/11/29/type_%20conversion/">https://spaceout.cn/2021/11/29/type_%20conversion/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/C-C/"># C/C++</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/11/29/read%20&&%20write/">C++流(读写文件)</a>
+            
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span></a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

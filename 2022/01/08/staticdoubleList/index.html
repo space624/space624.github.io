@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Space">
+
+
+    <meta name="subtitle" content=" ">
+
+
+
+
+<title>静态双链表 | Space Blog</title>
+
+
+
+    <link rel="icon" href="/favico.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Space Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Space Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">静态双链表</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Space</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">一月 8, 2022&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>实现一个双链表，双链表初始为空，支持 5 种操作：</p>
+<ol>
+<li>在最左侧插入一个数；</li>
+<li>在最右侧插入一个数；</li>
+<li>将第 k 个插入的数删除；</li>
+<li>在第 k 个插入的数左侧插入一个数；</li>
+<li>在第 k 个插入的数右侧插入一个数</li>
+<li>现在要对该链表进行 <strong>M</strong> 次操作，进行完所有操作后，从左到右输出整个链表。</li>
+</ol>
+<p><strong>注意:</strong> 题目中第 k 个插入的数并不是指当前链表的第 k 个数。例如操作过程中一共插入了 n 个数，则按照插入的时间顺序，这 n 个数依次为：第 1 个插入的数，第 2 个插入的数，…第 n 个插入的数。</p>
+<p><strong>输入格式</strong><br>第一行包含整数 <strong>M</strong>，表示操作次数。</p>
+<p>接下来 <strong>M</strong> 行，每行包含一个操作命令，操作命令可能为以下几种：</p>
+<ol>
+<li>L x，表示在链表的最左端插入数 x。</li>
+<li>R x，表示在链表的最右端插入数 x。</li>
+<li>D k，表示将第 k 个插入的数删除。</li>
+<li>IL k x，表示在第 k 个插入的数左侧插入一个数。</li>
+<li>IR k x，表示在第 k 个插入的数右侧插入一个数。</li>
+</ol>
+<p><strong>输出格式</strong><br>共一行，将整个链表从左到右输出。</p>
+<p><strong>数据范围</strong><br>1≤M≤100000<br>所有操作保证合法。</p>
+<p><strong>输入样例：</strong></p>
+<blockquote>
+<p>10<br>R 7<br>D 1<br>L 3<br>IL 2 10<br>D 3<br>IL 2 7<br>L 8<br>R 9<br>IL 4 7<br>IR 2 2</p>
+</blockquote>
+<p><strong>输出样例：</strong></p>
+<blockquote>
+<p>8 7 7 3 2 9</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> e[N],r[N],l[N],idx;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    r[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line">    l[<span class="number">0</span>]=<span class="number">0</span>;</span><br><span class="line">    idx=<span class="number">2</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(<span class="keyword">int</span> k,<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    e[idx]=x,r[idx]=r[k],l[idx]=k,l[r[k]]=idx,r[k]=idx++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">del</span><span class="params">(<span class="keyword">int</span> k)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    r[l[k]]=r[k];</span><br><span class="line">    l[r[k]]=l[k];</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m;</span><br><span class="line">    cin&gt;&gt;m;</span><br><span class="line">    <span class="built_in">init</span>();</span><br><span class="line">    <span class="keyword">while</span>(m--)</span><br><span class="line">    &#123;</span><br><span class="line">       string c;</span><br><span class="line">       cin&gt;&gt;c;</span><br><span class="line">       <span class="keyword">if</span>(c==<span class="string">&quot;L&quot;</span>)</span><br><span class="line">       &#123;</span><br><span class="line">           <span class="keyword">int</span> x;</span><br><span class="line">           cin&gt;&gt;x;</span><br><span class="line">           </span><br><span class="line">           <span class="built_in">push</span>(<span class="number">0</span>,x);</span><br><span class="line">       &#125;<span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&quot;R&quot;</span>)</span><br><span class="line">       &#123;</span><br><span class="line">           <span class="keyword">int</span> x;</span><br><span class="line">           cin&gt;&gt;x;</span><br><span class="line">           <span class="built_in">push</span>(l[<span class="number">1</span>],x);</span><br><span class="line">       &#125;<span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&quot;D&quot;</span>)</span><br><span class="line">       &#123;</span><br><span class="line">           <span class="keyword">int</span> k;</span><br><span class="line">           cin&gt;&gt;k;</span><br><span class="line">           <span class="built_in">del</span>(k+<span class="number">1</span>);</span><br><span class="line">       &#125;<span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&quot;IR&quot;</span>)</span><br><span class="line">       &#123;</span><br><span class="line">           <span class="keyword">int</span> k,x;</span><br><span class="line">           cin&gt;&gt;k&gt;&gt;x;</span><br><span class="line">           <span class="built_in">push</span>(k+<span class="number">1</span>,x);</span><br><span class="line">       &#125;<span class="keyword">else</span></span><br><span class="line">       &#123;</span><br><span class="line">           <span class="keyword">int</span> k,x;</span><br><span class="line">           cin&gt;&gt;k&gt;&gt;x;</span><br><span class="line">           <span class="built_in">push</span>(l[k+<span class="number">1</span>],x);</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=r[<span class="number">0</span>];i!=<span class="number">1</span>;i=r[i])</span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;e[i]&lt;&lt;<span class="string">&#x27; &#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Space</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://spaceout.cn/2022/01/08/staticdoubleList/">https://spaceout.cn/2022/01/08/staticdoubleList/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%AE%97%E6%B3%95/"># 算法</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/01/08/AddDouble/">高精度加减乘除法</a>
+            
+            
+            <a class="next" rel="next" href="/2022/01/08/value/">表达式求值</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span></a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

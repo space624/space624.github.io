@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Space">
+
+
+    <meta name="subtitle" content=" ">
+
+
+
+
+<title>C++流(读写文件) | Space Blog</title>
+
+
+
+    <link rel="icon" href="/favico.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Space Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Space Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">C++流(读写文件)</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Space</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 29, 2021&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C-C/">C/C++</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="读写文本文件"><a href="#读写文本文件" class="headerlink" title="读写文本文件"></a>读写文本文件</h1><blockquote>
+<p><strong>C++的IO流:<br>IO:向设备输入数据和输出数据</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>设备有:<br>1)文件<br>2)控制台<br>3)特定的数据类型(stringstream)</strong><br><em><strong>C++中,必须通过特定的已经定义好的类, 来处理IO(输入输出)</strong></em></p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/e0bfc49ef70d433abc1b3c487195eda8.png" alt="在这里插入图片描述"></p>
+<p>C++的 IO类库为:</p>
+<p><img src="https://img-blog.csdnimg.cn/027d746213614c3e9eb335d14a99988c.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTQwMTkz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<blockquote>
+<p><strong>文件流:对文件进行读写操作</strong><br><strong>头文件:  &lt; fstream &gt;</strong></p>
+<p><strong>ifstream    对文件输入(读文件)</strong><br><strong>ofstream    对文件输出(写文件)</strong><br><strong>fstream     对文件输入或输出</strong></p>
+</blockquote>
+<p><strong>文件的打开方式:</strong></p>
+<table>
+<thead>
+<tr>
+<th>模式标志</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ios::in</td>
+<td>读方式打开文件</td>
+</tr>
+<tr>
+<td>ios:out</td>
+<td>写方式打开文件</td>
+</tr>
+<tr>
+<td>ios::trunc</td>
+<td>如果此文件已经存在, 就会打开文件之前把文件长度截断为0</td>
+</tr>
+<tr>
+<td>ios::app</td>
+<td>尾部最加方式(在尾部写入)</td>
+</tr>
+<tr>
+<td>ios::ate</td>
+<td>文件打开后, 定位到文件尾</td>
+</tr>
+<tr>
+<td>ios::binary</td>
+<td>二进制方式(默认是文本方式)</td>
+</tr>
+</tbody></table>
+<p><strong>写文本文件</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	string name;</span><br><span class="line">	<span class="keyword">int</span> age;</span><br><span class="line">	ofstream outfile;  <span class="comment">//也可以使用fstream, 但是fstream的默认打开方式不截断文件长度</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// ofstream的默认打开方式是,  截断式写入 ios::out |  ios::trunc</span></span><br><span class="line">	<span class="comment">// fstream的默认打开方式是,  截断式写入   ios::out</span></span><br><span class="line">	<span class="comment">// 建议指定打开方式</span></span><br><span class="line">	outfile.<span class="built_in">open</span>(<span class="string">&quot;user.txt&quot;</span>, ios::out | ios::trunc);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;[ctrl+z退出]&quot;</span> &lt;&lt; endl;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;请输入姓名:&quot;</span>;</span><br><span class="line">		cin &gt;&gt; name;</span><br><span class="line">		<span class="keyword">if</span> (cin.<span class="built_in">eof</span>()) &#123; <span class="comment">//判断文件是否结束</span></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		outfile &lt;&lt; name &lt;&lt; <span class="string">&quot;\t&quot;</span>;</span><br><span class="line"></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;请输入年龄: &quot;</span>;</span><br><span class="line">		cin &gt;&gt; age;</span><br><span class="line">		outfile &lt;&lt; age &lt;&lt; endl;  <span class="comment">//文本文件写入</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 关闭打开的文件</span></span><br><span class="line">	outfile.<span class="built_in">close</span>();</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>读文本文件</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	string name;</span><br><span class="line">	<span class="keyword">int</span> age;</span><br><span class="line">	ifstream infile;</span><br><span class="line">	infile.<span class="built_in">open</span>(<span class="string">&quot;user.txt&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		infile &gt;&gt; name;</span><br><span class="line">		<span class="keyword">if</span> (infile.<span class="built_in">eof</span>()) &#123; <span class="comment">//判断文件是否结束</span></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		cout &lt;&lt; name &lt;&lt; <span class="string">&quot;\t&quot;</span>;</span><br><span class="line"></span><br><span class="line">		infile &gt;&gt; age;</span><br><span class="line">		cout &lt;&lt; age &lt;&lt; endl;  </span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 关闭打开的文件</span></span><br><span class="line">	infile.<span class="built_in">close</span>();</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二进制读写文件"><a href="#二进制读写文件" class="headerlink" title="二进制读写文件"></a>二进制读写文件</h2><blockquote>
+<p><strong>写二进制文件<br>使用文件流对象的write方法写入二进制数据.</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>注:若</strong> <del><em><strong>outfile &lt;&lt; age &lt;&lt; end;</strong></em></del><br><strong>写入文件会转换到文本方式写入</strong><br><strong>需要使用write(<em>写</em>)吧整形转换到char类型，进行写入</strong></p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	string name;</span><br><span class="line">	<span class="keyword">int</span> age;</span><br><span class="line">	ofstream outfile;</span><br><span class="line">	outfile.<span class="built_in">open</span>(<span class="string">&quot;user.dat&quot;</span>, ios::out | ios::trunc | ios::binary);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;请输入姓名: [ctrl+z退出] &quot;</span>;</span><br><span class="line">		cin &gt;&gt; name;</span><br><span class="line">		<span class="keyword">if</span> (cin.<span class="built_in">eof</span>()) &#123; <span class="comment">//判断文件是否结束</span></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		outfile &lt;&lt; name &lt;&lt; <span class="string">&quot;\t&quot;</span>;</span><br><span class="line"></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;请输入年龄: &quot;</span>;</span><br><span class="line">		cin &gt;&gt; age;  </span><br><span class="line">		<span class="comment">//outfile &lt;&lt; age &lt;&lt; endl;  //会自动转成文本方式写入</span></span><br><span class="line">		outfile.<span class="built_in">write</span>((<span class="keyword">char</span>*)&amp;age, <span class="built_in"><span class="keyword">sizeof</span></span>(age));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 关闭打开的文件</span></span><br><span class="line">	outfile.<span class="built_in">close</span>();</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>二进制读文件</strong></p>
+<blockquote>
+<p><strong>需使用read(<em>读</em>)吧写入的内容读取出来并输出</strong></p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	string name;</span><br><span class="line">	<span class="keyword">int</span> age;</span><br><span class="line">	ifstream infile;</span><br><span class="line">	infile.<span class="built_in">open</span>(<span class="string">&quot;user.dat&quot;</span>, ios::in | ios::binary);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		infile &gt;&gt; name;</span><br><span class="line">		<span class="keyword">if</span> (infile.<span class="built_in">eof</span>()) &#123; <span class="comment">//判断文件是否结束</span></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		cout &lt;&lt; name &lt;&lt; <span class="string">&quot;\t&quot;</span>;</span><br><span class="line">	</span><br><span class="line">		<span class="comment">// 跳过中间的制表符</span></span><br><span class="line">		<span class="keyword">char</span> tmp;</span><br><span class="line">		infile.<span class="built_in">read</span>(&amp;tmp, <span class="built_in"><span class="keyword">sizeof</span></span>(tmp)); </span><br><span class="line"></span><br><span class="line">		<span class="comment">//infile &gt;&gt; age; //从文本文件中读取整数, 使用这个方式</span></span><br><span class="line">		infile.<span class="built_in">read</span>((<span class="keyword">char</span>*)&amp;age, <span class="built_in"><span class="keyword">sizeof</span></span>(age));</span><br><span class="line">		cout &lt;&lt; age &lt;&lt; endl;  <span class="comment">//文本文件写入</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 关闭打开的文件</span></span><br><span class="line">	infile.<span class="built_in">close</span>();</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="按指定格式读写文件"><a href="#按指定格式读写文件" class="headerlink" title="按指定格式读写文件"></a>按指定格式读写文件</h3><blockquote>
+<p><strong>指定格式写文件:</strong><br>使用 <em><strong>&lt; stringstream&gt;</strong></em></p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sstream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	string name;</span><br><span class="line">	<span class="keyword">int</span> age;</span><br><span class="line">	ofstream outfile;</span><br><span class="line">	outfile.<span class="built_in">open</span>(<span class="string">&quot;user.txt&quot;</span>, ios::out | ios::trunc);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;[ctrl+z退出]&quot;</span> &lt;&lt; endl;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;请输入姓名: &quot;</span>;</span><br><span class="line">		cin &gt;&gt; name;</span><br><span class="line">		<span class="keyword">if</span> (cin.<span class="built_in">eof</span>()) &#123; <span class="comment">//判断文件是否结束</span></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;请输入年龄: &quot;</span>;</span><br><span class="line">		cin &gt;&gt; age;</span><br><span class="line">		</span><br><span class="line">		stringstream s;</span><br><span class="line">		s &lt;&lt; <span class="string">&quot;name:&quot;</span> &lt;&lt; name &lt;&lt; <span class="string">&quot;\t\tage:&quot;</span> &lt;&lt; age &lt;&lt; endl;</span><br><span class="line">		outfile &lt;&lt; s.<span class="built_in">str</span>();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 关闭打开的文件</span></span><br><span class="line">	outfile.<span class="built_in">close</span>();</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>指定格式读文件:</strong><br><strong>在C++指定格式读文件并没有优雅的解决方案</strong><br><strong>就用C语言的:</strong> <em><strong>sscanf</strong></em></p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> name[<span class="number">32</span>];</span><br><span class="line">	<span class="keyword">int</span> age;</span><br><span class="line">	string line;</span><br><span class="line">	ifstream infile;</span><br><span class="line">	infile.<span class="built_in">open</span>(<span class="string">&quot;user.txt&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		<span class="built_in">getline</span>(infile, line);</span><br><span class="line">		<span class="keyword">if</span> (infile.<span class="built_in">eof</span>()) &#123; <span class="comment">//判断文件是否结束</span></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">sscanf_s</span>(line.<span class="built_in">c_str</span>(), <span class="string">&quot;姓名:%s 年龄:%d&quot;</span>, name, <span class="built_in"><span class="keyword">sizeof</span></span>(name),&amp;age);</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;姓名:&quot;</span> &lt;&lt; name &lt;&lt; <span class="string">&quot;\t\t年龄:&quot;</span> &lt;&lt; age &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	infile.<span class="built_in">close</span>();</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="文件流的状态检查"><a href="#文件流的状态检查" class="headerlink" title="文件流的状态检查"></a>文件流的状态检查</h4><table>
+<thead>
+<tr>
+<th>流</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>is_open()</td>
+<td>文件流是否打开成功</td>
+</tr>
+<tr>
+<td>eof()</td>
+<td>流是否结束</td>
+</tr>
+<tr>
+<td>fail()</td>
+<td>流的failbit或者badbit被置位时, 返回true</td>
+</tr>
+<tr>
+<td>failbit: 出现非致命错误，可挽回, 一般是软件错误</td>
+<td>badbit:置位, 出现致命错误, 一般是硬件错误或系统底层错误, 不可挽回</td>
+</tr>
+<tr>
+<td>bad()</td>
+<td>流的badbit置位时, 返回true</td>
+</tr>
+<tr>
+<td>good()</td>
+<td>流处于有效状态时, 返回true</td>
+</tr>
+<tr>
+<td>clear()</td>
+<td>流的所有状态都被复位</td>
+</tr>
+</tbody></table>
+<h5 id="文件流的三种定位-seekg-tellg-seekp"><a href="#文件流的三种定位-seekg-tellg-seekp" class="headerlink" title="文件流的三种定位 seekg tellg seekp"></a>文件流的三种定位 seekg tellg seekp</h5><p><strong>seekg:</strong></p>
+<blockquote>
+<p><em>seekg( off_type offset,</em>      <strong>//偏移量</strong><br><em>ios::seekdir origin );</em>  <strong>//起始位置</strong><br><strong>作用：设置输入流的位置</strong><br><strong>参数1： 偏移量</strong><br><strong>参数2： 相对位置</strong><br>  <em>beg</em>      <strong>相对于开始位置</strong><br>  <em>cur</em>      <strong>相对于当前位置</strong><br>  <em>end</em>    <strong>相对于结束位置</strong></p>
+</blockquote>
+<p>获取文件的最后50个字符:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	ifstream infile;</span><br><span class="line"></span><br><span class="line">	infile.<span class="built_in">open</span>(<span class="comment">/*文件名字这里我就不写了*/</span><span class="string">&quot;.cpp&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span> (!infile.<span class="built_in">is_open</span>()) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">		<span class="comment">//定位到最后50个字母</span></span><br><span class="line">	infile.<span class="built_in">seekg</span>(<span class="number">-50</span>, infile.end);</span><br><span class="line">	<span class="keyword">while</span> (!infile.<span class="built_in">eof</span>()) &#123;</span><br><span class="line">		string line;</span><br><span class="line">		<span class="built_in">getline</span>(infile, line);</span><br><span class="line">		cout &lt;&lt; line &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	infile.<span class="built_in">close</span>();</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>tellg:</strong></p>
+<blockquote>
+<p>返回该输入流的当前位置(距离文件的起始位置的偏移量)</p>
+</blockquote>
+<p>获取文件的长度:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	ifstream infile;</span><br><span class="line"></span><br><span class="line">	infile.<span class="built_in">open</span>(<span class="comment">/*文件名字这里我就不写了*/</span><span class="string">&quot;.cpp&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span> (!infile.<span class="built_in">is_open</span>()) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 先把文件指针移动到文件尾</span></span><br><span class="line">	infile.<span class="built_in">seekg</span>(<span class="number">0</span>, infile.end);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> len = infile.<span class="built_in">tellg</span>();</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;len:&quot;</span> &lt;&lt; len;</span><br><span class="line"></span><br><span class="line">	infile.<span class="built_in">close</span>();</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>seekp</strong></p>
+<blockquote>
+<p>设置该输出流的位置</p>
+</blockquote>
+<p>先向新文件写入：”123456789”<br>然后再在第4个字符位置写入”ABC”</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	ofstream outfile;</span><br><span class="line"></span><br><span class="line">	outfile.<span class="built_in">open</span>(<span class="string">&quot;test.txt&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span> (!outfile.<span class="built_in">is_open</span>()) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	outfile &lt;&lt; <span class="string">&quot;123456789&quot;</span>;</span><br><span class="line"></span><br><span class="line">	outfile.<span class="built_in">seekp</span>(<span class="number">4</span>, outfile.beg);</span><br><span class="line">	outfile &lt;&lt; <span class="string">&quot;ABC&quot;</span>;</span><br><span class="line"></span><br><span class="line">	outfile.<span class="built_in">close</span>();</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="常见的错误"><a href="#常见的错误" class="headerlink" title="常见的错误"></a>常见的错误</h6><blockquote>
+<p>   1.文件没有关闭， close()，可能导致写文件失败<br>    2.文件打开方式不合适<br>    3.在VS2015的部分版本中，当sscanf和sscanf_s的格式字符串中含有中文时，可能会读取失败。</p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Space</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://spaceout.cn/2021/11/29/read%20&&%20write/">https://spaceout.cn/2021/11/29/read%20&&%20write/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/C-C/"># C/C++</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/11/29/Sokoban/">推箱子小游戏</a>
+            
+            
+            <a class="next" rel="next" href="/2021/11/29/type_%20conversion/">C++ 类型转换</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span></a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

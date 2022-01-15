@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Space">
+
+
+    <meta name="subtitle" content=" ">
+
+
+
+
+<title>推箱子小游戏 | Space Blog</title>
+
+
+
+    <link rel="icon" href="/favico.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Space Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Space Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">推箱子小游戏</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Space</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 29, 2021&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C-C/">C/C++</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>开发环境:Vs2017 + EasyX<br><a href="https://spaceout.cn/2021/11/29/EasyX%E5%9B%BE%E5%BD%A2%E5%BA%93%E5%AE%89%E8%A3%85/">EasyX安装教程</a></p>
+<p><strong>该程序分为4个模块分别为：</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/3013c35c53c241cabe9c15e8d8d75d81.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="推箱子模块"></p>
+<p><a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1MZv8pDBXdNDbXxuAAPSM-A">素材链接提取码：2syq</a> </p>
+<h1 id="地图初始化"><a href="#地图初始化" class="headerlink" title="地图初始化"></a>地图初始化</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;graphics.h&gt;</span> </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span> </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span> </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> RATIO 61</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SCREEN_WIDTH 960 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SCREEN_HEIGHT 768</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LINE 9 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> COLUMN 12</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> START_X 100 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> START_Y 150</span></span><br><span class="line"></span><br><span class="line">IMAGE images[<span class="number">6</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">/*游戏地图*/</span> </span><br><span class="line"><span class="keyword">int</span> map[LINE][COLUMN] = &#123; &#123;<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>&#125;, </span><br><span class="line">&#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span> &#125;,</span><br><span class="line">&#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span> &#125;, </span><br><span class="line">&#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">&#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">&#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">&#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">&#123; <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span> &#125;, </span><br><span class="line">&#123; <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span> &#125;, </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123; </span><br><span class="line">	IMAGE bg_img; </span><br><span class="line">	<span class="comment">//搭台唱戏 </span></span><br><span class="line">	<span class="built_in">initgraph</span>(SCREEN_WIDTH, SCREEN_HEIGHT); </span><br><span class="line">	<span class="built_in">loadimage</span>(&amp;bg_img, _T(<span class="string">&quot;blackground.bmp&quot;</span>), SCREEN_WIDTH, SCREEN_HEIGHT, <span class="literal">true</span>); </span><br><span class="line">	<span class="built_in">putimage</span>(<span class="number">0</span>, <span class="number">0</span>, &amp;bg_img);</span><br><span class="line"><span class="comment">//加载道具图标 </span></span><br><span class="line">	<span class="built_in">loadimage</span>(&amp;images[<span class="number">0</span>], _T(<span class="string">&quot;wall.bmp&quot;</span>), RATIO, RATIO, <span class="literal">true</span>);</span><br><span class="line">	<span class="built_in">loadimage</span>(&amp;images[<span class="number">1</span>], _T(<span class="string">&quot;floor.bmp&quot;</span>), RATIO, RATIO, <span class="literal">true</span>); 		</span><br><span class="line">	<span class="built_in">loadimage</span>(&amp;images[<span class="number">2</span>], _T(<span class="string">&quot;des.bmp&quot;</span>), RATIO, RATIO, <span class="literal">true</span>); </span><br><span class="line">	<span class="built_in">loadimage</span>(&amp;images[<span class="number">3</span>], _T(<span class="string">&quot;man.bmp&quot;</span>), RATIO, RATIO, <span class="literal">true</span>); </span><br><span class="line">	<span class="built_in">loadimage</span>(&amp;images[<span class="number">4</span>], _T(<span class="string">&quot;box.bmp&quot;</span>), RATIO, RATIO, <span class="literal">true</span>); </span><br><span class="line">	<span class="built_in">loadimage</span>(&amp;images[<span class="number">5</span>], _T(<span class="string">&quot;box.bmp&quot;</span>), RATIO, RATIO, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt; LINE; i++)&#123; </span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; COLUMN; j++)&#123; </span><br><span class="line">			<span class="built_in">putimage</span>(START_X+j*RATIO, START_Y+i*RATIO, &amp;images[map[i][j]]); </span><br><span class="line">				<span class="keyword">if</span>(<span class="built_in">isGameOver</span>())&#123; </span><br><span class="line">					<span class="built_in">gameOverScene</span>(&amp;bg_img); </span><br><span class="line">					quit = <span class="literal">true</span>; </span><br><span class="line">				&#125;</span><br><span class="line">		&#125; </span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>); </span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="热键控制"><a href="#热键控制" class="headerlink" title="热键控制"></a>热键控制</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;conio.h&gt;</span> </span></span><br><span class="line"><span class="comment">//控制键 上、下、左、右 控制方向，&#x27;q&#x27; 退出 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY_UP <span class="meta-string">&#x27;w&#x27;</span>  </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY_LEFT <span class="meta-string">&#x27;a&#x27;</span> </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY_RIGHT <span class="meta-string">&#x27;d&#x27;</span> </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY_DOWN <span class="meta-string">&#x27;s&#x27;</span> </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> KEY_QUIT <span class="meta-string">&#x27;q</span></span></span><br><span class="line"><span class="meta-string"><span class="meta"></span></span></span><br><span class="line"><span class="meta-string"><span class="meta">//游戏环节 </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">bool quit = false; </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">do &#123;</span></span></span><br><span class="line"><span class="meta-string"><span class="meta">	if(_kbhit())&#123; </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">	//玩家按键 </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">	char ch = _getch(); </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">		if(ch == KEY_UP)&#123; </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">			gameControl(UP); </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">		&#125;else if(ch == KEY_DOWN)&#123; </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">			gameControl(DOWN); </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">		&#125;else if(ch == KEY_LEFT)&#123; </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">			gameControl(LEFT); </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">		&#125;else if(ch == KEY_RIGHT)&#123; </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">			gameControl(RIGHT); </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">		&#125;else if(ch == KEY_QUIT)&#123; </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">			quit = true; </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">		&#125;</span></span></span><br><span class="line"><span class="meta-string"><span class="meta">	&#125;</span></span></span><br><span class="line"><span class="meta-string"><span class="meta">	Sleep(100); </span></span></span><br><span class="line"><span class="meta-string"><span class="meta">&#125;while(quit==false); //!quit</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="推箱子控制"><a href="#推箱子控制" class="headerlink" title="推箱子控制"></a>推箱子控制</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/********************************************** </span></span><br><span class="line"><span class="comment">*实现游戏四个方向（上、下、左、右）的控制 </span></span><br><span class="line"><span class="comment">*输入： * direct - 人前进方向</span></span><br><span class="line"><span class="comment">*输出： 无 </span></span><br><span class="line"><span class="comment">***********************************************/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">gameControl</span><span class="params">(<span class="keyword">enum</span> _DIRECTION direct)</span></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> _<span class="title">POS</span> <span class="title">next_pos</span> =</span> man; </span><br><span class="line">	<span class="class"><span class="keyword">struct</span> _<span class="title">POS</span> <span class="title">next_next_pos</span> =</span> man; </span><br><span class="line">	<span class="built_in"><span class="keyword">switch</span></span>(direct)&#123; </span><br><span class="line">		<span class="keyword">case</span> UP: </span><br><span class="line">			next_pos.x--; </span><br><span class="line">			next_next_pos.x-=<span class="number">2</span>; </span><br><span class="line">			<span class="keyword">break</span>; </span><br><span class="line">		<span class="keyword">case</span> DOWN: </span><br><span class="line">			next_pos.x++; </span><br><span class="line">			next_next_pos.x+=<span class="number">2</span>; </span><br><span class="line">			<span class="keyword">break</span>; </span><br><span class="line">		<span class="keyword">case</span> LEFT: </span><br><span class="line">			next_pos.y--; </span><br><span class="line">			next_next_pos.y-=<span class="number">2</span>; </span><br><span class="line">			<span class="keyword">break</span>; </span><br><span class="line">		<span class="keyword">case</span> RIGHT: </span><br><span class="line">			next_pos.y++; </span><br><span class="line">			next_next_pos.y+=<span class="number">2</span>; </span><br><span class="line">			<span class="keyword">break</span>; </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//宏展开 next_pos.x&gt;=0 &amp;&amp; next_pos.x&lt;LINE &amp;&amp; next_pos.y&gt;=0 &amp;&amp; next_pos.y &lt;COLUMN</span></span><br><span class="line">	<span class="keyword">if</span>( <span class="built_in">isValid</span>(next_pos) &amp;&amp; map[next_pos.x][next_pos.y] == FLOOR )&#123;<span class="comment">// 人的前方是地板</span></span><br><span class="line">		<span class="built_in">changeMap</span>(&amp;next_pos, MAN); <span class="comment">//小人前进一格 	</span></span><br><span class="line">		<span class="built_in">changeMap</span>(&amp;man, FLOOR);</span><br><span class="line">		<span class="built_in">changeMap</span>(&amp;man, FLOOR); </span><br><span class="line">		man = next_pos;</span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(map[next_next_pos.x][next_next_pos.y] == BOX_DES)&#123; </span><br><span class="line">			<span class="built_in">changeMap</span>(&amp;next_next_pos, HIT); 	</span><br><span class="line">			<span class="built_in">changeMap</span>(&amp;next_pos, MAN); <span class="comment">//小人前进一格 </span></span><br><span class="line">			<span class="built_in">changeMap</span>(&amp;man, FLOOR); man = next_pos; </span><br><span class="line">			&#125; </span><br><span class="line">		&#125; </span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="游戏结束"><a href="#游戏结束" class="headerlink" title="游戏结束"></a>游戏结束</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/********************************************** </span></span><br><span class="line"><span class="comment">*判断游戏是否结束，如果不存在任何一个箱子目的地，就代表游戏结束 </span></span><br><span class="line"><span class="comment">*输入： 无 </span></span><br><span class="line"><span class="comment">*返回值： * true - 游戏结束 false - 游戏继续 </span></span><br><span class="line"><span class="comment">**********************************************/</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isGameOver</span><span class="params">()</span></span>&#123; </span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i&lt; LINE; i++)&#123; </span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; COLUMN; j++)&#123; </span><br><span class="line">			<span class="keyword">if</span>(map[i][j] == BOX_DES) </span><br><span class="line">				<span class="keyword">return</span> <span class="literal">false</span>; </span><br><span class="line">		&#125; </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**********************************************</span></span><br><span class="line"><span class="comment">*游戏结束场景，在玩家通关后显示 </span></span><br><span class="line"><span class="comment">*输入： * bg - 背景图片变量的指针 </span></span><br><span class="line"><span class="comment">*返回值： 无 </span></span><br><span class="line"><span class="comment">**********************************************/</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">gameOverScene</span><span class="params">(IMAGE *bg)</span></span>&#123; </span><br><span class="line">	<span class="built_in">putimage</span>(<span class="number">0</span>, <span class="number">0</span>, bg); </span><br><span class="line">	<span class="built_in">settextcolor</span>(WHITE); </span><br><span class="line">	RECT rec = &#123;<span class="number">0</span>, <span class="number">0</span>, SCREEN_WIDTH, SCREEN_HEIGHT&#125;; </span><br><span class="line">	<span class="built_in">settextstyle</span>(<span class="number">20</span>, <span class="number">0</span>, _T(<span class="string">&quot;宋体&quot;</span>)); </span><br><span class="line">	<span class="built_in">drawtext</span>(_T(<span class="string">&quot;恭喜您~\n 已通关！&quot;</span>), &amp;rec, DT_CENTER | DT_VCENTER | DT_SINGLELINE); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Space</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://spaceout.cn/2021/11/29/Sokoban/">https://spaceout.cn/2021/11/29/Sokoban/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/C-C/"># C/C++</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/12/10/protobuf_install_error/">protobuf安装以及一些问题解决</a>
+            
+            
+            <a class="next" rel="next" href="/2021/11/29/read%20&&%20write/">C++流(读写文件)</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span></a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
