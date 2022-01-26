@@ -494,22 +494,9 @@
 <p><strong>提示:</strong></p>
 <p>-231 &lt;= a, b &lt;= 231 - 1<br>b != 0</p>
 <p><strong>代码：</strong><br></p>
-<p>```cpp<br>class Solution {<br>    public:<br>    int divide(int a, int b) {<br>        if(a==INT_MIN &amp;&amp; b==-1) return INT_MAX;<br>        if(a==INT_MIN &amp;&amp; b==1)  return INT_MIN;</p>
-<pre><code>    bool sign = (a&gt;0)^(b&gt;0)?0:1;
-    unsigned int da=abs(a),db=abs(b),res=0;
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">divide</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(a==INT_MIN &amp;&amp; b==<span class="number">-1</span>) <span class="keyword">return</span> INT_MAX;</span><br><span class="line">	<span class="keyword">if</span>(a==INT_MIN &amp;&amp; b==<span class="number">1</span>)  <span class="keyword">return</span> INT_MIN;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">bool</span> sign = (a&gt;<span class="number">0</span>)^(b&gt;<span class="number">0</span>)?<span class="number">0</span>:<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> da=<span class="built_in">abs</span>(a),db=<span class="built_in">abs</span>(b),res=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">31</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">		<span class="keyword">if</span>((da&gt;&gt;i)&gt;=db)&#123;</span><br><span class="line">			res+=<span class="number">1</span>&lt;&lt;i;</span><br><span class="line">			da-=db&lt;&lt;i; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"><span class="keyword">return</span> sign?res:-res;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-    for(int i=31;i&gt;=0;i--)&#123;
-        if((da&gt;&gt;i)&gt;=db)&#123;
-            res+=1&lt;&lt;i;
-            da-=db&lt;&lt;i; 
-        &#125;
-    &#125;
-return sign?res:-res;
-&#125;
-</code></pre>
-<p>};</p>
-<p>```<br><br><strong><a href="https://leetcode-cn.com/problems/xoh6Oh">题目链接</a></strong></p>
-]]></content>
+<h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a><a href="https://leetcode-cn.com/problems/xoh6Oh">题目链接</a></h1>]]></content>
       <categories>
         <category>力扣</category>
       </categories>
@@ -621,28 +608,10 @@ return sign?res:-res;
 <li>字符串如果不是 “0” ，就都不含前导零。</li>
 </ul>
 <p><strong>代码</strong><br></p>
-<pre><code class="cpp">class Solution &#123;
-public:
-    string addBinary(string a, string b) &#123;
-        reverse(a.begin(),a.end());
-        reverse(b.begin(),b.end());
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">addBinary</span><span class="params">(string a, string b)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">reverse</span>(a.<span class="built_in">begin</span>(),a.<span class="built_in">end</span>());</span><br><span class="line">        <span class="built_in">reverse</span>(b.<span class="built_in">begin</span>(),b.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> t=<span class="number">0</span>;</span><br><span class="line">        string res;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.<span class="built_in">size</span>() || i&lt;b.<span class="built_in">size</span>()||t;i++)&#123;</span><br><span class="line">             <span class="keyword">if</span>(i &lt; a.<span class="built_in">size</span>()) t += (a[i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            <span class="keyword">if</span>(i &lt; b.<span class="built_in">size</span>()) t += (b[i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            res += (t % <span class="number">2</span> % <span class="number">10</span> + <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            t /= <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">         <span class="built_in">reverse</span>(res.<span class="built_in">begin</span>(),res.<span class="built_in">end</span>());</span><br><span class="line">         <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<br>
+# [题目链接](https://leetcode-cn.com/problems/JFETK5)
 
-        int t=0;
-        string res;
-
-        for(int i=0;i&lt;a.size() || i&lt;b.size()||t;i++)&#123;
-             if(i &lt; a.size()) t += (a[i] - &#39;0&#39;);
-            if(i &lt; b.size()) t += (b[i] - &#39;0&#39;);
-            res += (t % 2 % 10 + &#39;0&#39;);
-            t /= 2;
-        &#125;
-         reverse(res.begin(),res.end());
-         return res;
-    &#125;
-&#125;;
-```&lt;br&gt;
-**[题目链接](https://leetcode-cn.com/problems/JFETK5)**
-</code></pre>
 ]]></content>
       <categories>
         <category>力扣</category>

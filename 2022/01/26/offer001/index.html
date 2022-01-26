@@ -168,6 +168,68 @@
                 <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
@@ -225,22 +287,9 @@
 <p><strong>提示:</strong></p>
 <p>-231 &lt;= a, b &lt;= 231 - 1<br>b != 0</p>
 <p><strong>代码：</strong><br></p>
-<p>```cpp<br>class Solution {<br>    public:<br>    int divide(int a, int b) {<br>        if(a==INT_MIN &amp;&amp; b==-1) return INT_MAX;<br>        if(a==INT_MIN &amp;&amp; b==1)  return INT_MIN;</p>
-<pre><code>    bool sign = (a&gt;0)^(b&gt;0)?0:1;
-    unsigned int da=abs(a),db=abs(b),res=0;
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">divide</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(a==INT_MIN &amp;&amp; b==<span class="number">-1</span>) <span class="keyword">return</span> INT_MAX;</span><br><span class="line">	<span class="keyword">if</span>(a==INT_MIN &amp;&amp; b==<span class="number">1</span>)  <span class="keyword">return</span> INT_MIN;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">bool</span> sign = (a&gt;<span class="number">0</span>)^(b&gt;<span class="number">0</span>)?<span class="number">0</span>:<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> da=<span class="built_in">abs</span>(a),db=<span class="built_in">abs</span>(b),res=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">31</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">		<span class="keyword">if</span>((da&gt;&gt;i)&gt;=db)&#123;</span><br><span class="line">			res+=<span class="number">1</span>&lt;&lt;i;</span><br><span class="line">			da-=db&lt;&lt;i; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"><span class="keyword">return</span> sign?res:-res;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-    for(int i=31;i&gt;=0;i--)&#123;
-        if((da&gt;&gt;i)&gt;=db)&#123;
-            res+=1&lt;&lt;i;
-            da-=db&lt;&lt;i; 
-        &#125;
-    &#125;
-return sign?res:-res;
-&#125;
-</code></pre>
-<p>};</p>
-<p>```<br><br><strong><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/xoh6Oh">题目链接</a></strong></p>
-
+<h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/xoh6Oh">题目链接</a></h1>
         </div>
 
         

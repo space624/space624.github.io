@@ -216,28 +216,10 @@
 <li>字符串如果不是 “0” ，就都不含前导零。</li>
 </ul>
 <p><strong>代码</strong><br></p>
-<pre><code class="cpp">class Solution &#123;
-public:
-    string addBinary(string a, string b) &#123;
-        reverse(a.begin(),a.end());
-        reverse(b.begin(),b.end());
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">addBinary</span><span class="params">(string a, string b)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">reverse</span>(a.<span class="built_in">begin</span>(),a.<span class="built_in">end</span>());</span><br><span class="line">        <span class="built_in">reverse</span>(b.<span class="built_in">begin</span>(),b.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> t=<span class="number">0</span>;</span><br><span class="line">        string res;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.<span class="built_in">size</span>() || i&lt;b.<span class="built_in">size</span>()||t;i++)&#123;</span><br><span class="line">             <span class="keyword">if</span>(i &lt; a.<span class="built_in">size</span>()) t += (a[i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            <span class="keyword">if</span>(i &lt; b.<span class="built_in">size</span>()) t += (b[i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            res += (t % <span class="number">2</span> % <span class="number">10</span> + <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            t /= <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">         <span class="built_in">reverse</span>(res.<span class="built_in">begin</span>(),res.<span class="built_in">end</span>());</span><br><span class="line">         <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<br>
+# [题目链接](https://leetcode-cn.com/problems/JFETK5)
 
-        int t=0;
-        string res;
-
-        for(int i=0;i&lt;a.size() || i&lt;b.size()||t;i++)&#123;
-             if(i &lt; a.size()) t += (a[i] - &#39;0&#39;);
-            if(i &lt; b.size()) t += (b[i] - &#39;0&#39;);
-            res += (t % 2 % 10 + &#39;0&#39;);
-            t /= 2;
-        &#125;
-         reverse(res.begin(),res.end());
-         return res;
-    &#125;
-&#125;;
-```&lt;br&gt;
-**[题目链接](https://leetcode-cn.com/problems/JFETK5)**
-</code></pre>
 
         </div>
 
