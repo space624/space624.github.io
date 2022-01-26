@@ -129,6 +129,68 @@
                 <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
@@ -158,7 +220,38 @@
         </header>
 
         <div class="post-content">
-            <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45140193/article/details/120669191?spm=1001.2014.3001.5501">该文章发布在CSDN点击进入</a></p>
+            <font color=#999AAA >
+</font>
+
+<p>@<a href="%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95">TOC</a></p>
+<hr style=" border:solid; width:100px; height:1px;" color=#000000 size=1">
+
+
+<h1 id="一、窗口透明"><a href="#一、窗口透明" class="headerlink" title="一、窗口透明"></a>一、窗口透明</h1><p><font color=#999AAA >示例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//窗口透明,取值0~1，0表示完全透明,1表示完全不透明</span></span><br><span class="line"><span class="built_in">setWindowOpacity</span>(<span class="number">0.5</span>);</span><br></pre></td></tr></table></figure>
+<p><font color=#999AAA >样例：<br><img src="https://img-blog.csdnimg.cn/29c1ecb0b1fc47d6ac503c2c9f3f7929.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h2 id="1-窗口透明-部件不透明"><a href="#1-窗口透明-部件不透明" class="headerlink" title="1.窗口透明,部件不透明"></a>1.窗口透明,部件不透明</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//窗体透明部件不透明windows需配合无边框风格实现</span></span><br><span class="line">   <span class="built_in">setWindowFlags</span>(Qt::FramelessWindowHint);</span><br><span class="line">   <span class="built_in">setAttribute</span>(Qt::WA_TranslucentBackground);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://img-blog.csdnimg.cn/cb8e637b25154f81af6bf472259771a7.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_19,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h1 id="二、部件透明"><a href="#二、部件透明" class="headerlink" title="二、部件透明"></a>二、部件透明</h1><p><font color=#999AAA >代码如下（示例）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//需添加头文件 #include &lt;QGraphicsOpacityEffect&gt;</span></span><br><span class="line"></span><br><span class="line">   	QGraphicsOpacityEffect *opacityEffect = <span class="keyword">new</span> QGraphicsOpacityEffect;</span><br><span class="line">    <span class="comment">//设置透明度</span></span><br><span class="line">    opacityEffect-&gt;<span class="built_in">setOpacity</span>(<span class="number">0.1</span>);</span><br><span class="line">    ui-&gt;label-&gt;<span class="built_in">setGraphicsEffect</span>(opacityEffect);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/a0665f3d82d44b7f8de5dc591175688e.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h2 id="1-部件设置阴影"><a href="#1-部件设置阴影" class="headerlink" title="1.部件设置阴影"></a>1.部件设置阴影</h2><p><font color=#999AAA >代码如下（示例）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//需添加头文件#include &lt;QGraphicsDropShadowEffect &gt;</span></span><br><span class="line"></span><br><span class="line"> 	 QGraphicsDropShadowEffect *shadowEffect = <span class="keyword">new</span> QGraphicsDropShadowEffect;</span><br><span class="line">    <span class="comment">//阴影色，透明度</span></span><br><span class="line">    shadowEffect-&gt;<span class="built_in">setColor</span>(<span class="built_in">QColor</span>(<span class="number">100</span>,<span class="number">100</span>,<span class="number">100</span>));</span><br><span class="line">    <span class="comment">//阴影模糊半径</span></span><br><span class="line">    shadowEffect-&gt;<span class="built_in">setBlurRadius</span>(<span class="number">20</span>);</span><br><span class="line">    <span class="comment">//阴影偏移值</span></span><br><span class="line">    shadowEffect-&gt;<span class="built_in">setXOffset</span>(<span class="number">20</span>);</span><br><span class="line">    ui-&gt;label-&gt;<span class="built_in">setGraphicsEffect</span>(shadowEffect);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/434db2b9c7a64618b5a9693adc2a171c.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<hr style=" border:solid; width:100px; height:1px;" color=#000000 size=1">
+
+<h1 id="三-、不规则窗体"><a href="#三-、不规则窗体" class="headerlink" title="三 、不规则窗体"></a>三 、不规则窗体</h1><p><strong>此处需重写 <em>painterEvent</em> 事件</strong><br><font color=#999AAA >代码如下（**.h**示例）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">paintEvent</span><span class="params">(QPaintEvent *event)</span> <span class="keyword">override</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><font color=#999AAA >代码如下（**.cpp**示例）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//构造函数中</span></span><br><span class="line">Widget::<span class="built_in">Widget</span>(QWidget *parent)</span><br><span class="line">    : <span class="built_in">QWidget</span>(parent)</span><br><span class="line">    , <span class="built_in">ui</span>(<span class="keyword">new</span> Ui::Widget)</span><br><span class="line">&#123;</span><br><span class="line">    ui-&gt;<span class="built_in">setupUi</span>(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    QPixmap pixmap;</span><br><span class="line">    pixmap.<span class="built_in">load</span>(<span class="string">&quot;:/flower.png&quot;</span>);</span><br><span class="line">    ui-&gt;label-&gt;<span class="built_in">resize</span>(pixmap.<span class="built_in">size</span>());</span><br><span class="line">    <span class="keyword">this</span>-&gt;<span class="built_in">resize</span>(pixmap.<span class="built_in">size</span>());</span><br><span class="line">    <span class="comment">//设置遮罩</span></span><br><span class="line">    <span class="built_in">setMask</span>(pixmap.<span class="built_in">mask</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Widget::paintEvent</span><span class="params">(QPaintEvent *event)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QPainter <span class="title">painter</span><span class="params">(<span class="keyword">this</span>)</span></span>;</span><br><span class="line">    painter.<span class="built_in">drawPixmap</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="built_in">QPixmap</span>(<span class="string">&quot;:/flower.png&quot;</span>));</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果展示:<img src="https://img-blog.csdnimg.cn/1f5936fd7cf94119bb0b251848223f77.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
 
         </div>
 
@@ -210,10 +303,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2021/12/18/QtClock1/">Qt 电子时钟</a>
+                <a class="prev" rel="prev" href="/2021/12/18/QtClock/">Qt 电子时钟</a>
             
             
-            <a class="next" rel="next" href="/2021/12/17/QtWinShade1/">Qt 窗体透明,部件透明及阴影与不规则窗体</a>
+            <a class="next" rel="next" href="/2021/12/16/QtQPalette/">Qt QPalette调色板</a>
             
         </section>
 
