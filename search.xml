@@ -45,6 +45,24 @@
       </tags>
   </entry>
   <entry>
+    <title>网络编程bin函数</title>
+    <url>/2021/12/20/Bin//</url>
+    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>sockfd：</strong><br>    socket文件描述符<br><strong>addr:</strong><br>    构造出IP地址加端口号<br><strong>addrlen:</strong><br>    sizeof(addr)长度<br>返回值：<br>    成功返回0，失败返回-1, 设置errno</p>
+</blockquote>
+<p>*<em>服务器程序所监听的网络地址和端口号通常是固定不变的，客户端程序得知服务器程序的地址和端口号后就可以向服务器发起连接，因此服务器需要调用bind绑定一个固定的网络地址和端口号。<br>bind()的作用是将参数sockfd和addr绑定在一起，使sockfd这个用于网络通讯的文件描述符监听addr所描述的地址和端口号。前面讲过，struct sockaddr <em>是一个通用指针类型，addr参数实际上可以接受多种协议的sockaddr结构体，而它们的长度各不相同，所以需要第三个参数addrlen指定结构体的长度。</em></em></p>
+<h3 id="列"><a href="#列" class="headerlink" title="列:"></a>列:</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct sockaddr_in servaddr;</span><br><span class="line">bzero(&amp;servaddr, sizeof(servaddr));</span><br><span class="line">servaddr.sin_family = AF_INET;</span><br><span class="line">servaddr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">servaddr.sin_port = htons(6666);</span><br></pre></td></tr></table></figure>
+<p><strong>首先将整个结构体清零，然后设置地址类型为AF_INET，网络地址为INADDR_ANY，这个宏表示本地的任意IP地址，因为服务器可能有多个网卡，每个网卡也可能绑定多个IP地址，这样设置可以在所有的IP地址上监听，直到与某个客户端建立了连接时才确定下来到底用哪个IP地址，端口号为6666。</strong></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>函数模板与类模板</title>
     <url>/2021/12/11/Function_Class_Template//</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><strong>C++提供了模板(template)编程的概念。所谓模板，实际上是建立一个通用函数或类，其类内部的类型和函数的形参类型不具体指定，用一个虚拟的类型来代表。这种通用的方式称为模板。模板是泛型编程的基础,泛型编程即以一种独立于任何特定类型的方式编写代码。</strong></p>
@@ -161,15 +179,16 @@
       </tags>
   </entry>
   <entry>
-    <title>网络编程bin函数</title>
-    <url>/2021/12/20/Bin//</url>
-    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</span><br></pre></td></tr></table></figure>
+    <title>网络编程listen函数</title>
+    <url>/2021/12/20/Listen//</url>
+    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int listen(int sockfd, int backlog);</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p><strong>sockfd：</strong><br>    socket文件描述符<br><strong>addr:</strong><br>    构造出IP地址加端口号<br><strong>addrlen:</strong><br>    sizeof(addr)长度<br>返回值：<br>    成功返回0，失败返回-1, 设置errno</p>
+<p><strong>sockfd:</strong><br>    socket文件描述符<br><strong>backlog:</strong><br>    在Linux 系统中，它是指排队等待建立3次握手队列长度<br>查看系统默认backlog<br><code>cat /proc/sys/net/ipv4/tcp_max_syn_backlog</code></p>
 </blockquote>
-<p>*<em>服务器程序所监听的网络地址和端口号通常是固定不变的，客户端程序得知服务器程序的地址和端口号后就可以向服务器发起连接，因此服务器需要调用bind绑定一个固定的网络地址和端口号。<br>bind()的作用是将参数sockfd和addr绑定在一起，使sockfd这个用于网络通讯的文件描述符监听addr所描述的地址和端口号。前面讲过，struct sockaddr <em>是一个通用指针类型，addr参数实际上可以接受多种协议的sockaddr结构体，而它们的长度各不相同，所以需要第三个参数addrlen指定结构体的长度。</em></em></p>
-<h3 id="列"><a href="#列" class="headerlink" title="列:"></a>列:</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct sockaddr_in servaddr;</span><br><span class="line">bzero(&amp;servaddr, sizeof(servaddr));</span><br><span class="line">servaddr.sin_family = AF_INET;</span><br><span class="line">servaddr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">servaddr.sin_port = htons(6666);</span><br></pre></td></tr></table></figure>
-<p><strong>首先将整个结构体清零，然后设置地址类型为AF_INET，网络地址为INADDR_ANY，这个宏表示本地的任意IP地址，因为服务器可能有多个网卡，每个网卡也可能绑定多个IP地址，这样设置可以在所有的IP地址上监听，直到与某个客户端建立了连接时才确定下来到底用哪个IP地址，端口号为6666。</strong></p>
+<blockquote>
+<p>改变 系统限制的backlog 大小<br>vim /etc/sysctl.conf<br>最后添加<br>net.core.somaxconn = 1024<br>net.ipv4.tcp_max_syn_backlog = 1024<br>保存，然后执行<br>sysctl -p</p>
+</blockquote>
+<p><strong>典型的服务器程序可以同时服务于多个客户端，当有客户端发起连接时，服务器调用的accept()返回并接受这个连接，如果有大量的客户端发起连接而服务器来不及处理，尚未accept的客户端就处于连接等待状态，listen()声明sockfd处于监听状态，并且最多允许有backlog个客户端处于连接待状态，如果接收到更多的连接请求就忽略。listen()成功返回0，失败返回-1。</strong></p>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -202,40 +221,9 @@
       </tags>
   </entry>
   <entry>
-    <title>网络编程listen函数</title>
-    <url>/2021/12/20/Listen//</url>
-    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int listen(int sockfd, int backlog);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>sockfd:</strong><br>    socket文件描述符<br><strong>backlog:</strong><br>    在Linux 系统中，它是指排队等待建立3次握手队列长度<br>查看系统默认backlog<br><code>cat /proc/sys/net/ipv4/tcp_max_syn_backlog</code></p>
-</blockquote>
-<blockquote>
-<p>改变 系统限制的backlog 大小<br>vim /etc/sysctl.conf<br>最后添加<br>net.core.somaxconn = 1024<br>net.ipv4.tcp_max_syn_backlog = 1024<br>保存，然后执行<br>sysctl -p</p>
-</blockquote>
-<p><strong>典型的服务器程序可以同时服务于多个客户端，当有客户端发起连接时，服务器调用的accept()返回并接受这个连接，如果有大量的客户端发起连接而服务器来不及处理，尚未accept的客户端就处于连接等待状态，listen()声明sockfd处于监听状态，并且最多允许有backlog个客户端处于连接待状态，如果接收到更多的连接请求就忽略。listen()成功返回0，失败返回-1。</strong></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Qt 电子时钟</title>
     <url>/2021/12/18/QtClock//</url>
     <content><![CDATA[<p><a href="https://blog.csdn.net/qq_45140193/article/details/120632656?spm=1001.2014.3001.5501">该文章发布在CSDN点击进入</a></p>
-]]></content>
-      <categories>
-        <category>Qt</category>
-      </categories>
-      <tags>
-        <tag>Qt</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Qt QPalette调色板</title>
-    <url>/2021/12/16/QtQPalette//</url>
-    <content><![CDATA[<p><a href="https://blog.csdn.net/qq_45140193/article/details/120672055?spm=1001.2014.3001.5501">该文章发布在CSDN点击进入</a></p>
 ]]></content>
       <categories>
         <category>Qt</category>
@@ -257,21 +245,15 @@
       </tags>
   </entry>
   <entry>
-    <title>网络编程socket函数</title>
-    <url>/2021/12/20/Socket//</url>
-    <content><![CDATA[<p>[TOC]</p>
-<h1 id="socket创建流程图"><a href="#socket创建流程图" class="headerlink" title="socket创建流程图"></a>socket创建流程图</h1><p><img src="https://i.bmp.ovh/imgs/2022/01/70145893b5e39494.png"></p>
-<h2 id="socket-函数"><a href="#socket-函数" class="headerlink" title="socket 函数"></a>socket 函数</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;  //* See NOTES </span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int socket(int domain, int type, int protocol);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>domain:</strong><br>    AF_INET 这是大多数用来产生socket的协议，使用TCP或UDP来传输，用IPv4的地址<br>    AF_INET6 与上面类似，不过是来用IPv6的地址<br>    AF_UNIX 本地协议，使用在Unix和Linux系统上，一般都是当客户端和服务器在同一台及其上的时候使用<br><strong>type:</strong><br>    SOCK_STREAM 这个协议是按照顺序的、可靠的、数据完整的基于字节流的连接。这是一个使用最多的socket类型，这个socket是使用TCP来进行传输。<br>    SOCK_DGRAM 这个协议是无连接的、固定长度的传输调用。该协议是不可靠的，使用UDP来进行它的连接。<br>    SOCK_SEQPACKET该协议是双线路的、可靠的连接，发送固定长度的数据包进行传输。必须把这个包完整的接受才能进行读取。<br>    SOCK_RAW socket类型提供单一的网络访问，这个socket类型使用ICMP公共协议。（ping、traceroute使用该协议）<br>    SOCK_RDM 这个类型是很少使用的，在大部分的操作系统上没有实现，它是提供给数据链路层使用，不保证数据包的顺序<br>protocol:<br>    传0 表示使用默认协议。<br>返回值：<br>    成功：返回指向新创建的socket的文件描述符，失败：返回-1，设置errno</p>
-</blockquote>
-<p><strong>socket()打开一个网络通讯端口，如果成功的话，就像open()一样返回一个文件描述符，应用程序可以像读写文件一样用read/write在网络上收发数据，如果socket()调用出错则返回-1。对于IPv4，domain参数指定为AF_INET。对于TCP协议，type参数指定为SOCK_STREAM，表示面向流的传输协议。如果是UDP协议，则type参数指定为SOCK_DGRAM，表示面向数据报的传输协议。protocol参数的介绍从略，指定为0即可。</strong></p>
+    <title>Qt QPalette调色板</title>
+    <url>/2021/12/16/QtQPalette//</url>
+    <content><![CDATA[<p><a href="https://blog.csdn.net/qq_45140193/article/details/120672055?spm=1001.2014.3001.5501">该文章发布在CSDN点击进入</a></p>
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>Qt</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
+        <tag>Qt</tag>
       </tags>
   </entry>
   <entry>
@@ -291,6 +273,76 @@
       </categories>
       <tags>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>网络编程socket函数</title>
+    <url>/2021/12/20/Socket//</url>
+    <content><![CDATA[<p>[TOC]</p>
+<h1 id="socket创建流程图"><a href="#socket创建流程图" class="headerlink" title="socket创建流程图"></a>socket创建流程图</h1><p><img src="https://i.bmp.ovh/imgs/2022/01/70145893b5e39494.png"></p>
+<h2 id="socket-函数"><a href="#socket-函数" class="headerlink" title="socket 函数"></a>socket 函数</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;  //* See NOTES </span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int socket(int domain, int type, int protocol);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>domain:</strong><br>    AF_INET 这是大多数用来产生socket的协议，使用TCP或UDP来传输，用IPv4的地址<br>    AF_INET6 与上面类似，不过是来用IPv6的地址<br>    AF_UNIX 本地协议，使用在Unix和Linux系统上，一般都是当客户端和服务器在同一台及其上的时候使用<br><strong>type:</strong><br>    SOCK_STREAM 这个协议是按照顺序的、可靠的、数据完整的基于字节流的连接。这是一个使用最多的socket类型，这个socket是使用TCP来进行传输。<br>    SOCK_DGRAM 这个协议是无连接的、固定长度的传输调用。该协议是不可靠的，使用UDP来进行它的连接。<br>    SOCK_SEQPACKET该协议是双线路的、可靠的连接，发送固定长度的数据包进行传输。必须把这个包完整的接受才能进行读取。<br>    SOCK_RAW socket类型提供单一的网络访问，这个socket类型使用ICMP公共协议。（ping、traceroute使用该协议）<br>    SOCK_RDM 这个类型是很少使用的，在大部分的操作系统上没有实现，它是提供给数据链路层使用，不保证数据包的顺序<br>protocol:<br>    传0 表示使用默认协议。<br>返回值：<br>    成功：返回指向新创建的socket的文件描述符，失败：返回-1，设置errno</p>
+</blockquote>
+<p><strong>socket()打开一个网络通讯端口，如果成功的话，就像open()一样返回一个文件描述符，应用程序可以像读写文件一样用read/write在网络上收发数据，如果socket()调用出错则返回-1。对于IPv4，domain参数指定为AF_INET。对于TCP协议，type参数指定为SOCK_STREAM，表示面向流的传输协议。如果是UDP协议，则type参数指定为SOCK_DGRAM，表示面向数据报的传输协议。protocol参数的介绍从略，指定为0即可。</strong></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>差分数组</title>
+    <url>/2022/01/13/difference//</url>
+    <content><![CDATA[<p><strong>一维数组差分数组的构建</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> l , <span class="keyword">int</span> r , <span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    b[l] += x;</span><br><span class="line">    b[r + <span class="number">1</span>] -= x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>二维数组差分数组的构建</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> x1,<span class="keyword">int</span> y1,<span class="keyword">int</span> x2,<span class="keyword">int</span> y2,<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">	ds[x1][y1] += x;</span><br><span class="line">    ds[x2+<span class="number">1</span>][y1] -=x;</span><br><span class="line">    ds[x1][y2+<span class="number">1</span>] -=x;</span><br><span class="line">    ds[x2+<span class="number">1</span>][y2+<span class="number">1</span>] +=x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="一维差分"><a href="#一维差分" class="headerlink" title="一维差分"></a>一维差分</h1><p><a href="http://oj.hzjingma.com/p/40?view=classic">题目链接</a></p>
+<p>输入一个长度为nn的整数序列。</p>
+<p>接下来输入q次操作，每个操作包含三个整数l, r, xl,r,x，表示将序列中[l, r][l,r]之间的每个数加上x。</p>
+<p>请你输出进行完所有操作后的序列。</p>
+<h3 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h3><hr>
+<p>第一行包含两个整数nn和qq。</p>
+<p>第二行包含nn个整数，表示整数序列。</p>
+<p>接下来q行，每行包含三个整数l，r，x，l，r，x，表示一个操作。</p>
+<h3 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h3><hr>
+<p>共一行，包含n个整数，表示最终序列。</p>
+<h1 id="样例"><a href="#样例" class="headerlink" title="样例"></a>样例</h1><h3 id="输入-1"><a href="#输入-1" class="headerlink" title="输入"></a>输入</h3><blockquote>
+<p>6 3<br>1 2 3 4 5 6<br>1 6 1<br>1 1 2<br>2 2 -3</p>
+</blockquote>
+<h3 id="输出-1"><a href="#输出-1" class="headerlink" title="输出"></a>输出</h3><blockquote>
+<p>4 0 4 5 6 7</p>
+</blockquote>
+<h3 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h3><hr>
+<p><strong>数据规模</strong></p>
+<p>1≤n≤1000,1≤q≤2000,1≤l≤r≤n,a{ij} ,x都在intint范围内</p>
+<p>对于100%的数据</p>
+<p>1≤n≤100000,1≤q≤200000,1≤l≤r≤n,a{ij},x都在intint范围内</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> ds[N];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">	ds[l]+=x;</span><br><span class="line">    ds[r+<span class="number">1</span>]-=x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> m;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> x;</span><br><span class="line">        cin&gt;&gt;x;</span><br><span class="line">        <span class="built_in">insert</span>(i,i,x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(m--)&#123;</span><br><span class="line">    	<span class="keyword">int</span> l,r,x;</span><br><span class="line">        cin&gt;&gt;l&gt;&gt;r&gt;&gt;x;</span><br><span class="line">        <span class="built_in">insert</span>(l,r,x);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) q[i]=q[i<span class="number">-1</span>]+ds[i];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) cout &lt;&lt; q[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    cout &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="二维差分"><a href="#二维差分" class="headerlink" title="二维差分"></a>二维差分</h1><p><a href="http://oj.hzjingma.com/p/41?view=classic">题目链接</a><br>有一个nn行mm列的整数矩阵AA，wlxsq有qq个操作，</p>
+<p>每个操作包含五个整数x_1, y_1, x_2, y_2, cx<br>1<br>​<br> ,y<br>1<br>​<br> ,x<br>2<br>​<br> ,y<br>2<br>​<br> ,c，其中(x_1, y_1)(x<br>1<br>​<br> ,y<br>1<br>​<br> )和(x_2, y_2)(x<br>2<br>​<br> ,y<br>2<br>​<br> )表示一个子矩阵的左上角坐标和右下角坐标。</p>
+<p>每个操作都要将选中的子矩阵中的每个元素的值加上cc。</p>
+<p>请你将进行完所有操作后的矩阵输出。</p>
+<p>输入<br>第一行包含整数n,m,qn,m,q。</p>
+<p>接下来nn行，每行包含mm个整数，表示整数矩阵。</p>
+<p>接下来qq行，每行包含55个整数x_1, y_1, x_2, y_2, cx<br>1<br>​<br> ,y<br>1<br>​<br> ,x<br>2<br>​<br> ,y<br>2<br>​<br> ,c，表示一个操作。</p>
+<p>输出<br>共nn 行，每行 mm 个整数，表示所有操作进行完毕后的最终矩阵。</p>
+<p>样例<br>输入复制<br>3 4 3<br>1 2 3 4<br>5 6 7 8<br>9 10 11 12<br>1 1 2 2 1<br>1 3 2 3 2<br>3 1 3 4 1<br>输出复制<br>2 3 5 4<br>6 7 9 8<br>10 11 12 13<br>提示<br>数据规模</p>
+<p>对于100%100%的数据</p>
+<p>1≤n,m≤1000,1≤q≤100000, 1≤x1≤x2≤n,1≤y1≤y2≤m,−10^8≤c≤10^8<br>1≤n,m≤1000,1≤q≤100000,1≤x1≤x2≤n,1≤y1≤y2≤m,−10<br>8<br> ≤c≤10<br>8</p>
+<p>xx都在intint范围内</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">1010</span>;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> q[N][N],n,m;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> ds[N][N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> x1,<span class="keyword">int</span> y1,<span class="keyword">int</span> x2,<span class="keyword">int</span> y2,<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">	ds[x1][y1] += x;</span><br><span class="line">    ds[x2+<span class="number">1</span>][y1] -=x;</span><br><span class="line">    ds[x1][y2+<span class="number">1</span>] -=x;</span><br><span class="line">    ds[x2+<span class="number">1</span>][y2+<span class="number">1</span>] +=x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ts;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m&gt;&gt;ts;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">        	<span class="keyword">int</span> x;</span><br><span class="line">            cin&gt;&gt;x;</span><br><span class="line">            <span class="built_in">insert</span>(i,j,i,j,x);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">while</span>(ts--)&#123;</span><br><span class="line">    	<span class="keyword">int</span> x1,y1,x2,y2,c;</span><br><span class="line">        cin&gt;&gt;x1&gt;&gt;y1&gt;&gt;x2&gt;&gt;y2&gt;&gt;c;</span><br><span class="line">        <span class="built_in">insert</span>(x1,y1,x2,y2,c);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">        	q[i][j]=q[i<span class="number">-1</span>][j]+q[i][j<span class="number">-1</span>]-q[i<span class="number">-1</span>][j<span class="number">-1</span>]+ds[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)</span><br><span class="line">    		cout &lt;&lt; q[i][j] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">          cout &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -371,50 +423,21 @@
       </tags>
   </entry>
   <entry>
-    <title>差分数组</title>
-    <url>/2022/01/13/difference//</url>
-    <content><![CDATA[<p><strong>一维数组差分数组的构建</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> l , <span class="keyword">int</span> r , <span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    b[l] += x;</span><br><span class="line">    b[r + <span class="number">1</span>] -= x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<p><strong>二维数组差分数组的构建</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> x1,<span class="keyword">int</span> y1,<span class="keyword">int</span> x2,<span class="keyword">int</span> y2,<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">	ds[x1][y1] += x;</span><br><span class="line">    ds[x2+<span class="number">1</span>][y1] -=x;</span><br><span class="line">    ds[x1][y2+<span class="number">1</span>] -=x;</span><br><span class="line">    ds[x2+<span class="number">1</span>][y2+<span class="number">1</span>] +=x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<h1 id="一维差分"><a href="#一维差分" class="headerlink" title="一维差分"></a>一维差分</h1><p><a href="http://oj.hzjingma.com/p/40?view=classic">题目链接</a></p>
-<p>输入一个长度为nn的整数序列。</p>
-<p>接下来输入q次操作，每个操作包含三个整数l, r, xl,r,x，表示将序列中[l, r][l,r]之间的每个数加上x。</p>
-<p>请你输出进行完所有操作后的序列。</p>
-<h3 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h3><hr>
-<p>第一行包含两个整数nn和qq。</p>
-<p>第二行包含nn个整数，表示整数序列。</p>
-<p>接下来q行，每行包含三个整数l，r，x，l，r，x，表示一个操作。</p>
-<h3 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h3><hr>
-<p>共一行，包含n个整数，表示最终序列。</p>
-<h1 id="样例"><a href="#样例" class="headerlink" title="样例"></a>样例</h1><h3 id="输入-1"><a href="#输入-1" class="headerlink" title="输入"></a>输入</h3><blockquote>
-<p>6 3<br>1 2 3 4 5 6<br>1 6 1<br>1 1 2<br>2 2 -3</p>
-</blockquote>
-<h3 id="输出-1"><a href="#输出-1" class="headerlink" title="输出"></a>输出</h3><blockquote>
-<p>4 0 4 5 6 7</p>
-</blockquote>
-<h3 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h3><hr>
-<p><strong>数据规模</strong></p>
-<p>1≤n≤1000,1≤q≤2000,1≤l≤r≤n,a{ij} ,x都在intint范围内</p>
-<p>对于100%的数据</p>
-<p>1≤n≤100000,1≤q≤200000,1≤l≤r≤n,a{ij},x都在intint范围内</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> ds[N];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r,<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">	ds[l]+=x;</span><br><span class="line">    ds[r+<span class="number">1</span>]-=x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> m;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> x;</span><br><span class="line">        cin&gt;&gt;x;</span><br><span class="line">        <span class="built_in">insert</span>(i,i,x);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(m--)&#123;</span><br><span class="line">    	<span class="keyword">int</span> l,r,x;</span><br><span class="line">        cin&gt;&gt;l&gt;&gt;r&gt;&gt;x;</span><br><span class="line">        <span class="built_in">insert</span>(l,r,x);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) q[i]=q[i<span class="number">-1</span>]+ds[i];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) cout &lt;&lt; q[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    cout &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<h1 id="二维差分"><a href="#二维差分" class="headerlink" title="二维差分"></a>二维差分</h1><p><a href="http://oj.hzjingma.com/p/41?view=classic">题目链接</a><br>有一个nn行mm列的整数矩阵AA，wlxsq有qq个操作，</p>
-<p>每个操作包含五个整数x_1, y_1, x_2, y_2, cx<br>1<br>​<br> ,y<br>1<br>​<br> ,x<br>2<br>​<br> ,y<br>2<br>​<br> ,c，其中(x_1, y_1)(x<br>1<br>​<br> ,y<br>1<br>​<br> )和(x_2, y_2)(x<br>2<br>​<br> ,y<br>2<br>​<br> )表示一个子矩阵的左上角坐标和右下角坐标。</p>
-<p>每个操作都要将选中的子矩阵中的每个元素的值加上cc。</p>
-<p>请你将进行完所有操作后的矩阵输出。</p>
-<p>输入<br>第一行包含整数n,m,qn,m,q。</p>
-<p>接下来nn行，每行包含mm个整数，表示整数矩阵。</p>
-<p>接下来qq行，每行包含55个整数x_1, y_1, x_2, y_2, cx<br>1<br>​<br> ,y<br>1<br>​<br> ,x<br>2<br>​<br> ,y<br>2<br>​<br> ,c，表示一个操作。</p>
-<p>输出<br>共nn 行，每行 mm 个整数，表示所有操作进行完毕后的最终矩阵。</p>
-<p>样例<br>输入复制<br>3 4 3<br>1 2 3 4<br>5 6 7 8<br>9 10 11 12<br>1 1 2 2 1<br>1 3 2 3 2<br>3 1 3 4 1<br>输出复制<br>2 3 5 4<br>6 7 9 8<br>10 11 12 13<br>提示<br>数据规模</p>
-<p>对于100%100%的数据</p>
-<p>1≤n,m≤1000,1≤q≤100000, 1≤x1≤x2≤n,1≤y1≤y2≤m,−10^8≤c≤10^8<br>1≤n,m≤1000,1≤q≤100000,1≤x1≤x2≤n,1≤y1≤y2≤m,−10<br>8<br> ≤c≤10<br>8</p>
-<p>xx都在intint范围内</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">1010</span>;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> q[N][N],n,m;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> ds[N][N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> x1,<span class="keyword">int</span> y1,<span class="keyword">int</span> x2,<span class="keyword">int</span> y2,<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">	ds[x1][y1] += x;</span><br><span class="line">    ds[x2+<span class="number">1</span>][y1] -=x;</span><br><span class="line">    ds[x1][y2+<span class="number">1</span>] -=x;</span><br><span class="line">    ds[x2+<span class="number">1</span>][y2+<span class="number">1</span>] +=x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ts;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m&gt;&gt;ts;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">        	<span class="keyword">int</span> x;</span><br><span class="line">            cin&gt;&gt;x;</span><br><span class="line">            <span class="built_in">insert</span>(i,j,i,j,x);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">while</span>(ts--)&#123;</span><br><span class="line">    	<span class="keyword">int</span> x1,y1,x2,y2,c;</span><br><span class="line">        cin&gt;&gt;x1&gt;&gt;y1&gt;&gt;x2&gt;&gt;y2&gt;&gt;c;</span><br><span class="line">        <span class="built_in">insert</span>(x1,y1,x2,y2,c);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">        	q[i][j]=q[i<span class="number">-1</span>][j]+q[i][j<span class="number">-1</span>]-q[i<span class="number">-1</span>][j<span class="number">-1</span>]+ds[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)</span><br><span class="line">    		cout &lt;&lt; q[i][j] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">          cout &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    <title>P1908 逆序对</title>
+    <url>/2022/01/05/mergesort2//</url>
+    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/e36c2e67ce76d320.png"></p>
+<p><strong>题目描述</strong><br>猫猫 TOM 和小老鼠 JERRY 最近又较量上了，但是毕竟都是成年人，他们已经不喜欢再玩那种你追我赶的游戏，现在他们喜欢玩统计。</p>
+<p>最近，TOM 老猫查阅到一个人类称之为“逆序对”的东西，这东西是这样定义的：对于给定的一段正整数序列，逆序对就是序列中 a_i&gt;a_ja<br>i<br>​&gt;a<br>j<br>​<br>  且 i&lt;ji&lt;j 的有序对。知道这概念后，他们就比赛谁先算出给定的一段正整数序列中逆序对的数目。注意序列中可能有重复数字。</p>
+<p><strong>Update:数据已加强。</strong></p>
+<p><strong>输入格式</strong><br>第一行，一个数 nn，表示序列中有 nn个数。</p>
+<p>第二行 nn 个数，表示给定的序列。序列中每个数字不超过 10^910<br>9<br> 。</p>
+<p><strong>输出格式</strong><br>输出序列中逆序对的数目。</p>
+<p><strong>输入输出样例</strong><br><strong>输入</strong><br>6<br>5 4 2 6 3 1<br><strong>输出</strong><br>11<br><strong>说明/提示</strong><br>对于 25%25% 的数据，n \leq 2500n≤2500</p>
+<p>对于 50%50% 的数据，n \leq 4 \times 10^4n≤4×10<br>4<br> 。</p>
+<p>对于所有数据，n \leq 5 \times 10^5n≤5×10<br>5</p>
+<p>请使用较快的输入输出</p>
+<p>应该不会 O(n^2)O(n<br>2<br> ) 过 50 万吧 by chen_zhe</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">500010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> s[N];</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> ans =<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="built_in">merge_sort</span>(l,mid);</span><br><span class="line">    <span class="built_in">merge_sort</span>(mid+<span class="number">1</span>,r);</span><br><span class="line">    <span class="keyword">int</span> i=l;</span><br><span class="line">    <span class="keyword">int</span> j=mid+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> k=l;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid &amp;&amp; j&lt;=r)&#123;</span><br><span class="line">        <span class="keyword">if</span>(q[i]&lt;=q[j])&#123;   </span><br><span class="line">            s[k++]=q[i++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            s[k++]=q[j++];</span><br><span class="line">            ans+=mid-i+<span class="number">1</span>;</span><br><span class="line">        &#125;    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)   s[k++]=q[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r) s[k++]=q[j++];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memcpy</span>(q+l,s+l,<span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>)*(r-l+<span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cin &gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">merge_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt;ans &lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -433,29 +456,6 @@
 <p>输出格式<br>输出共一行，包含 n 个整数，表示排好序的数列。</p>
 <p>数据范围<br>1≤n≤100000<br>输入样例：<br>5<br>3 1 2 4 5<br>输出样例：<br>1 2 3 4 5</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> s[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="built_in">merge_sort</span>(l,mid);</span><br><span class="line">    <span class="built_in">merge_sort</span>(mid+<span class="number">1</span>,r);</span><br><span class="line">    <span class="keyword">int</span> i=l;</span><br><span class="line">    <span class="keyword">int</span> j=mid+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> k=l;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid &amp;&amp; j&lt;=r)&#123;</span><br><span class="line">        <span class="keyword">if</span>(q[i]&lt;q[j])   s[k++]=q[i++];</span><br><span class="line">        <span class="keyword">else</span>    s[k++]=q[j++];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)   s[k++]=q[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r) s[k++]=q[j++];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memcpy</span>(q+l,s+l,<span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>)*(r-l+<span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cin &gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">merge_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cout &lt;&lt; q[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    cout &lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>P1908 逆序对</title>
-    <url>/2022/01/05/mergesort2//</url>
-    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/e36c2e67ce76d320.png"></p>
-<p><strong>题目描述</strong><br>猫猫 TOM 和小老鼠 JERRY 最近又较量上了，但是毕竟都是成年人，他们已经不喜欢再玩那种你追我赶的游戏，现在他们喜欢玩统计。</p>
-<p>最近，TOM 老猫查阅到一个人类称之为“逆序对”的东西，这东西是这样定义的：对于给定的一段正整数序列，逆序对就是序列中 a_i&gt;a_ja<br>i<br>​&gt;a<br>j<br>​<br>  且 i&lt;ji&lt;j 的有序对。知道这概念后，他们就比赛谁先算出给定的一段正整数序列中逆序对的数目。注意序列中可能有重复数字。</p>
-<p><strong>Update:数据已加强。</strong></p>
-<p><strong>输入格式</strong><br>第一行，一个数 nn，表示序列中有 nn个数。</p>
-<p>第二行 nn 个数，表示给定的序列。序列中每个数字不超过 10^910<br>9<br> 。</p>
-<p><strong>输出格式</strong><br>输出序列中逆序对的数目。</p>
-<p><strong>输入输出样例</strong><br><strong>输入</strong><br>6<br>5 4 2 6 3 1<br><strong>输出</strong><br>11<br><strong>说明/提示</strong><br>对于 25%25% 的数据，n \leq 2500n≤2500</p>
-<p>对于 50%50% 的数据，n \leq 4 \times 10^4n≤4×10<br>4<br> 。</p>
-<p>对于所有数据，n \leq 5 \times 10^5n≤5×10<br>5</p>
-<p>请使用较快的输入输出</p>
-<p>应该不会 O(n^2)O(n<br>2<br> ) 过 50 万吧 by chen_zhe</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">500010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> s[N];</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> ans =<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="built_in">merge_sort</span>(l,mid);</span><br><span class="line">    <span class="built_in">merge_sort</span>(mid+<span class="number">1</span>,r);</span><br><span class="line">    <span class="keyword">int</span> i=l;</span><br><span class="line">    <span class="keyword">int</span> j=mid+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> k=l;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid &amp;&amp; j&lt;=r)&#123;</span><br><span class="line">        <span class="keyword">if</span>(q[i]&lt;=q[j])&#123;   </span><br><span class="line">            s[k++]=q[i++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            s[k++]=q[j++];</span><br><span class="line">            ans+=mid-i+<span class="number">1</span>;</span><br><span class="line">        &#125;    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)   s[k++]=q[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r) s[k++]=q[j++];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memcpy</span>(q+l,s+l,<span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>)*(r-l+<span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cin &gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">merge_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt;ans &lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -494,24 +494,154 @@
 <p><strong>提示:</strong></p>
 <p>-231 &lt;= a, b &lt;= 231 - 1<br>b != 0</p>
 <p><strong>代码：</strong><br></p>
-<pre><code>class Solution &#123;
-public:
-int divide(int a, int b) &#123;
-if(a==INT_MIN &amp;&amp; b==-1) return INT_MAX;
-if(a==INT_MIN &amp;&amp; b==1)  return INT_MIN;
+<p>```cpp<br>class Solution {<br>    public:<br>    int divide(int a, int b) {<br>        if(a==INT_MIN &amp;&amp; b==-1) return INT_MAX;<br>        if(a==INT_MIN &amp;&amp; b==1)  return INT_MIN;</p>
+<pre><code>    bool sign = (a&gt;0)^(b&gt;0)?0:1;
+    unsigned int da=abs(a),db=abs(b),res=0;
 
-bool sign = (a&gt;0)^(b&gt;0)?0:1;
-unsigned int da=abs(a),db=abs(b),res=0;
-
-for(int i=31;i&gt;=0;i--)&#123;
-if((da&gt;&gt;i)&gt;=db)&#123;
-res+=1&lt;&lt;i;
-da-=db&lt;&lt;i; 
-&#125;
-&#125;
+    for(int i=31;i&gt;=0;i--)&#123;
+        if((da&gt;&gt;i)&gt;=db)&#123;
+            res+=1&lt;&lt;i;
+            da-=db&lt;&lt;i; 
+        &#125;
+    &#125;
 return sign?res:-res;
 &#125;
+</code></pre>
+<p>};</p>
+<p>```<br><br><strong><a href="https://leetcode-cn.com/problems/xoh6Oh">题目链接</a></strong></p>
+]]></content>
+      <categories>
+        <category>力扣</category>
+      </categories>
+      <tags>
+        <tag>力扣</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>protobuf安装以及一些问题解决</title>
+    <url>/2021/12/10/protobuf_install_error//</url>
+    <content><![CDATA[<h1 id="protobuf安装以及一些问题"><a href="#protobuf安装以及一些问题" class="headerlink" title="protobuf安装以及一些问题"></a>protobuf安装以及一些问题</h1><p>— ↓按照以下命令执行↓ —</p>
+<ol>
+<li><ul>
+<li><pre><code> sudo apt-get install git
+</code></pre>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><pre><code> git clone https://github.com/protocolbuffers/protobuf.git 
+</code></pre>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><pre><code>  cd protobuf 
+</code></pre>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><pre><code>  git submodule update --init --recursive
+</code></pre>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><pre><code>  ./autogen.sh 
+</code></pre>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><pre><code>./configure 
+</code></pre>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><pre><code>   make 
+</code></pre>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><pre><code> make make check 
+</code></pre>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><pre><code> sudo make install
+</code></pre>
+</li>
+</ul>
+</li>
+<li><ul>
+<li><pre><code> sudo ldconfig 
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="错误解决"><a href="#错误解决" class="headerlink" title="错误解决"></a>错误解决</h2><p><strong>下载protobuf报错 443 或者 其余端口</strong><br>解决方法: 换手机热点进行下载，科学上网进行下载， 多试几次。</p>
+<p><strong>初始化git报错</strong><br>解决方法: 先执行git init 在执行git submodule update –init –recursive</p>
+<p><strong>执行 make check报错</strong><br>报错1.<img src="https://s3.bmp.ovh/imgs/2021/12/f7d33fb641a93964.png"></p>
+<p><strong>解决方法： 在虚拟机-&gt;编辑虚拟机设置-&gt;内存更改为8GB即可解决</strong><br><img src="https://i.bmp.ovh/imgs/2021/12/97020a34bf5174f3.png"></p>
+<p>成功图片:<br><img src="https://i.bmp.ovh/imgs/2021/12/4ed7a8d0a9bb5d24.png"><br><strong>错误2：</strong><br><img src="https://i.bmp.ovh/imgs/2021/12/c3856418982c87d8.png"><br>解决方案: 暂无，这个并不会影响生成的.h和.cc文件</p>
+<hr>
+<p><strong>安装完成后将代码写好 后缀名为.proto文件.</strong><br><strong>执行:</strong><br><strong>protoc -I=./ –cpp_out=./ 文件名.proto</strong><br>之后就会生成.h和.cc文件<br><img src="https://i.bmp.ovh/imgs/2021/12/2ad5e05878b07e89.png"></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指 Offer II 002. 二进制加法</title>
+    <url>/2022/01/26/offer002//</url>
+    <content><![CDATA[<p>给定两个 01 字符串 a 和 b ，请计算它们的和，并以二进制字符串的形式输出。</p>
+<p>输入为 <strong>非空</strong> 字符串且只包含数字 1 和 0。</p>
+<p> </p>
+<p><strong>示例 1:</strong><br></p>
+<blockquote>
+<p><strong>输入:</strong> a = “11”, b = “10”<br><br><strong>输出:</strong> “101”<br></p>
+</blockquote>
+<p><strong>示例 2:</strong><br></p>
+<blockquote>
+<p><strong>输入:</strong> a = “1010”, b = “1011”<br><br><strong>输出:</strong> “10101”<br>
+ </p>
+</blockquote>
+<p><strong>提示：</strong></p>
+<ul>
+<li>每个字符串仅由字符 ‘0’ 或 ‘1’ 组成。</li>
+<li>1 &lt;= a.length, b.length &lt;= 10^4</li>
+<li>字符串如果不是 “0” ，就都不含前导零。</li>
+</ul>
+<p><strong>代码</strong><br></p>
+<pre><code class="cpp">class Solution &#123;
+public:
+    string addBinary(string a, string b) &#123;
+        reverse(a.begin(),a.end());
+        reverse(b.begin(),b.end());
+
+        int t=0;
+        string res;
+
+        for(int i=0;i&lt;a.size() || i&lt;b.size()||t;i++)&#123;
+             if(i &lt; a.size()) t += (a[i] - &#39;0&#39;);
+            if(i &lt; b.size()) t += (b[i] - &#39;0&#39;);
+            res += (t % 2 % 10 + &#39;0&#39;);
+            t /= 2;
+        &#125;
+         reverse(res.begin(),res.end());
+         return res;
+    &#125;
 &#125;;
+```&lt;br&gt;
+**[题目链接](https://leetcode-cn.com/problems/JFETK5)**
 </code></pre>
 ]]></content>
       <categories>
@@ -669,104 +799,6 @@ return sign?res:-res;
       </tags>
   </entry>
   <entry>
-    <title>protobuf安装以及一些问题解决</title>
-    <url>/2021/12/10/protobuf_install_error//</url>
-    <content><![CDATA[<h1 id="protobuf安装以及一些问题"><a href="#protobuf安装以及一些问题" class="headerlink" title="protobuf安装以及一些问题"></a>protobuf安装以及一些问题</h1><p>— ↓按照以下命令执行↓ —</p>
-<ol>
-<li><ul>
-<li><pre><code> sudo apt-get install git
-</code></pre>
-</li>
-</ul>
-</li>
-<li><ul>
-<li><pre><code> git clone https://github.com/protocolbuffers/protobuf.git 
-</code></pre>
-</li>
-</ul>
-</li>
-<li><ul>
-<li><pre><code>  cd protobuf 
-</code></pre>
-</li>
-</ul>
-</li>
-<li><ul>
-<li><pre><code>  git submodule update --init --recursive
-</code></pre>
-</li>
-</ul>
-</li>
-<li><ul>
-<li><pre><code>  ./autogen.sh 
-</code></pre>
-</li>
-</ul>
-</li>
-<li><ul>
-<li><pre><code>./configure 
-</code></pre>
-</li>
-</ul>
-</li>
-<li><ul>
-<li><pre><code>   make 
-</code></pre>
-</li>
-</ul>
-</li>
-<li><ul>
-<li><pre><code> make make check 
-</code></pre>
-</li>
-</ul>
-</li>
-<li><ul>
-<li><pre><code> sudo make install
-</code></pre>
-</li>
-</ul>
-</li>
-<li><ul>
-<li><pre><code> sudo ldconfig 
-</code></pre>
-</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h2 id="错误解决"><a href="#错误解决" class="headerlink" title="错误解决"></a>错误解决</h2><p><strong>下载protobuf报错 443 或者 其余端口</strong><br>解决方法: 换手机热点进行下载，科学上网进行下载， 多试几次。</p>
-<p><strong>初始化git报错</strong><br>解决方法: 先执行git init 在执行git submodule update –init –recursive</p>
-<p><strong>执行 make check报错</strong><br>报错1.<img src="https://s3.bmp.ovh/imgs/2021/12/f7d33fb641a93964.png"></p>
-<p><strong>解决方法： 在虚拟机-&gt;编辑虚拟机设置-&gt;内存更改为8GB即可解决</strong><br><img src="https://i.bmp.ovh/imgs/2021/12/97020a34bf5174f3.png"></p>
-<p>成功图片:<br><img src="https://i.bmp.ovh/imgs/2021/12/4ed7a8d0a9bb5d24.png"><br><strong>错误2：</strong><br><img src="https://i.bmp.ovh/imgs/2021/12/c3856418982c87d8.png"><br>解决方案: 暂无，这个并不会影响生成的.h和.cc文件</p>
-<hr>
-<p><strong>安装完成后将代码写好 后缀名为.proto文件.</strong><br><strong>执行:</strong><br><strong>protoc -I=./ –cpp_out=./ 文件名.proto</strong><br>之后就会生成.h和.cc文件<br><img src="https://i.bmp.ovh/imgs/2021/12/2ad5e05878b07e89.png"></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sort求第k小的数</title>
-    <url>/2022/01/05/sort2//</url>
-    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/70c19c413d312378.png"><br>题目描述<br>输入 nn（1 \le n &lt; 50000001≤n&lt;5000000 且 nn 为奇数）个数字 a_ia<br>i<br>​<br> （1 \le a_i &lt; {10}^91≤a<br>i<br>​<br> &lt;10<br>9<br> ），输出这些数字的第 kk 小的数。最小的数是第 00 小。</p>
-<p>请尽量不要使用 nth_element 来写本题，因为本题的重点在于练习分治算法。</p>
-<p>输入格式<br>无</p>
-<p>输出格式<br>无</p>
-<p>输入输出样例<br>输入 #1复制<br>5 1<br>4 3 2 1 5<br>输出 #1复制<br>2</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">5e6</span>+<span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> k;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r) <span class="keyword">return</span> ;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> i=l<span class="number">-1</span>, j=r+<span class="number">1</span>,val = q[l+r&gt;&gt;<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">do</span> i++; <span class="keyword">while</span>(q[i]&lt;val);</span><br><span class="line">        <span class="keyword">do</span> j--; <span class="keyword">while</span>(q[j]&gt;val);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(i&lt;j) <span class="built_in">swap</span>(q[i],q[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(k&lt;=j)</span><br><span class="line">        <span class="built_in">quick_sort</span>(l,j);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">quick_sort</span>(j+<span class="number">1</span>,r);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cin&gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">quick_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; q[k] &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>快速排序</title>
     <url>/2022/01/05/sort//</url>
     <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/e89e1d4856450600.png"><br>题目描述<br>利用快速排序算法将读入的 NN 个数从小到大排序后输出。</p>
@@ -801,6 +833,54 @@ return sign?res:-res;
       </categories>
       <tags>
         <tag>逆向</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sort求第k小的数</title>
+    <url>/2022/01/05/sort2//</url>
+    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/70c19c413d312378.png"><br>题目描述<br>输入 nn（1 \le n &lt; 50000001≤n&lt;5000000 且 nn 为奇数）个数字 a_ia<br>i<br>​<br> （1 \le a_i &lt; {10}^91≤a<br>i<br>​<br> &lt;10<br>9<br> ），输出这些数字的第 kk 小的数。最小的数是第 00 小。</p>
+<p>请尽量不要使用 nth_element 来写本题，因为本题的重点在于练习分治算法。</p>
+<p>输入格式<br>无</p>
+<p>输出格式<br>无</p>
+<p>输入输出样例<br>输入 #1复制<br>5 1<br>4 3 2 1 5<br>输出 #1复制<br>2</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">5e6</span>+<span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> k;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r) <span class="keyword">return</span> ;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> i=l<span class="number">-1</span>, j=r+<span class="number">1</span>,val = q[l+r&gt;&gt;<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">do</span> i++; <span class="keyword">while</span>(q[i]&lt;val);</span><br><span class="line">        <span class="keyword">do</span> j--; <span class="keyword">while</span>(q[j]&gt;val);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(i&lt;j) <span class="built_in">swap</span>(q[i],q[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(k&lt;=j)</span><br><span class="line">        <span class="built_in">quick_sort</span>(l,j);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">quick_sort</span>(j+<span class="number">1</span>,r);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cin&gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">quick_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; q[k] &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>表达式求值</title>
+    <url>/2022/01/08/value//</url>
+    <content><![CDATA[<p>给定一个表达式，其中运算符仅包含 +,-,*,/（加 减 乘 整除），可能包含括号，请你求出表达式的最终值。</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>数据保证给定的表达式合法。</li>
+<li>题目保证符号 - 只作为减号出现，不会作为负号出现，例如，-1+2,(2+2)*(-(1+1)+2) 之类表达式均不会出现。</li>
+<li>题目保证表达式中所有数字均为正整数。</li>
+<li>题目保证表达式在中间计算过程以及结果中，均不超过 231−1。</li>
+<li>题目中的整除是指向 0 取整，也就是说对于大于 0 的结果向下取整，例如 5/3=1，对于小于 0 的结果向上取整，例如 5/(1−4)=−1。</li>
+<li>C++和Java中的整除默认是向零取整；Python中的整除//默认向下取整，因此Python的eval()函数中的整除也是向下取整，在本题中不能直接使用。</li>
+</ul>
+<p><strong>输入格式</strong><br>共一行，为给定表达式。</p>
+<p><strong>输出格式</strong><br>共一行，为表达式的结果。</p>
+<p><strong>数据范围</strong><br>表达式的长度不超过(\10^5)</p>
+<p><strong>输入样例：</strong></p>
+<blockquote>
+<p>(2+2)*(1+1)</p>
+</blockquote>
+<p><strong>输出样例：</strong></p>
+<blockquote>
+<p>8</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line">stack&lt;<span class="keyword">int</span>&gt; num;</span><br><span class="line">stack&lt;<span class="keyword">char</span>&gt; op;</span><br><span class="line"></span><br><span class="line">unordered_map&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt; pr=&#123;&#123;<span class="string">&#x27;+&#x27;</span>,<span class="number">1</span>&#125;,&#123;<span class="string">&#x27;-&#x27;</span>,<span class="number">1</span>&#125;,&#123;<span class="string">&#x27;*&#x27;</span>,<span class="number">2</span>&#125;,&#123;<span class="string">&#x27;/&#x27;</span>,<span class="number">2</span>&#125;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">eval</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> b=num.<span class="built_in">top</span>();num.<span class="built_in">pop</span>();</span><br><span class="line">    <span class="keyword">int</span> a=num.<span class="built_in">top</span>();num.<span class="built_in">pop</span>();</span><br><span class="line">    <span class="keyword">char</span> c=op.<span class="built_in">top</span>();op.<span class="built_in">pop</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> s=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in"><span class="keyword">switch</span></span>(c)&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;+&#x27;</span>:   s=a+b; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;-&#x27;</span>:   s=a-b; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;*&#x27;</span>:   s=a*b; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;/&#x27;</span>:   s=a/b; <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    num.<span class="built_in">push</span>(s);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    string str;</span><br><span class="line">    cin&gt;&gt;str;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;str.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">        <span class="keyword">auto</span> c=str[i];</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">isdigit</span>(c))&#123;</span><br><span class="line">            <span class="keyword">int</span> j,n=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(j=i;j&lt;str.<span class="built_in">size</span>() &amp;&amp; <span class="built_in">isdigit</span>(str[j]);j++)&#123;</span><br><span class="line">                n=n*<span class="number">10</span>+(str[j]-<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            num.<span class="built_in">push</span>(n);</span><br><span class="line">            i=j<span class="number">-1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&#x27;(&#x27;</span>)op.<span class="built_in">push</span>(c);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&#x27;)&#x27;</span>)&#123;</span><br><span class="line">            <span class="keyword">while</span>(op.<span class="built_in">size</span>() &amp;&amp; op.<span class="built_in">top</span>()!=<span class="string">&#x27;(&#x27;</span>) <span class="built_in">eval</span>();</span><br><span class="line">            op.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">while</span>(op.<span class="built_in">size</span>() &amp;&amp; pr[op.<span class="built_in">top</span>()]&gt;=pr[c]) <span class="built_in">eval</span>();</span><br><span class="line">            op.<span class="built_in">push</span>(c);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(op.<span class="built_in">size</span>()) <span class="built_in">eval</span>();</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; num.<span class="built_in">top</span>() &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -872,38 +952,6 @@ return sign?res:-res;
 
 
 ]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>表达式求值</title>
-    <url>/2022/01/08/value//</url>
-    <content><![CDATA[<p>给定一个表达式，其中运算符仅包含 +,-,*,/（加 减 乘 整除），可能包含括号，请你求出表达式的最终值。</p>
-<p><strong>注意：</strong></p>
-<ul>
-<li>数据保证给定的表达式合法。</li>
-<li>题目保证符号 - 只作为减号出现，不会作为负号出现，例如，-1+2,(2+2)*(-(1+1)+2) 之类表达式均不会出现。</li>
-<li>题目保证表达式中所有数字均为正整数。</li>
-<li>题目保证表达式在中间计算过程以及结果中，均不超过 231−1。</li>
-<li>题目中的整除是指向 0 取整，也就是说对于大于 0 的结果向下取整，例如 5/3=1，对于小于 0 的结果向上取整，例如 5/(1−4)=−1。</li>
-<li>C++和Java中的整除默认是向零取整；Python中的整除//默认向下取整，因此Python的eval()函数中的整除也是向下取整，在本题中不能直接使用。</li>
-</ul>
-<p><strong>输入格式</strong><br>共一行，为给定表达式。</p>
-<p><strong>输出格式</strong><br>共一行，为表达式的结果。</p>
-<p><strong>数据范围</strong><br>表达式的长度不超过(\10^5)</p>
-<p><strong>输入样例：</strong></p>
-<blockquote>
-<p>(2+2)*(1+1)</p>
-</blockquote>
-<p><strong>输出样例：</strong></p>
-<blockquote>
-<p>8</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line">stack&lt;<span class="keyword">int</span>&gt; num;</span><br><span class="line">stack&lt;<span class="keyword">char</span>&gt; op;</span><br><span class="line"></span><br><span class="line">unordered_map&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt; pr=&#123;&#123;<span class="string">&#x27;+&#x27;</span>,<span class="number">1</span>&#125;,&#123;<span class="string">&#x27;-&#x27;</span>,<span class="number">1</span>&#125;,&#123;<span class="string">&#x27;*&#x27;</span>,<span class="number">2</span>&#125;,&#123;<span class="string">&#x27;/&#x27;</span>,<span class="number">2</span>&#125;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">eval</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> b=num.<span class="built_in">top</span>();num.<span class="built_in">pop</span>();</span><br><span class="line">    <span class="keyword">int</span> a=num.<span class="built_in">top</span>();num.<span class="built_in">pop</span>();</span><br><span class="line">    <span class="keyword">char</span> c=op.<span class="built_in">top</span>();op.<span class="built_in">pop</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> s=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in"><span class="keyword">switch</span></span>(c)&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;+&#x27;</span>:   s=a+b; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;-&#x27;</span>:   s=a-b; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;*&#x27;</span>:   s=a*b; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;/&#x27;</span>:   s=a/b; <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    num.<span class="built_in">push</span>(s);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    string str;</span><br><span class="line">    cin&gt;&gt;str;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;str.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">        <span class="keyword">auto</span> c=str[i];</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">isdigit</span>(c))&#123;</span><br><span class="line">            <span class="keyword">int</span> j,n=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(j=i;j&lt;str.<span class="built_in">size</span>() &amp;&amp; <span class="built_in">isdigit</span>(str[j]);j++)&#123;</span><br><span class="line">                n=n*<span class="number">10</span>+(str[j]-<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            num.<span class="built_in">push</span>(n);</span><br><span class="line">            i=j<span class="number">-1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&#x27;(&#x27;</span>)op.<span class="built_in">push</span>(c);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&#x27;)&#x27;</span>)&#123;</span><br><span class="line">            <span class="keyword">while</span>(op.<span class="built_in">size</span>() &amp;&amp; op.<span class="built_in">top</span>()!=<span class="string">&#x27;(&#x27;</span>) <span class="built_in">eval</span>();</span><br><span class="line">            op.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">while</span>(op.<span class="built_in">size</span>() &amp;&amp; pr[op.<span class="built_in">top</span>()]&gt;=pr[c]) <span class="built_in">eval</span>();</span><br><span class="line">            op.<span class="built_in">push</span>(c);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(op.<span class="built_in">size</span>()) <span class="built_in">eval</span>();</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; num.<span class="built_in">top</span>() &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法</category>
       </categories>

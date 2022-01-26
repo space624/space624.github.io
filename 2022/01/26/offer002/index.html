@@ -15,7 +15,7 @@
 
 
 
-<title>剑指 Offer II 001. 整数除法 | Space Blog</title>
+<title>剑指 Offer II 002. 二进制加法 | Space Blog</title>
 
 
 
@@ -172,7 +172,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">剑指 Offer II 001. 整数除法</h1>
+            <h1 class="post-title">剑指 Offer II 002. 二进制加法</h1>
             
                 <div class="post-meta">
                     
@@ -197,49 +197,47 @@
         </header>
 
         <div class="post-content">
-            <p>给定两个整数 a 和 b ，求它们的除法的商 a/b ，要求不得使用乘号 ‘*’、除号 ‘/‘ 以及求余符号 ‘%’ 。</p>
+            <p>给定两个 01 字符串 a 和 b ，请计算它们的和，并以二进制字符串的形式输出。</p>
+<p>输入为 <strong>非空</strong> 字符串且只包含数字 1 和 0。</p>
 <p> </p>
-<p><strong>注意：</strong></p>
-<ul>
-<li>整数除法的结果应当截去（truncate）其小数部分，例如：truncate(8.345) = 8 以及 truncate(-2.7335) = -2</li>
-<li>假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−231, 231−1]。本题中，如果除法结果溢出，则返回 231 − 1
- </li>
-</ul>
-<p><strong>示例 1：</strong></p>
+<p><strong>示例 1:</strong><br></p>
 <blockquote>
-<p><strong>输入：</strong>a = 15, b = 2<br><br><strong>输出</strong>：7<br><br><strong>解释：</strong>15/2 = truncate(7.5) = 7</p>
+<p><strong>输入:</strong> a = “11”, b = “10”<br><br><strong>输出:</strong> “101”<br></p>
 </blockquote>
-<p><strong>示例 2：</strong></p>
+<p><strong>示例 2:</strong><br></p>
 <blockquote>
-<p><strong>输入</strong>：a = 7, b = -3<br><br><strong>输出</strong>：-2<br><br><strong>解释：</strong>7/-3 = truncate(-2.33333..) = -2<br></p>
-</blockquote>
-<p><strong>示例 3：</strong></p>
-<blockquote>
-<p><strong>输入：</strong>a = 0, b = 1<br><br><strong>输出：</strong>0<br></p>
-</blockquote>
-<p><strong>示例 4：</strong><br></p>
-<blockquote>
-<p><strong>输入：</strong>a = 1, b = 1<br><br><strong>输出：</strong>1
+<p><strong>输入:</strong> a = “1010”, b = “1011”<br><br><strong>输出:</strong> “10101”<br>
  </p>
 </blockquote>
-<p><strong>提示:</strong></p>
-<p>-231 &lt;= a, b &lt;= 231 - 1<br>b != 0</p>
-<p><strong>代码：</strong><br></p>
-<p>```cpp<br>class Solution {<br>    public:<br>    int divide(int a, int b) {<br>        if(a==INT_MIN &amp;&amp; b==-1) return INT_MAX;<br>        if(a==INT_MIN &amp;&amp; b==1)  return INT_MIN;</p>
-<pre><code>    bool sign = (a&gt;0)^(b&gt;0)?0:1;
-    unsigned int da=abs(a),db=abs(b),res=0;
+<p><strong>提示：</strong></p>
+<ul>
+<li>每个字符串仅由字符 ‘0’ 或 ‘1’ 组成。</li>
+<li>1 &lt;= a.length, b.length &lt;= 10^4</li>
+<li>字符串如果不是 “0” ，就都不含前导零。</li>
+</ul>
+<p><strong>代码</strong><br></p>
+<pre><code class="cpp">class Solution &#123;
+public:
+    string addBinary(string a, string b) &#123;
+        reverse(a.begin(),a.end());
+        reverse(b.begin(),b.end());
 
-    for(int i=31;i&gt;=0;i--)&#123;
-        if((da&gt;&gt;i)&gt;=db)&#123;
-            res+=1&lt;&lt;i;
-            da-=db&lt;&lt;i; 
+        int t=0;
+        string res;
+
+        for(int i=0;i&lt;a.size() || i&lt;b.size()||t;i++)&#123;
+             if(i &lt; a.size()) t += (a[i] - &#39;0&#39;);
+            if(i &lt; b.size()) t += (b[i] - &#39;0&#39;);
+            res += (t % 2 % 10 + &#39;0&#39;);
+            t /= 2;
         &#125;
+         reverse(res.begin(),res.end());
+         return res;
     &#125;
-return sign?res:-res;
-&#125;
+&#125;;
+```&lt;br&gt;
+**[题目链接](https://leetcode-cn.com/problems/JFETK5)**
 </code></pre>
-<p>};</p>
-<p>```<br><br><strong><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/xoh6Oh">题目链接</a></strong></p>
 
         </div>
 
@@ -254,7 +252,7 @@ return sign?res:-res;
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://spaceout.cn/2022/01/26/offer001/">https://spaceout.cn/2022/01/26/offer001/</a></span>
+                        <span><a href="https://spaceout.cn/2022/01/26/offer002/">https://spaceout.cn/2022/01/26/offer002/</a></span>
                     </p>
                 
                 
@@ -291,8 +289,10 @@ return sign?res:-res;
         </section>
         <section class="post-nav">
             
+                <a class="prev" rel="prev" href="/2022/01/26/offer001/">剑指 Offer II 001. 整数除法</a>
             
-            <a class="next" rel="next" href="/2022/01/26/offer002/">剑指 Offer II 002. 二进制加法</a>
+            
+            <a class="next" rel="next" href="/2022/01/13/difference/">差分数组</a>
             
         </section>
 
