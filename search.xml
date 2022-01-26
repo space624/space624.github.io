@@ -999,4 +999,38 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
         <tag>算法</tag>
       </tags>
   </entry>
+  <entry>
+    <title>剑指 Offer II 003. 前 n 个数字二进制中 1 的个数</title>
+    <url>/2022/01/26/offer003//</url>
+    <content><![CDATA[<p>给定一个非负整数 n ，请计算 0 到 n 之间的每个数字的二进制表示中 1 的个数，并输出一个数组。</p>
+<p><strong>示例 1:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> n = 2<br><br><strong>输出:</strong> [0,1,1]<br><br><strong>解释:</strong> <br><br>0 –&gt; 0<br><br>1 –&gt; 1<br><br>2 –&gt; 10<br></p>
+</blockquote>
+<p><strong>示例 2:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> n = 5<br><br><strong>输出:</strong> [0,1,1,2,1,2]<br><br><strong>解释:</strong><br><br>0 –&gt; 0<br><br>1 –&gt; 1<br><br>2 –&gt; 10<br><br>3 –&gt; 11<br><br>4 –&gt; 100<br><br>5 –&gt; 101<br>
+ </p>
+</blockquote>
+<p><strong>说明 :</strong></p>
+<ul>
+<li>0 &lt;= n &lt;= 105
+ </li>
+</ul>
+<p><strong>进阶:</strong></p>
+<ul>
+<li>给出时间复杂度为 O(n*sizeof(integer)) 的解答非常容易。但你可以在线性时间 O(n) 内用一趟扫描做到吗？</li>
+<li>要求算法的空间复杂度为 O(n) 。</li>
+<li>你能进一步完善解法吗？要求在C++或任何其他语言中不使用任何内置函数（如 C++ 中的 __builtin_popcount ）来执行此操作。</li>
+</ul>
+<p><strong>代码</strong><br></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">countBits</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(n+<span class="number">1</span>,<span class="number">0</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;i++)   dp[i]=(i&amp;<span class="number">1</span>)+dp[i&gt;&gt;<span class="number">1</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a><a href="https://leetcode-cn.com/problems/w3tCBm/">题目链接</a></h1>]]></content>
+      <categories>
+        <category>力扣</category>
+      </categories>
+      <tags>
+        <tag>力扣</tag>
+      </tags>
+  </entry>
 </search>
