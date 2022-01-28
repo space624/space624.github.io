@@ -15,7 +15,7 @@
 
 
 
-<title>Tag Space | Space Blog</title>
+<title>QEvent处理时间的五种方法 | Space Blog</title>
 
 
 
@@ -126,30 +126,105 @@
     }
 </script>
             <div class="main">
-                
+                <div class="container">
+    
+    
 
-    <div class="container">
-        <div class="post-wrap tags">
-            <h2 class="post-title">-&nbsp;Tag Cloud&nbsp;-</h2>
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">QEvent处理时间的五种方法</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Space</a>
+                    
 
-            <div class="tag-cloud-tags">
-                
-                    <a href="/tags/%E7%AE%97%E6%B3%95/">算法<small>(9)</small></a>
-                
-                    <a href="/tags/Linux/">Linux<small>(8)</small></a>
-                
-                    <a href="/tags/C-C/">C/C++<small>(4)</small></a>
-                
-                    <a href="/tags/Qt/">Qt<small>(6)</small></a>
-                
-                    <a href="/tags/%E9%80%86%E5%90%91/">逆向<small>(1)</small></a>
-                
-                    <a href="/tags/%E5%8A%9B%E6%89%A3/">力扣<small>(4)</small></a>
-                
-            </div>
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 22, 2021&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Qt/">Qt</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>①:<strong>重新实现部件的 paintEvent() mousePressEvent()等事件处理函数，不过只能用来处理特定的事件。</strong></p>
+<p>②:<strong>重新实现notify()函数，这个函数功能强大，提供了完全的控制，可以在事件过滤器得到事件之前就获取它们。但是，它一次只能处理一个事件。</strong></p>
+<p>③:<strong>向QApplication对象上安装事件过滤器。应为一个程序只有一个QApplication对象，所以这样实现的功能与notify()函数是相同的，优点就是可以同时处理多个事件。</strong></p>
+<p>④:<strong>重新实现event()函数，QObject类的event()函数可以在事件到达默认的事件处理函数之前获得该事件。</strong></p>
+<p>⑤:<strong>在对象上安装事件过滤器，使用事件过滤器可以在一个界面类中同时处理不同子部件的不同事件。</strong></p>
+<p>在实际编程中，最常用的是①，其次是⑤，方法二需要继承QAppliction类；而③要使用一个全局的事件过滤器这将减缓事件的传递，所以很少被用到。</p>
+
         </div>
-    </div>
 
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Space</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://spaceout.cn/2021/12/22/QEvent/">https://spaceout.cn/2021/12/22/QEvent/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Qt/"># Qt</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/12/29/ReverseOrder/">逆向基础命令</a>
+            
+            
+            <a class="next" rel="next" href="/2021/12/21/QMessageBox/">operand type are QMessageBox and QMessageBox::StandardButton</a>
+            
+        </section>
+
+
+    </article>
+</div>
 
             </div>
             <footer id="footer" class="footer">

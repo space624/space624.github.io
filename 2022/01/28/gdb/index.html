@@ -268,7 +268,7 @@
 <p>然后就可以进入命令行操作，和 Shell 一样,gdb 支持命令补全。输入几个字母，按Tab键，gdb 会补全命令。按两次Tab ，会提示所有可能的命令。<br>另外，其还支持命令缩写，如， h 代表 help ，</p>
 <h2 id="常用命令如下"><a href="#常用命令如下" class="headerlink" title="常用命令如下:"></a>常用命令如下:</h2><h4 id="获取帮组命令-help"><a href="#获取帮组命令-help" class="headerlink" title="获取帮组命令 help"></a>获取帮组命令 help</h4><p>gdb将命令分为12个大类，使用命令： “help 子类别”可以查看没类下面的详细帮助。</p>
 <p>如： <strong>help breakpoints</strong></p>
-<h4 id="设置断点"><a href="#设置断点" class="headerlink" title="设置断点"></a>设置断点</h4><p><strong>break</strong> 命令用于设置断点,命令接受行号或者函数名作为参数。<br><img src="https://i.bmp.ovh/imgs/2022/01/63233cb757175033.png"><br><strong>break</strong>也可设置条件断点：<br><br>如： <strong>break sayHello if count&lt;1 **<br><br>使用</strong>info break** 可以查看断点<br></p>
+<h4 id="设置断点"><a href="#设置断点" class="headerlink" title="设置断点"></a>设置断点</h4><p><strong>break</strong> 命令用于设置断点,命令接受行号或者函数名作为参数。<br><img src="https://i.bmp.ovh/imgs/2022/01/63233cb757175033.png"><br><strong>break</strong>也可设置条件断点：<br><br>如： <strong>break sayHello if count&lt;1** <br><br>使用</strong>info break**可以查看断点<br></p>
 <p>使用 <strong>clear</strong> 可以清除断点<br></p>
 <h4 id="运行程序和单步执行"><a href="#运行程序和单步执行" class="headerlink" title="运行程序和单步执行"></a>运行程序和单步执行</h4><p>设置完断点后，就可以运行调试程序了，使用run命令（缩写为 r)运行程序至断点。<br><img src="https://i.bmp.ovh/imgs/2022/01/01a8fdb66565861f.png"><br><br>此时，程序中断，gdb 等待用户发出下一步操作的指令。设用<strong>next</strong> 命令(缩写为 <strong>n</strong>)单步执行程序。也可以指定一个数字。下面这条命令让gdb 连续执行两行，然后停下。</p>
 <p>如果想继续运行，可以使用<strong>continue <strong>命令(缩写为</strong> c</strong> )指导 gdb 继续运行程序，直至遇到下一个断点。<br>如果想继续单步执行，可以继续使用 <strong>next</strong>,也是以使用 <strong>step</strong> (缩写为 <strong>s</strong>), <strong>step</strong> 和 <strong>next</strong> 的最大的区别在于，step 遇到函数是会进入到内部，而next 不会进入内部.</p>
