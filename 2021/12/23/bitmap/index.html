@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Space">
+
+
+    <meta name="subtitle" content=" ">
+
+
+
+
+<title>速度之巅-位图算法 | Space Blog</title>
+
+
+
+    <link rel="icon" href="/favico.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Space Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Space Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">速度之巅-位图算法</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Space</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 23, 2021&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><strong>问题：</strong></p>
+<blockquote>
+<p>有很多不重复的整数, 其中最大值不超过40亿, 最小值是0.<br>要求判断某个指定的整数, 是否在这个集合中.</p>
+</blockquote>
+<blockquote>
+<p><strong>最快的算法：<br>使用位图算法。<br>使用2个字节，表示16个数（0-15）的状态（有或者没有）</strong><br><img src="https://img-blog.csdnimg.cn/c431a1dbd0874df781541ca4f54998b2.png" alt="在这里插入图片描述"></p>
+</blockquote>
+<blockquote>
+<p><strong>如果数据为【5，1，7，15，0，4，6，10】，则存储状态为：</strong><img src="https://img-blog.csdnimg.cn/6a0599e346d4437fad5d37a5858902d3.png" alt="在这里插入图片描述"></p>
+</blockquote>
+<p><strong>代码实现</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">char</span> *data, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 根据实际需求来实现.</span></span><br><span class="line">	<span class="comment">// 这里只是为了测试后面的算法效果, 假设:</span></span><br><span class="line">	<span class="comment">// 能够被3整数的数, 都在这个集合中.[假设的需求]</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> n = len * <span class="number">8</span>; <span class="comment">//一共有n个数据</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">		<span class="comment">// 假设: 能够被3整数的数, 都在这个集合中.[假设的需求]</span></span><br><span class="line">		<span class="keyword">if</span> (i % <span class="number">3</span> == <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="comment">//计算这个位对应哪个字节</span></span><br><span class="line">			<span class="keyword">char</span>  *p = data + i / <span class="number">8</span>;</span><br><span class="line">			*p = *p | (<span class="number">1</span> &lt;&lt; (i % <span class="number">8</span>));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 位图算法</span></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">check</span><span class="params">(<span class="keyword">char</span> *data, <span class="keyword">int</span> len, <span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 定位到指定的字节</span></span><br><span class="line">	<span class="keyword">char</span> *p = data + value / <span class="number">8</span>; </span><br><span class="line"></span><br><span class="line">	<span class="comment">// 判断这个字节中指定的位是否为1</span></span><br><span class="line">	<span class="keyword">bool</span> ret =  *p  &amp; (<span class="number">1</span> &lt;&lt; (value % <span class="number">8</span>));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 很配一块足够的内存, 用来表示位图</span></span><br><span class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> n = <span class="number">4000000000</span>;</span><br><span class="line">	<span class="keyword">int</span> len = n / <span class="number">8</span> + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">char</span> *data = (<span class="keyword">char</span>*)<span class="built_in">malloc</span>(len);</span><br><span class="line">	<span class="built_in">memset</span>(data, <span class="number">0</span>, len); <span class="comment">//清零</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// 装载数据集合(只需要装载一次)</span></span><br><span class="line">	<span class="built_in">init</span>(data, len);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;请输入要检测的数: [输入-1退出] &quot;</span>);</span><br><span class="line">		<span class="keyword">int</span> value;</span><br><span class="line">		<span class="built_in">scanf_s</span>(<span class="string">&quot;%d&quot;</span>, &amp;value);</span><br><span class="line">		<span class="keyword">if</span> (value == <span class="number">-1</span>) &#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">check</span>(data, len, value)) &#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;%d在数据集合中\n&quot;</span>, value);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">&quot;%d不在数据集合中\n&quot;</span>, value);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Space</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://spaceout.cn/2021/12/23/bitmap/">https://spaceout.cn/2021/12/23/bitmap/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E7%AE%97%E6%B3%95/"># 算法</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2021/12/23/MySQLTime/">MySQL数据库时间和日期类型</a>
+            
+            
+            <a class="next" rel="next" href="/2021/12/22/QEvent/">QEvent处理时间的五种方法</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span></a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

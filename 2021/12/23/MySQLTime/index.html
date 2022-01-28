@@ -15,7 +15,7 @@
 
 
 
-<title>operand type are QMessageBox and QMessageBox::StandardButton | Space Blog</title>
+<title>MySQL数据库时间和日期类型 | Space Blog</title>
 
 
 
@@ -133,7 +133,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">operand type are QMessageBox and QMessageBox::StandardButton</h1>
+            <h1 class="post-title">MySQL数据库时间和日期类型</h1>
             
                 <div class="post-meta">
                     
@@ -142,14 +142,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十二月 21, 2021&nbsp;&nbsp;0:00:00</a>
+                        Date: <a href="#">十二月 23, 2021&nbsp;&nbsp;0:00:00</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/Qt/">Qt</a>
+                                <a href="/categories/MySQL/">MySQL</a>
                             
                         </span>
                     
@@ -158,8 +158,13 @@
         </header>
 
         <div class="post-content">
-            <p>报错内容为<br><img src="https://img-blog.csdnimg.cn/20210610143041925.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTQwMTkz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>解决办法:在定义QMessageBox 接收 标准按钮的时候 定义为QMessageBox::StandardButton 就完美解决.<br><img src="https://img-blog.csdnimg.cn/20210610143134753.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTQwMTkz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+            <p>时间日期类型方便在数据库中储存而设计，数据库也具有多种表示时间的类型.</p>
+<p><img src="https://img-blog.csdnimg.cn/20200615151309128.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTQwMTkz,size_16,color_FFFFFF,t_70" alt="日期和时间类型"><br>YEAR表示年<br>DEATE表示日期<br>TIME表示时间<br>DATETIME表示日期和时间<br>TIMESTAMP表示日期和时间</p>
+<p>在插入年,月,日,时，分，秒，的时候可以用:“:  -  _  /”来表示分割（个人建议都用-来表示）。</p>
+<p>先来创建一个表格<img src="https://img-blog.csdnimg.cn/20200615152420485.png" alt="在这里插入图片描述"><br>插入之后并查看不论你日期用什么表示到最后还是会用-来代替，时间也是用：来代替<br><img src="https://img-blog.csdnimg.cn/20200615152833824.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTQwMTkz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>也可也通过MySQL本身提供的时间函数来获取时间:<br>常用的时间函数:CURDATE()  - 获得当前的DATE, 可直接插入DATE 类型中.<br>NOW() - 获得当前的DATETIME, 可直接插入DATETIME 和TIMESTAMP类型中.<br>TIME() - 获取参数给定时间串中的时分秒，可直接插入TIME 类型中.<br>YEAR() - 获取参数给定时间串中的年份，可直接插入YEAR类型中.<br>MONTH() 、DAY()、HOUR()、MINUTE()、SECOND() 获取参数给定时间串中的月、日、时、分、秒值.<br>只有CURDATE() 和NOW() 可以直接获取时间<img src="https://img-blog.csdnimg.cn/20200615153254339.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTQwMTkz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">而TIME()和YEAR()只有包含数据才能获取：<img src="https://img-blog.csdnimg.cn/20200615153608929.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTQwMTkz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>那我们获取当前时间就很简便：<img src="https://img-blog.csdnimg.cn/20200615154154197.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTQwMTkz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>直接就获取到当前时间</p>
 
         </div>
 
@@ -174,7 +179,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://spaceout.cn/2021/12/21/QMessageBox/">https://spaceout.cn/2021/12/21/QMessageBox/</a></span>
+                        <span><a href="https://spaceout.cn/2021/12/23/MySQLTime/">https://spaceout.cn/2021/12/23/MySQLTime/</a></span>
                     </p>
                 
                 
@@ -198,7 +203,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/Qt/"># Qt</a>
+                        <a href="/tags/MySQL/"># MySQL</a>
                     
                         
                 </span>
@@ -211,10 +216,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2021/12/22/QEvent/">QEvent处理时间的五种方法</a>
+                <a class="prev" rel="prev" href="/2021/12/24/MySQLCharVarchar/">MySQL数据库时间和日期类型</a>
             
             
-            <a class="next" rel="next" href="/2021/12/21/Qt%20Combo%20Box/">Qt Combo Box</a>
+            <a class="next" rel="next" href="/2021/12/23/bitmap/">速度之巅-位图算法</a>
             
         </section>
 
