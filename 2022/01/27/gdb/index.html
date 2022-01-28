@@ -15,7 +15,7 @@
 
 
 
-<title>剑指 Offer II 001. 整数除法 | Space Blog</title>
+<title>gdb调试 与 coredump | Space Blog</title>
 
 
 
@@ -234,7 +234,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">剑指 Offer II 001. 整数除法</h1>
+            <h1 class="post-title">gdb调试 与 coredump</h1>
             
                 <div class="post-meta">
                     
@@ -243,14 +243,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">一月 26, 2022&nbsp;&nbsp;0:00:00</a>
+                        Date: <a href="#">一月 27, 2022&nbsp;&nbsp;0:00:00</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/%E5%8A%9B%E6%89%A3/">力扣</a>
+                                <a href="/categories/Linux/">Linux</a>
                             
                         </span>
                     
@@ -259,37 +259,24 @@
         </header>
 
         <div class="post-content">
-            <p>给定两个整数 a 和 b ，求它们的除法的商 a/b ，要求不得使用乘号 ‘*’、除号 ‘/‘ 以及求余符号 ‘%’ 。</p>
-<p> </p>
-<p><strong>注意：</strong></p>
-<ul>
-<li>整数除法的结果应当截去（truncate）其小数部分，例如：truncate(8.345) = 8 以及 truncate(-2.7335) = -2</li>
-<li>假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−231, 231−1]。本题中，如果除法结果溢出，则返回 231 − 1
- </li>
-</ul>
-<p><strong>示例 1：</strong></p>
-<blockquote>
-<p><strong>输入：</strong>a = 15, b = 2<br><br><strong>输出</strong>：7<br><br><strong>解释：</strong>15/2 = truncate(7.5) = 7</p>
-</blockquote>
-<p><strong>示例 2：</strong></p>
-<blockquote>
-<p><strong>输入</strong>：a = 7, b = -3<br><br><strong>输出</strong>：-2<br><br><strong>解释：</strong>7/-3 = truncate(-2.33333..) = -2<br></p>
-</blockquote>
-<p><strong>示例 3：</strong></p>
-<blockquote>
-<p><strong>输入：</strong>a = 0, b = 1<br><br><strong>输出：</strong>0<br></p>
-</blockquote>
-<p><strong>示例 4：</strong><br></p>
-<blockquote>
-<p><strong>输入：</strong>a = 1, b = 1<br><br><strong>输出：</strong>1
- </p>
-</blockquote>
-<p><strong>提示:</strong></p>
-<p>-231 &lt;= a, b &lt;= 231 - 1<br>b != 0</p>
-<p><strong>代码：</strong><br></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">	<span class="keyword">public</span>:</span><br><span class="line">		<span class="function"><span class="keyword">int</span> <span class="title">divide</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(a==INT_MIN &amp;&amp; b==<span class="number">-1</span>) <span class="keyword">return</span> INT_MAX;</span><br><span class="line">		<span class="keyword">if</span>(a==INT_MIN &amp;&amp; b==<span class="number">1</span>)  <span class="keyword">return</span> INT_MIN;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">bool</span> sign = (a&gt;<span class="number">0</span>)^(b&gt;<span class="number">0</span>)?<span class="number">0</span>:<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">int</span> da=<span class="built_in">abs</span>(a),db=<span class="built_in">abs</span>(b),res=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">31</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">			<span class="keyword">if</span>((da&gt;&gt;i)&gt;=db)&#123;</span><br><span class="line">				res+=<span class="number">1</span>&lt;&lt;i;</span><br><span class="line">				da-=db&lt;&lt;i; </span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">return</span> sign?res:-res;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+            <p><strong><a href="https://spaceout.cn/2022/01/27/MakeFile/">该文章需要用到MakeFile点击阅读</a></strong></p>
+<h1 id="安装-gdb"><a href="#安装-gdb" class="headerlink" title="安装 gdb"></a>安装 gdb</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.wget http://ftp.gnu.org/gnu/gdb/gdb-8.1.1.tar.gz</span><br><span class="line">2.tar -zxvf gdb-8.1.1.tar.gz</span><br><span class="line">3.cd gdb-8.1.1</span><br><span class="line">4. ./configure</span><br><span class="line">5.make</span><br><span class="line">6.make install </span><br></pre></td></tr></table></figure>
 
-<h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/xoh6Oh">题目链接</a></h1>
+<h1 id="启动gdb"><a href="#启动gdb" class="headerlink" title="启动gdb"></a>启动gdb</h1><blockquote>
+<p>gdb <strong>hello</strong> <em>hello是可执行文件，这里用的是MakeFile里面生成的</em></p>
+</blockquote>
+<p>然后就可以进入命令行操作，和 Shell 一样,gdb 支持命令补全。输入几个字母，按Tab键，gdb 会补全命令。按两次Tab ，会提示所有可能的命令。<br>另外，其还支持命令缩写，如， h 代表 help ，</p>
+<h2 id="常用命令如下"><a href="#常用命令如下" class="headerlink" title="常用命令如下:"></a>常用命令如下:</h2><h4 id="获取帮组命令-help"><a href="#获取帮组命令-help" class="headerlink" title="获取帮组命令 help"></a>获取帮组命令 help</h4><p>gdb将命令分为12个大类，使用命令： “help 子类别”可以查看没类下面的详细帮助。</p>
+<p>如： <strong>help breakpoints</strong></p>
+<h4 id="设置断点"><a href="#设置断点" class="headerlink" title="设置断点"></a>设置断点</h4><p><strong>break</strong> 命令用于设置断点,命令接受行号或者函数名作为参数。<br><img src="https://i.bmp.ovh/imgs/2022/01/63233cb757175033.png"><br><strong>break</strong>也可设置条件断点：<br><br>如： <strong>break sayHello if count&lt;1 **<br><br>使用</strong>info break** 可以查看断点<br></p>
+<p>使用 <strong>clear</strong> 可以清除断点<br></p>
+<h4 id="运行程序和单步执行"><a href="#运行程序和单步执行" class="headerlink" title="运行程序和单步执行"></a>运行程序和单步执行</h4><p>设置完断点后，就可以运行调试程序了，使用run命令（缩写为 r)运行程序至断点。<br><img src="https://i.bmp.ovh/imgs/2022/01/01a8fdb66565861f.png"><br><br>此时，程序中断，gdb 等待用户发出下一步操作的指令。设用<strong>next</strong> 命令(缩写为 <strong>n</strong>)单步执行程序。也可以指定一个数字。下面这条命令让gdb 连续执行两行，然后停下。</p>
+<p>如果想继续运行，可以使用<strong>continue <strong>命令(缩写为</strong> c</strong> )指导 gdb 继续运行程序，直至遇到下一个断点。<br>如果想继续单步执行，可以继续使用 <strong>next</strong>,也是以使用 <strong>step</strong> (缩写为 <strong>s</strong>), <strong>step</strong> 和 <strong>next</strong> 的最大的区别在于，step 遇到函数是会进入到内部，而next 不会进入内部.</p>
+<h4 id="监视变量"><a href="#监视变量" class="headerlink" title="监视变量"></a>监视变量</h4><p>调试程序最基本的需求就是监视变量的值，可以使用 <strong>print</strong> 命令（缩写为 <strong>p</strong>) 显示指定变量的值。<br><img src="https://i.bmp.ovh/imgs/2022/01/ba38cd934b758c19.png"><br><br>如果要时刻监视某个变量的值，那么每次使用 <strong>print</strong> 就不方便。比较人性化的是,gdb 提供了<strong>watch</strong> 命令，用于设置另一种断点：“观察点”。<br>用法是：  <strong>watch</strong> 变量名或表达式作为参数，一但值发生变化，就停下来。</p>
+<h4 id="临时修改变量"><a href="#临时修改变量" class="headerlink" title="临时修改变量"></a>临时修改变量</h4><p>当某些特殊情况下，我们想让程序进入一些特殊的流程时，gdb允许用户在程序运行时改变变量的值，通过 <strong>set var</strong> 命令实现这一点.<br><br><img src="https://i.bmp.ovh/imgs/2022/01/c62a4079d145c0aa.png"><br></p>
+<h4 id="查看堆栈情况"><a href="#查看堆栈情况" class="headerlink" title="查看堆栈情况"></a>查看堆栈情况</h4><p>每次程序调用一个函数，函数的地址、参数、函数内部变量都会被压入“栈”(<strong>Stack</strong>) 中，运行时堆栈信息对于程序员非常重要，使用 “bt”命令可以看到当前运行时栈的情况。<br><br><img src="https://i.bmp.ovh/imgs/2022/01/700175938a716a45.png"><br></p>
+<h4 id="退出-gdb"><a href="#退出-gdb" class="headerlink" title="退出 gdb"></a>退出 gdb</h4><p>调试完毕，使用<strong>quit</strong>命令(缩写为<strong>q</strong>) 退出 gdb程序。</p>
+<h1 id="Coredump-调试"><a href="#Coredump-调试" class="headerlink" title="Coredump 调试"></a>Coredump 调试</h1>
         </div>
 
         
@@ -303,7 +290,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://spaceout.cn/2022/01/26/offer001/">https://spaceout.cn/2022/01/26/offer001/</a></span>
+                        <span><a href="https://spaceout.cn/2022/01/27/gdb/">https://spaceout.cn/2022/01/27/gdb/</a></span>
                     </p>
                 
                 
@@ -327,7 +314,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/%E5%8A%9B%E6%89%A3/"># 力扣</a>
+                        <a href="/tags/Linux/"># Linux</a>
                     
                         
                 </span>
@@ -340,10 +327,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/01/27/gdb/">gdb调试 与 coredump</a>
+                <a class="prev" rel="prev" href="/2022/01/27/MakeFile/">MakeFile</a>
             
             
-            <a class="next" rel="next" href="/2022/01/26/offer002/">剑指 Offer II 002. 二进制加法</a>
+            <a class="next" rel="next" href="/2022/01/26/offer001/">剑指 Offer II 001. 整数除法</a>
             
         </section>
 
