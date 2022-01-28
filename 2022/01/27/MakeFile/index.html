@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Space">
+
+
+    <meta name="subtitle" content=" ">
+
+
+
+
+<title>MakeFile | Space Blog</title>
+
+
+
+    <link rel="icon" href="/favico.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Space Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Space Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">MakeFile</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Space</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">一月 27, 2022&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Linux/">Linux</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><font color='red'> <strong>为什么要用MakeFile?</strong> </font><br></p>
+<blockquote>
+<p><strong>当工程文件需要编译大多数文件时每个文件都需要输入文件名进行编译，出错率高，并且不方便。</strong></p>
+</blockquote>
+<h1 id="MakeFile-编写"><a href="#MakeFile-编写" class="headerlink" title="MakeFile 编写"></a>MakeFile 编写</h1><h2 id="程序的编译和链接"><a href="#程序的编译和链接" class="headerlink" title="程序的编译和链接"></a>程序的编译和链接</h2><blockquote>
+<ul>
+<li><strong>使用C、C++编写可执行程序，首先要把源文件编译成中间代码文件，Linux下是 .o 文件，即 Object File，这个动作叫做编译（compile）。然后再把大量的Object File合成执行文件，这个动作叫作链接（link）。</strong></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><strong>一个项目，拥有成百上千的源程序文件，编译链接这些源文件都是由规则的，Makefile闪亮登场！Makefile确定整个工程的编译规则,只需要一个make命令，就可以实现“自动化编译”。make是一个解释makefile中指令的命令工具，一般来说，大多数的IDE都有这个命令，比如：Delphi的make，Visual C++的nmake，Linux下GNU的make。</strong></li>
+</ul>
+</blockquote>
+<h2 id="Make-工作原理"><a href="#Make-工作原理" class="headerlink" title="Make 工作原理"></a>Make 工作原理</h2><p>通常在一个项目里，我们的规则是：<br></p>
+<blockquote>
+<p><em>1）</em><strong>如果这个工程没有编译过，那么我们的所有C文件都要编译并被链接。<br></strong><br><em>2）</em><strong>如果这个工程的某几个C文件被修改，那么我们只编译被修改的C文件，并链接目标程序。<br></strong><br><em>3）</em><strong>如果这个工程的头文件被改变了，那么我们需要编译引用了这几个头文件的C文件，并链接目标程序。</strong></p>
+</blockquote>
+<p>只要我们的<font color='red'> <strong>Makefile</strong> </font>写得够好，我们只用一个<font color='red'> <strong>make</strong> </font>命令就可以完成，make命令会自动智能地根据当前的文件修改的情况来确定哪些文件需要重编译，从而自己编译所需要的文件和链接目标程序。</p>
+<p><font color='red'> <strong>Makefile</strong> </font>的<strong>规则:</strong></p>
+<blockquote>
+<p>target … : prerequisites …<br><br>command<br>…<br>…</p>
+</blockquote>
+<blockquote>
+<p><strong>target也就是一个目标文件，可以是Object File，也可以是执行文件。还可以是一个标签（Label），对于标签这种特性，暂不叙述。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>prerequisites就是，要生成那个target所需要的文件或是目标。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>command也就是make需要执行的命令。（任意的Shell命令）</strong></p>
+</blockquote>
+<p>这是一个文件的<strong>依赖关系</strong>，也就是说，target这一个或多个的目标文件依赖于prerequisites中的文件，其生成规则定义在command中。说白一点就是说，prerequisites中如果有一个以上的文件比target文件要新的话，command所定义的命令就会被执行。这就是<font color='red'> <strong>Makefile</strong> </font>的规则。也就是<font color='red'> <strong>Makefile</strong> </font>中最<strong>核心</strong>的内容。</p>
+<h2 id="一个范例："><a href="#一个范例：" class="headerlink" title="一个范例："></a><strong>一个范例：</strong><br></h2><p><strong>hellospeak.h:</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/d5eb9c8515c41f80.png"><br><br><br><strong>speak.h</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/db3fc86d82cc2da3.png"><br><br><br><strong>speak.c:</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/f081c8addf6fb283.png"><br><br><br><strong>若是用gcc编译将执行三部:</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/bc93ac67bfd7422a.png"></p>
+<p><strong>CmakeFile范例</strong><br></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">hello_demo : hellospeak.o speak.o                                           </span><br><span class="line">        gcc -o hello_demo hellospeak.o speak.o                               </span><br><span class="line"></span><br><span class="line">hellospeak.o : hellospeak.c speak.h                                           </span><br><span class="line">        gcc -c hellospeak.c                                                </span><br><span class="line">speak.o : speak.c  speak.h                                                  </span><br><span class="line">        gcc -c speak.c                                                    </span><br><span class="line">clean :  <span class="comment">/*执行 make clean 将会删除下面文件*/</span>                                                    </span><br><span class="line">        rm hello_demo speak.o  hellospeak.o                                </span><br></pre></td></tr></table></figure>
+<p><strong>写完这个文件将直接执行make就可以</strong></p>
+<h2 id="Make-工作流程"><a href="#Make-工作流程" class="headerlink" title="Make 工作流程"></a>Make 工作流程</h2><blockquote>
+<p><strong>1、make会在当前目录下找名字叫“Makefile”或“makefile”的文件。<br><br>2、如果找到，它会找文件中的第一个目标文件（target），在上面的例子中，他会找到”hello_demo”这个文件，并把这个文件作为最终的目标文件。<br><br>3、如果hello_demo文件不存在，或是hello_demo所依赖的后面的 .o 文件的文件修改时间要比hello_demo这个文件新，那么，他就会执行后面所定义的命令来生成hello_demo这个文件。<br><br>4、如果hello_demo所依赖的.o文件也不存在，那么make会在当前文件中找目标为.o文件的依赖性，如果找到则再根据那一个规则生成.o文件。（像不像堆栈过程？）<br><br>5、当然，我们的C文件和H文件都存在，于是make会生成 .o 文件，然后再用 .o 文件生命make的终极任务，也就是执行文件hello_demo了。<br></strong></p>
+</blockquote>
+<h2 id="Make-变量"><a href="#Make-变量" class="headerlink" title="Make 变量"></a>Make 变量</h2><p>一个Makefile里我们发现经常会由重复的内容，如上面范例中的前两行中的<br><code>hellospeak.o speak.o</code>                                                      </p>
+<blockquote>
+<p>如果我们的工程需要加入一个新的[.o]文件，那么我们好几个地方都需要修改原来的makefile。当然，我们的makefile并不复杂，所以在两个地方加也不累，但如果makefile变得复杂，那么我们就有可能会忘掉一个需要加入的地方，而导致编译失败。所以，为了makefile的易维护，在makefile中我们可以使用变量。makefile的变量也就是一个字符串，完全可以理解成<strong>C语言中的宏</strong>。</p>
+</blockquote>
+<p>变量定义:   变量名 = 值   ##使用shell script 的语法<br>如：<br><code>objects =  hellospeak.o speak.o</code>                                        </p>
+<p>我们上面的makefile 就可以变成:</p>
+<pre><code class="cpp">objects = hellospeak.o speak.o                                               
+hello_demo : $(objects)                                                   
+        gcc -o hello_demo $(objects)                                        
+
+hellospeak.o : hellospeak.c speak.h                                           
+        gcc -c hellospeak.c                                                
+speak.o : speak.c  speak.h                                                  
+        gcc -c speak.c                                                    
+clean :                                                                  
+        -rm hello_demo  $(objects)   
+</code></pre>
+<h2 id="Make-自动推导"><a href="#Make-自动推导" class="headerlink" title="Make 自动推导"></a>Make 自动推导</h2><p>make很强大，它可以自动推导文件以及文件依赖关系后面的命令，于是我们就没必要去在每一个[.o]文件后都写上类似的命令，因为，我们的make会自动识别，并自己推导命令。</p>
+<p>只要make看到一个[.o]文件，它就会自动的把[.c]文件加在依赖关系中，如果make找到一个hello.o，那么hello.c，就会是hello.o的依赖文件。并且 gcc -c hello.c 也会被推导出来，于是，我们的makefile再也不用写得这么复杂。我们的新的makefile又出炉了。</p>
+<pre><code class="cpp">objects = hellospeak.o speak.o                                                   
+hello_demo : $(objects)                                                        
+        gcc -o hello_demo $(objects)                                            
+                                                                           
+$(objects):speak.h                                                             
+#hellospeak.o : hellospeak.c speak.h                                              
+#       gcc -c hellospeak.c                                                    
+#speak.o : speak.c  speak.h                                                     
+#       gcc -c speak.c                                                        
+                                                                           
+.PHONY : clean                                                              
+clean :                                                                      
+        -rm hello_demo  $(objects)    
+</code></pre>
+<h1 id="CMake"><a href="#CMake" class="headerlink" title="CMake"></a>CMake</h1><p>你或许听过好几种 Make 工具，例如 GNU Make ，QT 的 qmake ，微软的 MS nmake，BSD Make（pmake），Makepp，等等。这些 Make 工具遵循着不同的规范和标准，所执行的 Makefile 格式也千差万别。这样就带来了一个严峻的问题：如果软件想跨平台，必须要保证能够在不同平台编译。而如果使用上面的 Make 工具，就得为每一种标准写一次 Makefile ，这将是一件让人抓狂的工作。<br> CMake就是针对上面问题所设计的工具：它首先允许开发者编写一种平台无关的 CMakeList.txt 文件来定制整个编译流程，然后再根据目标用户的平台进一步生成所需的本地化 Makefile 和工程文件，如 Unix 的 Makefile 或 Windows 的 Visual Studio 工程。从而做到“Write once, run everywhere”。显然，CMake 是一个比上述几种 make 更高级的编译配置工具。一些使用 CMake 作为项目架构系统的知名开源项目有 VTK、ITK、KDE、OpenCV、OSG 等 。</p>
+<p> 安装cmake:<br> <code>sudo apt-get install cmake</code></p>
+<p><strong>在 linux 平台下使用 CMake 生成 Makefile 并编译的流程如下：</strong></p>
+<blockquote>
+<p>1.编写 CMake 配置文件 CMakeLists.txt 。<br>2.执行命令 cmake PATH 生成 Makefile。其中， PATH 是 CMakeLists.txt 所在的目录。<br>3.使用 make 命令进行编译。</p>
+</blockquote>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Space</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://spaceout.cn/2022/01/27/MakeFile/">https://spaceout.cn/2022/01/27/MakeFile/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Linux/"># Linux</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2022/01/26/offer001/">剑指 Offer II 001. 整数除法</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span></a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
