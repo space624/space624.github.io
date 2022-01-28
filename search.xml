@@ -1160,7 +1160,35 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
 <h4 id="临时修改变量"><a href="#临时修改变量" class="headerlink" title="临时修改变量"></a>临时修改变量</h4><p>当某些特殊情况下，我们想让程序进入一些特殊的流程时，gdb允许用户在程序运行时改变变量的值，通过 <strong>set var</strong> 命令实现这一点.<br><br><img src="https://i.bmp.ovh/imgs/2022/01/c62a4079d145c0aa.png"><br></p>
 <h4 id="查看堆栈情况"><a href="#查看堆栈情况" class="headerlink" title="查看堆栈情况"></a>查看堆栈情况</h4><p>每次程序调用一个函数，函数的地址、参数、函数内部变量都会被压入“栈”(<strong>Stack</strong>) 中，运行时堆栈信息对于程序员非常重要，使用 “bt”命令可以看到当前运行时栈的情况。<br><br><img src="https://i.bmp.ovh/imgs/2022/01/700175938a716a45.png"><br></p>
 <h4 id="退出-gdb"><a href="#退出-gdb" class="headerlink" title="退出 gdb"></a>退出 gdb</h4><p>调试完毕，使用<strong>quit</strong>命令(缩写为<strong>q</strong>) 退出 gdb程序。</p>
-<h1 id="Coredump-调试"><a href="#Coredump-调试" class="headerlink" title="Coredump 调试"></a>Coredump 调试</h1>]]></content>
+<h1 id="Coredump-调试"><a href="#Coredump-调试" class="headerlink" title="Coredump 调试"></a>Coredump 调试</h1><h4 id="coredump是什么？"><a href="#coredump是什么？" class="headerlink" title="coredump是什么？"></a>coredump是什么？</h4><p>   <strong>程序异常退出时，会产生一个core文件，该文件记录了程序运行时的内存，<br>   寄存器状态，堆栈指针，内存管理信息还有各种函数调用堆栈信息等，我们<br>   可以理解为是程序工作当前状态存储生成的一个文件，通过工具分析这个文<br>   件，我们可以定位到程序异常退出的时候对应的堆栈调用等信息，找出问题<br>   所在并进行及时解决。</strong></p>
+<h4 id="前期设置"><a href="#前期设置" class="headerlink" title="前期设置"></a>前期设置</h4><blockquote>
+<p>1)设置core文件生成的目录，其中%e表示程序文件名，%p表示进程ID，<br><br>否则会在程序的当前目录生成dore文件；<br><br>**echo /data/coredump/core.%e.%p &gt;/proc/sys/kernel/core_pattern **  <br><br>2) 当前执行程序的用户对core目录有写权限且有足够的空间存储core文件；<br><br>3) 生成不受限制的core文件；<br><br><strong>ulimit  -c unlimited</strong><br></p>
+</blockquote>
+<h4 id="什么情况下会导致程序异常退出"><a href="#什么情况下会导致程序异常退出" class="headerlink" title="什么情况下会导致程序异常退出"></a>什么情况下会导致程序异常退出</h4><p>   非法指针的访问，堆栈溢出 </p>
+<p><strong>测试代码:</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">func</span> <span class="params">(<span class="keyword">int</span> *p)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> y=*p;</span><br><span class="line">	<span class="keyword">return</span> y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> *p = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">func</span>(p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="如何调试"><a href="#如何调试" class="headerlink" title="如何调试"></a>如何调试</h4><blockquote>
+<ol>
+<li>编译的时候添加-g选项，增加调试信息<br></li>
+<li><strong>gdb program core_file</strong><br></li>
+</ol>
+</blockquote>
+<p><strong>bt或者where查看调用栈信息</strong></p>
+<p>如果你要查看某一层的信息，你需要切换当前的栈，一般来说，程序停止时，最顶层的栈就是当前栈，如果你要查看栈下面层的详细信息，首先要做的是切换当前栈。</p>
+<p><strong>frame</strong> &lt; n&gt; <br><br><strong>f</strong> &lt; n&gt; <br><br>n是一个从0开始的整数，是栈中的层编号。比如：<strong>frame</strong> 0，表示栈顶，<strong>frame</strong> 1，表示栈的第二层。<br></p>
+<p><strong>up</strong> &lt; n&gt;<br><br>表示向栈的上面移动n层，可以不打n，表示向上移动一层。 <br></p>
+<p><strong>down</strong> &lt; n&gt; <br><br>表示向栈的下面移动n层，可以不打n，表示向下移动一层。 <br><br>上面的命令，都会打印出移动到的栈层的信息。如果你不想让其打出信息。你可以使用这三个命令：<br></p>
+<p><strong>select-frame</strong> &lt; n&gt; 对应于 frame 命令。<br><br><strong>up-silently</strong> &lt; n&gt; 对应于 up 命令。<br><br><strong>down-silently</strong> &lt; n&gt; 对应于 down 命令。<br></p>
+<p><strong>查看当前栈层的信息，你可以用以下GDB命令：</strong><br></p>
+<p><strong>frame</strong> 或 <strong>f</strong> <br><br>会打印出这些信息：栈的层编号，当前的函数名，函数参数值，函数所在文件及行号，函数执行到的语句。<br></p>
+<p><strong>info frame</strong><br><br><strong>info f</strong><br><br>这个命令会打印出更为详细的当前栈层的信息，只不过，大多数都是运行时的内内地址。比如：函数地址，调用函数的地址，被调用函数的地址，目前的函数是由什么样的程序语言写成的、函数参数地址及值、局部变量的地址等等。如：<br><br><img src="https://i.bmp.ovh/imgs/2022/01/372c861c5c84d0c9.png"></p>
+<p><strong>info args</strong><br><br>打印出当前函数的参数名及其值。<br></p>
+<p><strong>info locals</strong><br><br>打印出当前函数中所有局部变量及其值。<br></p>
+<h4 id="另类的方式？打印堆栈"><a href="#另类的方式？打印堆栈" class="headerlink" title="另类的方式？打印堆栈"></a>另类的方式？打印堆栈</h4><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//信号钩子函数，获取栈信息，然后在日志中打印</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">handle_segv</span><span class="params">(<span class="keyword">int</span> signum)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">void</span> *array[<span class="number">100</span>];</span><br><span class="line">    <span class="keyword">size_t</span> size;</span><br><span class="line">    <span class="keyword">char</span> **strings;</span><br><span class="line">    <span class="keyword">size_t</span> i;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">signal</span>(signum, SIG_DFL); <span class="comment">/* 还原默认的信号处理handler */</span></span><br><span class="line"></span><br><span class="line">    size = <span class="built_in">backtrace</span> (array, <span class="number">100</span>);</span><br><span class="line">    strings = (<span class="keyword">char</span> **)<span class="built_in">backtrace_symbols</span> (array, size);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">fprintf</span>(stderr,<span class="string">&quot;Launcher received SIG: %d Stack trace:\n&quot;</span>, signum);</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; size; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(stderr,<span class="string">&quot;%d %s \n&quot;</span>,i,strings[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">free</span> (strings);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//在main 函数中加入：</span></span><br><span class="line"> <span class="built_in">signal</span>(SIGSEGV, handle_segv); <span class="comment">// SIGSEGV    11       Core Invalid memory reference</span></span><br><span class="line"> <span class="built_in">signal</span>(SIGABRT, handle_segv); <span class="comment">// SIGABRT     6       Core Abort signal from</span></span><br></pre></td></tr></table></figure>
+<p>注意：编译时一定要带上 -g 选项 </p>
+<p>使用<strong>addr2line</strong>命令检测:<br><strong>addr2line -a 0x4007fa -e demo_log</strong></p>
+]]></content>
       <categories>
         <category>Linux</category>
       </categories>
