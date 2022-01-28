@@ -304,11 +304,11 @@
 <p>如果我们的工程需要加入一个新的[.o]文件，那么我们好几个地方都需要修改原来的makefile。当然，我们的makefile并不复杂，所以在两个地方加也不累，但如果makefile变得复杂，那么我们就有可能会忘掉一个需要加入的地方，而导致编译失败。所以，为了makefile的易维护，在makefile中我们可以使用变量。makefile的变量也就是一个字符串，完全可以理解成<strong>C语言中的宏</strong>。</p>
 </blockquote>
 <p>变量定义:   变量名 = 值   ##使用shell script 的语法<br>如：<br><code>objects =  hellospeak.o speak.o</code>                                        </p>
-<p>我们上面的makefile 就可以变成:<br></p>
+<p>我们上面的makefile 就可以变成:</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">objects = hellospeak.o speak.o                                               </span><br><span class="line">hello_demo : $(objects)                                                   </span><br><span class="line">        gcc -o hello_demo $(objects)                                        </span><br><span class="line"></span><br><span class="line">hellospeak.o : hellospeak.c speak.h                                           </span><br><span class="line">        gcc -c hellospeak.c                                                </span><br><span class="line">speak.o : speak.c  speak.h                                                  </span><br><span class="line">        gcc -c speak.c       </span><br><span class="line">.PHONY : clean                                              </span><br><span class="line">clean :                                                                  </span><br><span class="line">        -rm hello_demo  $(objects)   </span><br></pre></td></tr></table></figure>
 
 <h2 id="Make-自动推导"><a href="#Make-自动推导" class="headerlink" title="Make 自动推导"></a>Make 自动推导</h2><p>make很强大，它可以自动推导文件以及文件依赖关系后面的命令，于是我们就没必要去在每一个[.o]文件后都写上类似的命令，因为，我们的make会自动识别，并自己推导命令。</p>
-<p>只要make看到一个[.o]文件，它就会自动的把[.c]文件加在依赖关系中，如果make找到一个hello.o，那么hello.c，就会是hello.o的依赖文件。并且 gcc -c hello.c 也会被推导出来，于是，我们的makefile再也不用写得这么复杂。我们的新的makefile又出炉了。<br></p>
+<p>只要make看到一个[.o]文件，它就会自动的把[.c]文件加在依赖关系中，如果make找到一个hello.o，那么hello.c，就会是hello.o的依赖文件。并且 gcc -c hello.c 也会被推导出来，于是，我们的makefile再也不用写得这么复杂。我们的新的makefile又出炉了.</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">objects = hellospeak.o speak.o                                                   </span><br><span class="line">hello_demo : $(objects)                                                        </span><br><span class="line">        gcc -o hello_demo $(objects)                                            </span><br><span class="line">                                                                           </span><br><span class="line">$(objects):speak.h                                                             </span><br><span class="line"><span class="meta">#hellospeak.o : hellospeak.c speak.h                                              </span></span><br><span class="line"><span class="meta">#       gcc -c hellospeak.c                                                    </span></span><br><span class="line"><span class="meta">#speak.o : speak.c  speak.h                                                     </span></span><br><span class="line"><span class="meta">#       gcc -c speak.c                                                        </span></span><br><span class="line">                                                                           </span><br><span class="line">.PHONY : clean                                                              </span><br><span class="line">clean :                                                                      </span><br><span class="line">        -rm hello_demo  $(objects)    </span><br></pre></td></tr></table></figure>
 
 <h1 id="CMake"><a href="#CMake" class="headerlink" title="CMake"></a>CMake</h1><ul>
@@ -376,8 +376,10 @@
         </section>
         <section class="post-nav">
             
+                <a class="prev" rel="prev" href="/2022/01/28/gdb/">gdb调试 与 coredump</a>
             
-            <a class="next" rel="next" href="/2022/01/27/gdb/">gdb调试 与 coredump</a>
+            
+            <a class="next" rel="next" href="/2022/01/26/offer001/">剑指 Offer II 001. 整数除法</a>
             
         </section>
 
