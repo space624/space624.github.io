@@ -15,7 +15,7 @@
 
 
 
-<title>const | Space Blog</title>
+<title>Valgrind | Space Blog</title>
 
 
 
@@ -129,11 +129,73 @@
                 <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">const</h1>
+            <h1 class="post-title">Valgrind</h1>
             
                 <div class="post-meta">
                     
@@ -142,14 +204,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十一月 22, 2021&nbsp;&nbsp;0:00:00</a>
+                        Date: <a href="#">一月 29, 2022&nbsp;&nbsp;0:00:00</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/C-C/">C/C++</a>
+                                <a href="/categories/Linux/">Linux</a>
                             
                         </span>
                     
@@ -158,10 +220,52 @@
         </header>
 
         <div class="post-content">
-            <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> Girl = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">int</span> Woman = <span class="number">30</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> * <span class="keyword">const</span> p = &amp;Girl ;</span><br><span class="line">p = &amp;Woman;	<span class="comment">//错误</span></span><br><span class="line">p = <span class="number">30</span>;		<span class="comment">//错误</span></span><br><span class="line">	</span><br><span class="line"><span class="keyword">int</span> <span class="keyword">const</span> * p1 = &amp;Girl ;</span><br><span class="line">p1 = &amp;Woman;	<span class="comment">//正确</span></span><br><span class="line">p1 = Woman;		<span class="comment">//错误</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> * p2 = &amp;Girl ;</span><br><span class="line">p2 = &amp;Woman;	<span class="comment">//正确</span></span><br><span class="line">p2 = Woman;		<span class="comment">//错误</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> * <span class="keyword">const</span> p3 = &amp;girl;</span><br><span class="line">p3 = &amp;Woman;	<span class="comment">//错误</span></span><br><span class="line">p3 = Woman;		<span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
-
-
-<p>总结: <strong>看 const 离类型近，还是离类型远，离谁进，就修饰谁，谁就不能变</strong></p>
+            <h1 id="Valgrind-安装"><a href="#Valgrind-安装" class="headerlink" title="Valgrind 安装"></a>Valgrind 安装</h1><ul>
+<li><p><strong>方法 1.  <a target="_blank" rel="noopener" href="http://valgrind.org/">valgrind官网下载</a></strong></p>
+</li>
+<li><p><strong>方法 2.  Ubuntu  sudo apt-get install valgrind</strong></p>
+</li>
+</ul>
+<hr>
+<h1 id="Memcheck-检测范围"><a href="#Memcheck-检测范围" class="headerlink" title="Memcheck 检测范围"></a>Memcheck 检测范围</h1><p>   **用来检测c/c++程序中出现的内存问题，所有对内存的读写都会被检测到，一切对malloc()/free()/new/delete的调用都会被捕获。所以，它能检测以下问题： **</p>
+<blockquote>
+<ol>
+<li>对未初始化内存的使用； </li>
+<li>读/写释放后的内存块；</li>
+<li>读/写超出malloc等分配的动态内存范围； </li>
+<li>读/写不适当的栈中内存块； </li>
+<li>内存泄漏，指向一块内存的指针永远丢失； </li>
+<li>不正确的malloc/free或new/delete匹配； </li>
+<li> memcpy()相关函数中的dst和src指针重叠问题.</li>
+</ol>
+</blockquote>
+<hr>
+<h1 id="Memcheck-检查步骤及注意事项"><a href="#Memcheck-检查步骤及注意事项" class="headerlink" title="Memcheck 检查步骤及注意事项"></a>Memcheck 检查步骤及注意事项</h1><ul>
+<li>1.在编译程序的时候打开调试模式（gcc编译器的-g选项），以便显示行号，编译时去掉-O1 -O2等优化选项;检查的是C++程序的时候，考虑加上选项： <strong>-fno-inline</strong> ,这样它函数调用链会很清晰<br></li>
+<li>2.执行：<strong>valgrind –tool=memcheck –leak-check=full –log-file=./log.txt  ./YourProgram</strong></li>
+<li>3.程序运行结束，查看 <strong>log.txt</strong> 中的结果.</li>
+</ul>
+<hr>
+<h1 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h1><p>Valgrind(memcheck)包含这7类错误:</p>
+<ul>
+<li><p><strong>1.illegal read/illegal write errors    非法读取/非法写入错误</strong></p>
+</li>
+<li><p><strong>2.use of uninitialised values        使用未初始化的区域</strong></p>
+</li>
+<li><p><strong>3.use of uninitialised or unaddressable values in system calls 系统调用时使用了未初始化或不可寻址的地址</strong></p>
+</li>
+<li><p><strong>4.illegal frees   非法的释放</strong></p>
+</li>
+<li><p><strong>5.when a heap block is freed with an inappropriate deallocation function 分配和释放函数不匹配</strong></p>
+</li>
+<li><p><strong>6.overlapping source and destination blocks   源和目的内存块重叠</strong></p>
+</li>
+<li><p><strong>7.memory leak detection    内存泄漏检测</strong></p>
+<blockquote>
+<p><strong>7.1 Still reachable <br></strong><br>  内存指针还在还有机会使用或者释放，指针指向的动态内存还没有被释放就退出了<br><br>  <strong>7.2 Definitely lost <br></strong><br>  确定的内存泄露，已经不能够访问这块内存<br><br>  <strong>7.3 Indirectly lost <br></strong><br>  指向该内存的指针都位于内存泄露处<br><br>  <strong>7.4 Possibly lost <br></strong><br>  可能的内存泄露，仍然存在某个指针能够访问某块内存，但该指针指向的已经不是该内<br>  存首位置<br><br>  <strong>7.5 Suppressed</strong>  <br><br>  某些库产生的错误不予以提示，这些错误会被统计到suppressed项目<br></p>
+</blockquote>
+</li>
+</ul>
 
         </div>
 
@@ -176,7 +280,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://spaceout.cn/2021/11/22/const/">https://spaceout.cn/2021/11/22/const/</a></span>
+                        <span><a href="https://spaceout.cn/2022/01/29/Valgrind/">https://spaceout.cn/2022/01/29/Valgrind/</a></span>
                     </p>
                 
                 
@@ -200,7 +304,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/C-C/"># C/C++</a>
+                        <a href="/tags/Linux/"># Linux</a>
                     
                         
                 </span>
@@ -213,8 +317,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2021/11/29/TypeConversion/">C++ 类型转换</a>
             
+            <a class="next" rel="next" href="/2022/01/28/gdb/">gdb调试 与 coredump</a>
             
         </section>
 
