@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>网络编程bin函数</title>
-    <url>/2021/12/20/Bin//</url>
-    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>sockfd：</strong><br>    socket文件描述符<br><strong>addr:</strong><br>    构造出IP地址加端口号<br><strong>addrlen:</strong><br>    sizeof(addr)长度<br>返回值：<br>    成功返回0，失败返回-1, 设置errno</p>
-</blockquote>
-<p>*<em>服务器程序所监听的网络地址和端口号通常是固定不变的，客户端程序得知服务器程序的地址和端口号后就可以向服务器发起连接，因此服务器需要调用bind绑定一个固定的网络地址和端口号。<br>bind()的作用是将参数sockfd和addr绑定在一起，使sockfd这个用于网络通讯的文件描述符监听addr所描述的地址和端口号。前面讲过，struct sockaddr <em>是一个通用指针类型，addr参数实际上可以接受多种协议的sockaddr结构体，而它们的长度各不相同，所以需要第三个参数addrlen指定结构体的长度。</em></em></p>
-<h3 id="列"><a href="#列" class="headerlink" title="列:"></a>列:</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct sockaddr_in servaddr;</span><br><span class="line">bzero(&amp;servaddr, sizeof(servaddr));</span><br><span class="line">servaddr.sin_family = AF_INET;</span><br><span class="line">servaddr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">servaddr.sin_port = htons(6666);</span><br></pre></td></tr></table></figure>
-<p><strong>首先将整个结构体清零，然后设置地址类型为AF_INET，网络地址为INADDR_ANY，这个宏表示本地的任意IP地址，因为服务器可能有多个网卡，每个网卡也可能绑定多个IP地址，这样设置可以在所有的IP地址上监听，直到与某个客户端建立了连接时才确定下来到底用哪个IP地址，端口号为6666。</strong></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>高精度加减乘除法</title>
     <url>/2022/01/08/AddDouble//</url>
     <content><![CDATA[<h2 id="题目连接"><a href="#题目连接" class="headerlink" title="题目连接"></a><a href="https://www.luogu.com.cn/problem/P1601">题目连接</a></h2><p><strong>A+B:</strong><br><strong>题目描述</strong><br>高精度加法，相当于a+b problem，不用考虑负数.</p>
@@ -63,74 +45,39 @@
       </tags>
   </entry>
   <entry>
-    <title>MakeFile</title>
-    <url>/2022/01/27/MakeFile//</url>
-    <content><![CDATA[<p><font color='red'> <strong>为什么要用MakeFile?</strong> </font><br></p>
+    <title>网络编程bin函数</title>
+    <url>/2021/12/20/Bin//</url>
+    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p><strong>当工程文件需要编译大多数文件时每个文件都需要输入文件名进行编译，出错率高，并且不方便。</strong></p>
+<p><strong>sockfd：</strong><br>    socket文件描述符<br><strong>addr:</strong><br>    构造出IP地址加端口号<br><strong>addrlen:</strong><br>    sizeof(addr)长度<br>返回值：<br>    成功返回0，失败返回-1, 设置errno</p>
 </blockquote>
-<h1 id="MakeFile-编写"><a href="#MakeFile-编写" class="headerlink" title="MakeFile 编写"></a>MakeFile 编写</h1><h2 id="程序的编译和链接"><a href="#程序的编译和链接" class="headerlink" title="程序的编译和链接"></a>程序的编译和链接</h2><blockquote>
-<ul>
-<li><strong>使用C、C++编写可执行程序，首先要把源文件编译成中间代码文件，Linux下是 .o 文件，即 Object File，这个动作叫做编译（compile）。然后再把大量的Object File合成执行文件，这个动作叫作链接（link）。</strong></li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li><strong>一个项目，拥有成百上千的源程序文件，编译链接这些源文件都是由规则的，Makefile闪亮登场！Makefile确定整个工程的编译规则,只需要一个make命令，就可以实现“自动化编译”。make是一个解释makefile中指令的命令工具，一般来说，大多数的IDE都有这个命令，比如：Delphi的make，Visual C++的nmake，Linux下GNU的make。</strong></li>
-</ul>
-</blockquote>
-<h2 id="Make-工作原理"><a href="#Make-工作原理" class="headerlink" title="Make 工作原理"></a>Make 工作原理</h2><p>通常在一个项目里，我们的规则是：<br></p>
-<blockquote>
-<p><em>1）</em><strong>如果这个工程没有编译过，那么我们的所有C文件都要编译并被链接。<br></strong><br><em>2）</em><strong>如果这个工程的某几个C文件被修改，那么我们只编译被修改的C文件，并链接目标程序。<br></strong><br><em>3）</em><strong>如果这个工程的头文件被改变了，那么我们需要编译引用了这几个头文件的C文件，并链接目标程序。</strong></p>
-</blockquote>
-<p>只要我们的<font color='red'> <strong>Makefile</strong> </font>写得够好，我们只用一个<font color='red'> <strong>make</strong> </font>命令就可以完成，make命令会自动智能地根据当前的文件修改的情况来确定哪些文件需要重编译，从而自己编译所需要的文件和链接目标程序。</p>
-<p><font color='red'> <strong>Makefile</strong> </font>的<strong>规则:</strong></p>
-<blockquote>
-<p>target … : prerequisites …<br><br>command<br>…<br>…</p>
-</blockquote>
-<blockquote>
-<p><strong>target也就是一个目标文件，可以是Object File，也可以是执行文件。还可以是一个标签（Label），对于标签这种特性，暂不叙述。</strong></p>
-</blockquote>
-<blockquote>
-<p><strong>prerequisites就是，要生成那个target所需要的文件或是目标。</strong></p>
-</blockquote>
-<blockquote>
-<p><strong>command也就是make需要执行的命令。（任意的Shell命令）</strong></p>
-</blockquote>
-<p>这是一个文件的<strong>依赖关系</strong>，也就是说，target这一个或多个的目标文件依赖于prerequisites中的文件，其生成规则定义在command中。说白一点就是说，prerequisites中如果有一个以上的文件比target文件要新的话，command所定义的命令就会被执行。这就是<font color='red'> <strong>Makefile</strong> </font>的规则。也就是<font color='red'> <strong>Makefile</strong> </font>中最<strong>核心</strong>的内容。</p>
-<h2 id="一个范例："><a href="#一个范例：" class="headerlink" title="一个范例："></a><strong>一个范例：</strong><br></h2><p><strong>hellospeak.h:</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/d5eb9c8515c41f80.png"><br><br><br><strong>speak.h</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/db3fc86d82cc2da3.png"><br><br><br><strong>speak.c:</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/f081c8addf6fb283.png"><br><br><br><strong>若是用gcc编译将执行三步:</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/bc93ac67bfd7422a.png"></p>
-<p><strong>CmakeFile范例</strong><br></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">hello_demo : hellospeak.o speak.o                                           </span><br><span class="line">        gcc -o hello_demo hellospeak.o speak.o                               </span><br><span class="line"></span><br><span class="line">hellospeak.o : hellospeak.c speak.h                                           </span><br><span class="line">        gcc -c hellospeak.c                                                </span><br><span class="line">speak.o : speak.c  speak.h                                                  </span><br><span class="line">        gcc -c speak.c                                                    </span><br><span class="line">clean :  <span class="comment">/*执行 make clean 将会删除下面文件*/</span>                                                    </span><br><span class="line">        rm hello_demo speak.o  hellospeak.o                                </span><br></pre></td></tr></table></figure>
-<p><strong>写完这个文件将直接执行make就可以</strong></p>
-<h2 id="Make-工作流程"><a href="#Make-工作流程" class="headerlink" title="Make 工作流程"></a>Make 工作流程</h2><blockquote>
-<p><strong>1、make会在当前目录下找名字叫“Makefile”或“makefile”的文件。<br><br>2、如果找到，它会找文件中的第一个目标文件（target），在上面的例子中，他会找到”hello_demo”这个文件，并把这个文件作为最终的目标文件。<br><br>3、如果hello_demo文件不存在，或是hello_demo所依赖的后面的 .o 文件的文件修改时间要比hello_demo这个文件新，那么，他就会执行后面所定义的命令来生成hello_demo这个文件。<br><br>4、如果hello_demo所依赖的.o文件也不存在，那么make会在当前文件中找目标为.o文件的依赖性，如果找到则再根据那一个规则生成.o文件。（像不像堆栈过程？）<br><br>5、当然，我们的C文件和H文件都存在，于是make会生成 .o 文件，然后再用 .o 文件生命make的终极任务，也就是执行文件hello_demo了。<br></strong></p>
-</blockquote>
-<h2 id="Make-变量"><a href="#Make-变量" class="headerlink" title="Make 变量"></a>Make 变量</h2><p>一个Makefile里我们发现经常会由重复的内容，如上面范例中的前两行中的<br><code>hellospeak.o speak.o</code>                                                      </p>
-<blockquote>
-<p>如果我们的工程需要加入一个新的[.o]文件，那么我们好几个地方都需要修改原来的makefile。当然，我们的makefile并不复杂，所以在两个地方加也不累，但如果makefile变得复杂，那么我们就有可能会忘掉一个需要加入的地方，而导致编译失败。所以，为了makefile的易维护，在makefile中我们可以使用变量。makefile的变量也就是一个字符串，完全可以理解成<strong>C语言中的宏</strong>。</p>
-</blockquote>
-<p>变量定义:   变量名 = 值   ##使用shell script 的语法<br>如：<br><code>objects =  hellospeak.o speak.o</code>                                        </p>
-<p>我们上面的makefile 就可以变成:</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">objects = hellospeak.o speak.o                                               </span><br><span class="line">hello_demo : $(objects)                                                   </span><br><span class="line">        gcc -o hello_demo $(objects)                                        </span><br><span class="line"></span><br><span class="line">hellospeak.o : hellospeak.c speak.h                                           </span><br><span class="line">        gcc -c hellospeak.c                                                </span><br><span class="line">speak.o : speak.c  speak.h                                                  </span><br><span class="line">        gcc -c speak.c       </span><br><span class="line">.PHONY : clean                                              </span><br><span class="line">clean :                                                                  </span><br><span class="line">        -rm hello_demo  $(objects)</span><br></pre></td></tr></table></figure>
-<h2 id="Make-自动推导"><a href="#Make-自动推导" class="headerlink" title="Make 自动推导"></a>Make 自动推导</h2><p>make很强大，它可以自动推导文件以及文件依赖关系后面的命令，于是我们就没必要去在每一个[.o]文件后都写上类似的命令，因为，我们的make会自动识别，并自己推导命令。</p>
-<p>只要make看到一个[.o]文件，它就会自动的把[.c]文件加在依赖关系中，如果make找到一个hello.o，那么hello.c，就会是hello.o的依赖文件。并且 gcc -c hello.c 也会被推导出来，于是，我们的makefile再也不用写得这么复杂。我们的新的makefile又出炉了.</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">objects = hellospeak.o speak.o                                                   </span><br><span class="line">hello_demo : $(objects)                                                        </span><br><span class="line">        gcc -o hello_demo $(objects)                                            </span><br><span class="line">                                                                           </span><br><span class="line">$(objects):speak.h                                                             </span><br><span class="line"><span class="meta">#hellospeak.o : hellospeak.c speak.h                                              </span></span><br><span class="line"><span class="meta">#       gcc -c hellospeak.c                                                    </span></span><br><span class="line"><span class="meta">#speak.o : speak.c  speak.h                                                     </span></span><br><span class="line"><span class="meta">#       gcc -c speak.c                                                        </span></span><br><span class="line">                                                                           </span><br><span class="line">.PHONY : clean                                                              </span><br><span class="line">clean :                                                                      </span><br><span class="line">        -rm hello_demo  $(objects)</span><br></pre></td></tr></table></figure>
-
-<h1 id="CMake"><a href="#CMake" class="headerlink" title="CMake"></a>CMake</h1><ul>
-<li>你或许听过好几种 Make 工具，例如 GNU Make ，QT 的 qmake ，微软的 MS nmake，BSD Make（pmake），Makepp，等等。这些 Make 工具遵循着不同的规范和标准，所执行的 Makefile 格式也千差万别。这样就带来了一个严峻的问题：如果软件想跨平台，必须要保证能够在不同平台编译。而如果使用上面的 Make 工具，就得为每一种标准写一次 Makefile ，这将是一件让人抓狂的工作。<br></li>
-<li>CMake就是针对上面问题所设计的工具：它首先允许开发者编写一种平台无关的 CMakeList.txt 文件来定制整个编译流程，然后再根据目标用户的平台进一步生成所需的本地化 Makefile 和工程文件，如 Unix 的 Makefile 或 Windows 的 Visual Studio 工程。从而做到“Write once, run everywhere”。显然，CMake 是一个比上述几种 make 更高级的编译配置工具。一些使用 CMake 作为项目架构系统的知名开源项目有 VTK、ITK、KDE、OpenCV、OSG 等 。</li>
-</ul>
-<p> 安装cmake:<br> <code>sudo apt-get install cmake</code></p>
-<p><strong>在 linux 平台下使用 CMake 生成 Makefile 并编译的流程如下：</strong></p>
-<blockquote>
-<p>1.编写 CMake 配置文件 CMakeLists.txt 。<br><br>2.执行命令 cmake PATH 生成 Makefile。其中， PATH 是 CMakeLists.txt 所在的目录。<br><br>3.使用 make 命令进行编译。<br></p>
-</blockquote>
-<p><strong>Cmake范例:</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">#CMake 最低版本要求</span><br><span class="line"><span class="built_in">cmake_minimum_required</span>(VERSION <span class="number">3.10</span><span class="number">.2</span>)</span><br><span class="line"></span><br><span class="line">#项目信息</span><br><span class="line"><span class="built_in">project</span>(HelloSpeak)</span><br><span class="line"></span><br><span class="line">#指定生成的目标</span><br><span class="line"><span class="built_in">add_executable</span>(CmakeHelloSpeak speak.c hellospeak.c)</span><br></pre></td></tr></table></figure>
-
-<p><strong>执行cmake . 将会生成makefile文件</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/c585e6e7992b6de3.png"><br><strong>执行make 将会生成三个文件</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/fbee876d573ebb6c.png"></p>
-<hr>
+<p>*<em>服务器程序所监听的网络地址和端口号通常是固定不变的，客户端程序得知服务器程序的地址和端口号后就可以向服务器发起连接，因此服务器需要调用bind绑定一个固定的网络地址和端口号。<br>bind()的作用是将参数sockfd和addr绑定在一起，使sockfd这个用于网络通讯的文件描述符监听addr所描述的地址和端口号。前面讲过，struct sockaddr <em>是一个通用指针类型，addr参数实际上可以接受多种协议的sockaddr结构体，而它们的长度各不相同，所以需要第三个参数addrlen指定结构体的长度。</em></em></p>
+<h3 id="列"><a href="#列" class="headerlink" title="列:"></a>列:</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct sockaddr_in servaddr;</span><br><span class="line">bzero(&amp;servaddr, sizeof(servaddr));</span><br><span class="line">servaddr.sin_family = AF_INET;</span><br><span class="line">servaddr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">servaddr.sin_port = htons(6666);</span><br></pre></td></tr></table></figure>
+<p><strong>首先将整个结构体清零，然后设置地址类型为AF_INET，网络地址为INADDR_ANY，这个宏表示本地的任意IP地址，因为服务器可能有多个网卡，每个网卡也可能绑定多个IP地址，这样设置可以在所有的IP地址上监听，直到与某个客户端建立了连接时才确定下来到底用哪个IP地址，端口号为6666。</strong></p>
 ]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Gtest安装以及错误解决</title>
+    <url>/2021/12/14/Gtest//</url>
+    <content><![CDATA[<h1 id="Gtest安装"><a href="#Gtest安装" class="headerlink" title="Gtest安装"></a><strong>Gtest安装</strong></h1><ul>
+<li><code> sudo apt-get install git</code></li>
+<li><code> git clone https://github.com/google/googletest.git</code></li>
+<li> 或者在<a href="https://github.com/google/googletest">Windows浏览器下载</a>再利用samba服务器传输到Linux下</li>
+<li> <code>cd googletest </code></li>
+<li> <code>cmake .</code></li>
+<li> <code>make</code></li>
+<li> <code>ls lib</code></li>
+</ul>
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><h2 id="在make时报错"><a href="#在make时报错" class="headerlink" title="在make时报错:"></a><strong>在make时报错:</strong></h2><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://s3.bmp.ovh/imgs/2021/12/054ee1afb84325bb.png"></h2><p><strong>在 CMakeList.txt 里面加上</strong><br><code> SET(CMAKE_CXX_FLAGS &quot;-std=c++11&quot;)</code></p>
+<hr>
+<h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://i.bmp.ovh/imgs/2021/12/bedd24703dac8e3b.png"></h2><p><strong>再次执行</strong><code>cmake .</code> <strong>&amp;&amp;</strong> <code>cmake</code></p>
+<h2 id="成功"><a href="#成功" class="headerlink" title="成功:"></a><strong>成功:</strong></h2><h2 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="https://i.bmp.ovh/imgs/2021/12/ebe147683b8300ef.png"></h2>]]></content>
       <categories>
         <category>Linux</category>
       </categories>
@@ -255,21 +202,74 @@
       </tags>
   </entry>
   <entry>
-    <title>Gtest安装以及错误解决</title>
-    <url>/2021/12/14/Gtest//</url>
-    <content><![CDATA[<h1 id="Gtest安装"><a href="#Gtest安装" class="headerlink" title="Gtest安装"></a><strong>Gtest安装</strong></h1><ul>
-<li><code> sudo apt-get install git</code></li>
-<li><code> git clone https://github.com/google/googletest.git</code></li>
-<li> 或者在<a href="https://github.com/google/googletest">Windows浏览器下载</a>再利用samba服务器传输到Linux下</li>
-<li> <code>cd googletest </code></li>
-<li> <code>cmake .</code></li>
-<li> <code>make</code></li>
-<li> <code>ls lib</code></li>
+    <title>MakeFile</title>
+    <url>/2022/01/27/MakeFile//</url>
+    <content><![CDATA[<p><font color='red'> <strong>为什么要用MakeFile?</strong> </font><br></p>
+<blockquote>
+<p><strong>当工程文件需要编译大多数文件时每个文件都需要输入文件名进行编译，出错率高，并且不方便。</strong></p>
+</blockquote>
+<h1 id="MakeFile-编写"><a href="#MakeFile-编写" class="headerlink" title="MakeFile 编写"></a>MakeFile 编写</h1><h2 id="程序的编译和链接"><a href="#程序的编译和链接" class="headerlink" title="程序的编译和链接"></a>程序的编译和链接</h2><blockquote>
+<ul>
+<li><strong>使用C、C++编写可执行程序，首先要把源文件编译成中间代码文件，Linux下是 .o 文件，即 Object File，这个动作叫做编译（compile）。然后再把大量的Object File合成执行文件，这个动作叫作链接（link）。</strong></li>
 </ul>
-<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><h2 id="在make时报错"><a href="#在make时报错" class="headerlink" title="在make时报错:"></a><strong>在make时报错:</strong></h2><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://s3.bmp.ovh/imgs/2021/12/054ee1afb84325bb.png"></h2><p><strong>在 CMakeList.txt 里面加上</strong><br><code> SET(CMAKE_CXX_FLAGS &quot;-std=c++11&quot;)</code></p>
+</blockquote>
+<blockquote>
+<ul>
+<li><strong>一个项目，拥有成百上千的源程序文件，编译链接这些源文件都是由规则的，Makefile闪亮登场！Makefile确定整个工程的编译规则,只需要一个make命令，就可以实现“自动化编译”。make是一个解释makefile中指令的命令工具，一般来说，大多数的IDE都有这个命令，比如：Delphi的make，Visual C++的nmake，Linux下GNU的make。</strong></li>
+</ul>
+</blockquote>
+<h2 id="Make-工作原理"><a href="#Make-工作原理" class="headerlink" title="Make 工作原理"></a>Make 工作原理</h2><p>通常在一个项目里，我们的规则是：<br></p>
+<blockquote>
+<p><em>1）</em><strong>如果这个工程没有编译过，那么我们的所有C文件都要编译并被链接。<br></strong><br><em>2）</em><strong>如果这个工程的某几个C文件被修改，那么我们只编译被修改的C文件，并链接目标程序。<br></strong><br><em>3）</em><strong>如果这个工程的头文件被改变了，那么我们需要编译引用了这几个头文件的C文件，并链接目标程序。</strong></p>
+</blockquote>
+<p>只要我们的<font color='red'> <strong>Makefile</strong> </font>写得够好，我们只用一个<font color='red'> <strong>make</strong> </font>命令就可以完成，make命令会自动智能地根据当前的文件修改的情况来确定哪些文件需要重编译，从而自己编译所需要的文件和链接目标程序。</p>
+<p><font color='red'> <strong>Makefile</strong> </font>的<strong>规则:</strong></p>
+<blockquote>
+<p>target … : prerequisites …<br><br>command<br>…<br>…</p>
+</blockquote>
+<blockquote>
+<p><strong>target也就是一个目标文件，可以是Object File，也可以是执行文件。还可以是一个标签（Label），对于标签这种特性，暂不叙述。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>prerequisites就是，要生成那个target所需要的文件或是目标。</strong></p>
+</blockquote>
+<blockquote>
+<p><strong>command也就是make需要执行的命令。（任意的Shell命令）</strong></p>
+</blockquote>
+<p>这是一个文件的<strong>依赖关系</strong>，也就是说，target这一个或多个的目标文件依赖于prerequisites中的文件，其生成规则定义在command中。说白一点就是说，prerequisites中如果有一个以上的文件比target文件要新的话，command所定义的命令就会被执行。这就是<font color='red'> <strong>Makefile</strong> </font>的规则。也就是<font color='red'> <strong>Makefile</strong> </font>中最<strong>核心</strong>的内容。</p>
+<h2 id="一个范例："><a href="#一个范例：" class="headerlink" title="一个范例："></a><strong>一个范例：</strong><br></h2><p><strong>hellospeak.h:</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/d5eb9c8515c41f80.png"><br><br><br><strong>speak.h</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/db3fc86d82cc2da3.png"><br><br><br><strong>speak.c:</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/f081c8addf6fb283.png"><br><br><br><strong>若是用gcc编译将执行三步:</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/bc93ac67bfd7422a.png"></p>
+<p><strong>CmakeFile范例</strong><br></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">hello_demo : hellospeak.o speak.o                                           </span><br><span class="line">        gcc -o hello_demo hellospeak.o speak.o                               </span><br><span class="line"></span><br><span class="line">hellospeak.o : hellospeak.c speak.h                                           </span><br><span class="line">        gcc -c hellospeak.c                                                </span><br><span class="line">speak.o : speak.c  speak.h                                                  </span><br><span class="line">        gcc -c speak.c                                                    </span><br><span class="line">clean :  <span class="comment">/*执行 make clean 将会删除下面文件*/</span>                                                    </span><br><span class="line">        rm hello_demo speak.o  hellospeak.o                                </span><br></pre></td></tr></table></figure>
+<p><strong>写完这个文件将直接执行make就可以</strong></p>
+<h2 id="Make-工作流程"><a href="#Make-工作流程" class="headerlink" title="Make 工作流程"></a>Make 工作流程</h2><blockquote>
+<p><strong>1、make会在当前目录下找名字叫“Makefile”或“makefile”的文件。<br><br>2、如果找到，它会找文件中的第一个目标文件（target），在上面的例子中，他会找到”hello_demo”这个文件，并把这个文件作为最终的目标文件。<br><br>3、如果hello_demo文件不存在，或是hello_demo所依赖的后面的 .o 文件的文件修改时间要比hello_demo这个文件新，那么，他就会执行后面所定义的命令来生成hello_demo这个文件。<br><br>4、如果hello_demo所依赖的.o文件也不存在，那么make会在当前文件中找目标为.o文件的依赖性，如果找到则再根据那一个规则生成.o文件。（像不像堆栈过程？）<br><br>5、当然，我们的C文件和H文件都存在，于是make会生成 .o 文件，然后再用 .o 文件生命make的终极任务，也就是执行文件hello_demo了。<br></strong></p>
+</blockquote>
+<h2 id="Make-变量"><a href="#Make-变量" class="headerlink" title="Make 变量"></a>Make 变量</h2><p>一个Makefile里我们发现经常会由重复的内容，如上面范例中的前两行中的<br><code>hellospeak.o speak.o</code>                                                      </p>
+<blockquote>
+<p>如果我们的工程需要加入一个新的[.o]文件，那么我们好几个地方都需要修改原来的makefile。当然，我们的makefile并不复杂，所以在两个地方加也不累，但如果makefile变得复杂，那么我们就有可能会忘掉一个需要加入的地方，而导致编译失败。所以，为了makefile的易维护，在makefile中我们可以使用变量。makefile的变量也就是一个字符串，完全可以理解成<strong>C语言中的宏</strong>。</p>
+</blockquote>
+<p>变量定义:   变量名 = 值   ##使用shell script 的语法<br>如：<br><code>objects =  hellospeak.o speak.o</code>                                        </p>
+<p>我们上面的makefile 就可以变成:</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">objects = hellospeak.o speak.o                                               </span><br><span class="line">hello_demo : $(objects)                                                   </span><br><span class="line">        gcc -o hello_demo $(objects)                                        </span><br><span class="line"></span><br><span class="line">hellospeak.o : hellospeak.c speak.h                                           </span><br><span class="line">        gcc -c hellospeak.c                                                </span><br><span class="line">speak.o : speak.c  speak.h                                                  </span><br><span class="line">        gcc -c speak.c       </span><br><span class="line">.PHONY : clean                                              </span><br><span class="line">clean :                                                                  </span><br><span class="line">        -rm hello_demo  $(objects)</span><br></pre></td></tr></table></figure>
+<h2 id="Make-自动推导"><a href="#Make-自动推导" class="headerlink" title="Make 自动推导"></a>Make 自动推导</h2><p>make很强大，它可以自动推导文件以及文件依赖关系后面的命令，于是我们就没必要去在每一个[.o]文件后都写上类似的命令，因为，我们的make会自动识别，并自己推导命令。</p>
+<p>只要make看到一个[.o]文件，它就会自动的把[.c]文件加在依赖关系中，如果make找到一个hello.o，那么hello.c，就会是hello.o的依赖文件。并且 gcc -c hello.c 也会被推导出来，于是，我们的makefile再也不用写得这么复杂。我们的新的makefile又出炉了.</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">objects = hellospeak.o speak.o                                                   </span><br><span class="line">hello_demo : $(objects)                                                        </span><br><span class="line">        gcc -o hello_demo $(objects)                                            </span><br><span class="line">                                                                           </span><br><span class="line">$(objects):speak.h                                                             </span><br><span class="line"><span class="meta">#hellospeak.o : hellospeak.c speak.h                                              </span></span><br><span class="line"><span class="meta">#       gcc -c hellospeak.c                                                    </span></span><br><span class="line"><span class="meta">#speak.o : speak.c  speak.h                                                     </span></span><br><span class="line"><span class="meta">#       gcc -c speak.c                                                        </span></span><br><span class="line">                                                                           </span><br><span class="line">.PHONY : clean                                                              </span><br><span class="line">clean :                                                                      </span><br><span class="line">        -rm hello_demo  $(objects)</span><br></pre></td></tr></table></figure>
+
+<h1 id="CMake"><a href="#CMake" class="headerlink" title="CMake"></a>CMake</h1><ul>
+<li>你或许听过好几种 Make 工具，例如 GNU Make ，QT 的 qmake ，微软的 MS nmake，BSD Make（pmake），Makepp，等等。这些 Make 工具遵循着不同的规范和标准，所执行的 Makefile 格式也千差万别。这样就带来了一个严峻的问题：如果软件想跨平台，必须要保证能够在不同平台编译。而如果使用上面的 Make 工具，就得为每一种标准写一次 Makefile ，这将是一件让人抓狂的工作。<br></li>
+<li>CMake就是针对上面问题所设计的工具：它首先允许开发者编写一种平台无关的 CMakeList.txt 文件来定制整个编译流程，然后再根据目标用户的平台进一步生成所需的本地化 Makefile 和工程文件，如 Unix 的 Makefile 或 Windows 的 Visual Studio 工程。从而做到“Write once, run everywhere”。显然，CMake 是一个比上述几种 make 更高级的编译配置工具。一些使用 CMake 作为项目架构系统的知名开源项目有 VTK、ITK、KDE、OpenCV、OSG 等 。</li>
+</ul>
+<p> 安装cmake:<br> <code>sudo apt-get install cmake</code></p>
+<p><strong>在 linux 平台下使用 CMake 生成 Makefile 并编译的流程如下：</strong></p>
+<blockquote>
+<p>1.编写 CMake 配置文件 CMakeLists.txt 。<br><br>2.执行命令 cmake PATH 生成 Makefile。其中， PATH 是 CMakeLists.txt 所在的目录。<br><br>3.使用 make 命令进行编译。<br></p>
+</blockquote>
+<p><strong>Cmake范例:</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">#CMake 最低版本要求</span><br><span class="line"><span class="built_in">cmake_minimum_required</span>(VERSION <span class="number">3.10</span><span class="number">.2</span>)</span><br><span class="line"></span><br><span class="line">#项目信息</span><br><span class="line"><span class="built_in">project</span>(HelloSpeak)</span><br><span class="line"></span><br><span class="line">#指定生成的目标</span><br><span class="line"><span class="built_in">add_executable</span>(CmakeHelloSpeak speak.c hellospeak.c)</span><br></pre></td></tr></table></figure>
+
+<p><strong>执行cmake . 将会生成makefile文件</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/c585e6e7992b6de3.png"><br><strong>执行make 将会生成三个文件</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/fbee876d573ebb6c.png"></p>
 <hr>
-<h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://i.bmp.ovh/imgs/2021/12/bedd24703dac8e3b.png"></h2><p><strong>再次执行</strong><code>cmake .</code> <strong>&amp;&amp;</strong> <code>cmake</code></p>
-<h2 id="成功"><a href="#成功" class="headerlink" title="成功:"></a><strong>成功:</strong></h2><h2 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="https://i.bmp.ovh/imgs/2021/12/ebe147683b8300ef.png"></h2>]]></content>
+]]></content>
       <categories>
         <category>Linux</category>
       </categories>
@@ -333,10 +333,14 @@
       </tags>
   </entry>
   <entry>
-    <title>operand type are QMessageBox and QMessageBox::StandardButton</title>
-    <url>/2021/12/21/QMessageBox//</url>
-    <content><![CDATA[<p>报错内容为<br><img src="https://img-blog.csdnimg.cn/20210610143041925.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTQwMTkz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>解决办法:在定义QMessageBox 接收 标准按钮的时候 定义为QMessageBox::StandardButton 就完美解决.<br><img src="https://img-blog.csdnimg.cn/20210610143134753.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTQwMTkz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+    <title>QEvent处理时间的五种方法</title>
+    <url>/2021/12/22/QEvent//</url>
+    <content><![CDATA[<p>①:<strong>重新实现部件的 paintEvent() mousePressEvent()等事件处理函数，不过只能用来处理特定的事件。</strong></p>
+<p>②:<strong>重新实现notify()函数，这个函数功能强大，提供了完全的控制，可以在事件过滤器得到事件之前就获取它们。但是，它一次只能处理一个事件。</strong></p>
+<p>③:<strong>向QApplication对象上安装事件过滤器。应为一个程序只有一个QApplication对象，所以这样实现的功能与notify()函数是相同的，优点就是可以同时处理多个事件。</strong></p>
+<p>④:<strong>重新实现event()函数，QObject类的event()函数可以在事件到达默认的事件处理函数之前获得该事件。</strong></p>
+<p>⑤:<strong>在对象上安装事件过滤器，使用事件过滤器可以在一个界面类中同时处理不同子部件的不同事件。</strong></p>
+<p>在实际编程中，最常用的是①，其次是⑤，方法二需要继承QAppliction类；而③要使用一个全局的事件过滤器这将减缓事件的传递，所以很少被用到。</p>
 ]]></content>
       <categories>
         <category>Qt</category>
@@ -346,14 +350,10 @@
       </tags>
   </entry>
   <entry>
-    <title>QEvent处理时间的五种方法</title>
-    <url>/2021/12/22/QEvent//</url>
-    <content><![CDATA[<p>①:<strong>重新实现部件的 paintEvent() mousePressEvent()等事件处理函数，不过只能用来处理特定的事件。</strong></p>
-<p>②:<strong>重新实现notify()函数，这个函数功能强大，提供了完全的控制，可以在事件过滤器得到事件之前就获取它们。但是，它一次只能处理一个事件。</strong></p>
-<p>③:<strong>向QApplication对象上安装事件过滤器。应为一个程序只有一个QApplication对象，所以这样实现的功能与notify()函数是相同的，优点就是可以同时处理多个事件。</strong></p>
-<p>④:<strong>重新实现event()函数，QObject类的event()函数可以在事件到达默认的事件处理函数之前获得该事件。</strong></p>
-<p>⑤:<strong>在对象上安装事件过滤器，使用事件过滤器可以在一个界面类中同时处理不同子部件的不同事件。</strong></p>
-<p>在实际编程中，最常用的是①，其次是⑤，方法二需要继承QAppliction类；而③要使用一个全局的事件过滤器这将减缓事件的传递，所以很少被用到。</p>
+    <title>operand type are QMessageBox and QMessageBox::StandardButton</title>
+    <url>/2021/12/21/QMessageBox//</url>
+    <content><![CDATA[<p>报错内容为<br><img src="https://img-blog.csdnimg.cn/20210610143041925.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTQwMTkz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>解决办法:在定义QMessageBox 接收 标准按钮的时候 定义为QMessageBox::StandardButton 就完美解决.<br><img src="https://img-blog.csdnimg.cn/20210610143134753.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTQwMTkz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 ]]></content>
       <categories>
         <category>Qt</category>
@@ -690,63 +690,6 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
-    <title>Valgrind</title>
-    <url>/2022/01/29/Valgrind//</url>
-    <content><![CDATA[<h1 id="Valgrind-安装"><a href="#Valgrind-安装" class="headerlink" title="Valgrind 安装"></a>Valgrind 安装</h1><ul>
-<li><p><strong>方法 1.  <a href="http://valgrind.org/">valgrind官网下载</a></strong></p>
-</li>
-<li><p><strong>方法 2.  Ubuntu  sudo apt-get install valgrind</strong></p>
-</li>
-</ul>
-<hr>
-<h1 id="Memcheck-检测范围"><a href="#Memcheck-检测范围" class="headerlink" title="Memcheck 检测范围"></a>Memcheck 检测范围</h1><p>   **用来检测c/c++程序中出现的内存问题，所有对内存的读写都会被检测到，一切对malloc()/free()/new/delete的调用都会被捕获。所以，它能检测以下问题： **</p>
-<blockquote>
-<ol>
-<li>对未初始化内存的使用； </li>
-<li>读/写释放后的内存块；</li>
-<li>读/写超出malloc等分配的动态内存范围； </li>
-<li>读/写不适当的栈中内存块； </li>
-<li>内存泄漏，指向一块内存的指针永远丢失； </li>
-<li>不正确的malloc/free或new/delete匹配； </li>
-<li> memcpy()相关函数中的dst和src指针重叠问题.</li>
-</ol>
-</blockquote>
-<hr>
-<h1 id="Memcheck-检查步骤及注意事项"><a href="#Memcheck-检查步骤及注意事项" class="headerlink" title="Memcheck 检查步骤及注意事项"></a>Memcheck 检查步骤及注意事项</h1><ul>
-<li>1.在编译程序的时候打开调试模式（gcc编译器的-g选项），以便显示行号，编译时去掉-O1 -O2等优化选项;检查的是C++程序的时候，考虑加上选项： <strong>-fno-inline</strong> ,这样它函数调用链会很清晰<br></li>
-<li>2.执行：<strong>valgrind –tool=memcheck –leak-check=full –log-file=./log.txt  ./YourProgram</strong></li>
-<li>3.程序运行结束，查看 <strong>log.txt</strong> 中的结果.</li>
-</ul>
-<hr>
-<h1 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h1><p>Valgrind(memcheck)包含这7类错误:</p>
-<ul>
-<li><p><strong>1.illegal read/illegal write errors    非法读取/非法写入错误</strong></p>
-</li>
-<li><p><strong>2.use of uninitialised values        使用未初始化的区域</strong></p>
-</li>
-<li><p><strong>3.use of uninitialised or unaddressable values in system calls 系统调用时使用了未初始化或不可寻址的地址</strong></p>
-</li>
-<li><p><strong>4.illegal frees   非法的释放</strong></p>
-</li>
-<li><p><strong>5.when a heap block is freed with an inappropriate deallocation function 分配和释放函数不匹配</strong></p>
-</li>
-<li><p><strong>6.overlapping source and destination blocks   源和目的内存块重叠</strong></p>
-</li>
-<li><p><strong>7.memory leak detection    内存泄漏检测</strong></p>
-<blockquote>
-<p><strong>7.1 Still reachable <br></strong><br>  内存指针还在还有机会使用或者释放，指针指向的动态内存还没有被释放就退出了<br><br>  <strong>7.2 Definitely lost <br></strong><br>  确定的内存泄露，已经不能够访问这块内存<br><br>  <strong>7.3 Indirectly lost <br></strong><br>  指向该内存的指针都位于内存泄露处<br><br>  <strong>7.4 Possibly lost <br></strong><br>  可能的内存泄露，仍然存在某个指针能够访问某块内存，但该指针指向的已经不是该内<br>  存首位置<br><br>  <strong>7.5 Suppressed</strong>  <br><br>  某些库产生的错误不予以提示，这些错误会被统计到suppressed项目<br></p>
-</blockquote>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Socket-Ip地址转换</title>
     <url>/2022/01/02/SocketIP//</url>
     <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/16056322709f2b74.png"></p>
@@ -822,6 +765,96 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
+    <title>Valgrind</title>
+    <url>/2022/01/29/Valgrind//</url>
+    <content><![CDATA[<h1 id="Valgrind-安装"><a href="#Valgrind-安装" class="headerlink" title="Valgrind 安装"></a>Valgrind 安装</h1><ul>
+<li><p><strong>方法 1.  <a href="http://valgrind.org/">valgrind官网下载</a></strong></p>
+</li>
+<li><p><strong>方法 2.  Ubuntu  sudo apt-get install valgrind</strong></p>
+</li>
+</ul>
+<hr>
+<h1 id="Memcheck-检测范围"><a href="#Memcheck-检测范围" class="headerlink" title="Memcheck 检测范围"></a>Memcheck 检测范围</h1><p>   **用来检测c/c++程序中出现的内存问题，所有对内存的读写都会被检测到，一切对malloc()/free()/new/delete的调用都会被捕获。所以，它能检测以下问题： **</p>
+<blockquote>
+<ol>
+<li>对未初始化内存的使用； </li>
+<li>读/写释放后的内存块；</li>
+<li>读/写超出malloc等分配的动态内存范围； </li>
+<li>读/写不适当的栈中内存块； </li>
+<li>内存泄漏，指向一块内存的指针永远丢失； </li>
+<li>不正确的malloc/free或new/delete匹配； </li>
+<li> memcpy()相关函数中的dst和src指针重叠问题.</li>
+</ol>
+</blockquote>
+<hr>
+<h1 id="Memcheck-检查步骤及注意事项"><a href="#Memcheck-检查步骤及注意事项" class="headerlink" title="Memcheck 检查步骤及注意事项"></a>Memcheck 检查步骤及注意事项</h1><ul>
+<li>1.在编译程序的时候打开调试模式（gcc编译器的-g选项），以便显示行号，编译时去掉-O1 -O2等优化选项;检查的是C++程序的时候，考虑加上选项： <strong>-fno-inline</strong> ,这样它函数调用链会很清晰<br></li>
+<li>2.执行：<strong>valgrind –tool=memcheck –leak-check=full –log-file=./log.txt  ./YourProgram</strong></li>
+<li>3.程序运行结束，查看 <strong>log.txt</strong> 中的结果.</li>
+</ul>
+<hr>
+<h1 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h1><p>Valgrind(memcheck)包含这7类错误:</p>
+<ul>
+<li><p><strong>1.illegal read/illegal write errors    非法读取/非法写入错误</strong></p>
+</li>
+<li><p><strong>2.use of uninitialised values        使用未初始化的区域</strong></p>
+</li>
+<li><p><strong>3.use of uninitialised or unaddressable values in system calls 系统调用时使用了未初始化或不可寻址的地址</strong></p>
+</li>
+<li><p><strong>4.illegal frees   非法的释放</strong></p>
+</li>
+<li><p><strong>5.when a heap block is freed with an inappropriate deallocation function 分配和释放函数不匹配</strong></p>
+</li>
+<li><p><strong>6.overlapping source and destination blocks   源和目的内存块重叠</strong></p>
+</li>
+<li><p><strong>7.memory leak detection    内存泄漏检测</strong></p>
+<blockquote>
+<p><strong>7.1 Still reachable <br></strong><br>  内存指针还在还有机会使用或者释放，指针指向的动态内存还没有被释放就退出了<br><br>  <strong>7.2 Definitely lost <br></strong><br>  确定的内存泄露，已经不能够访问这块内存<br><br>  <strong>7.3 Indirectly lost <br></strong><br>  指向该内存的指针都位于内存泄露处<br><br>  <strong>7.4 Possibly lost <br></strong><br>  可能的内存泄露，仍然存在某个指针能够访问某块内存，但该指针指向的已经不是该内<br>  存首位置<br><br>  <strong>7.5 Suppressed</strong>  <br><br>  某些库产生的错误不予以提示，这些错误会被统计到suppressed项目<br></p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>C++ 类型转换</title>
+    <url>/2021/11/29/TypeConversion//</url>
+    <content><![CDATA[<h3 id="旧式转换与新式转换"><a href="#旧式转换与新式转换" class="headerlink" title="旧式转换与新式转换"></a>旧式转换与新式转换</h3><p><strong>旧式转型</strong> &emsp;C风格的强制类型<br>&emsp; &emsp; <strong>TYPE b=(TYPE)a</strong><br>    &emsp; &emsp;&emsp; &emsp;<strong>列如:<br>    &emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; int i=48<br>    &emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; char c=(char)i;</strong><br><strong>新式转型</strong>C++风格的类型转换提供了4种类型转换操作符来应对不同场合的应用。<br>格式：<br>        <strong>TYPE b = 类型操作符<TYPE>(a)<br>       类型操作符</strong>= <font color=Red>static_cast<br>             &emsp; &emsp; &emsp; &emsp;&emsp;  reinterpreter_cast<br>    &emsp; &emsp;    &emsp; &emsp;&emsp;   dynamic_cast<br>       &emsp; &emsp;&emsp;  &emsp; &emsp;&emsp; const_cast</font></p>
+<h1 id="static-cast"><a href="#static-cast" class="headerlink" title="static_cast"></a>static_cast</h1><p> 静态类型转换（斯文的劝导，温柔的转换）。如int转换成char<br>&emsp; &emsp;&emsp; <strong>主要用法：</strong><br>&emsp; &emsp;&emsp; &emsp; &emsp;&emsp; 用于类层次结构中基类（父类）和派生类（子类）之间指针或引用的转换。上行指针或引用(派生类到基类)转换安全，下行不安全<br>&emsp; &emsp;&emsp; &emsp; &emsp;&emsp; 用于基本数据类型之间的转换，如把int转换成char，把int转换成enum。这种转换的安全性也要开发人员来保证。<br>&emsp; &emsp;&emsp; &emsp; &emsp;&emsp; 把空指针转换成目标类型的空指针。<br>&emsp; &emsp;&emsp; &emsp; &emsp;&emsp; 把任何类型的表达式转换成void类型。</p>
+<p><em>代码示例:</em></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;喵喵瞄&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;汪汪汪&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">//第一种情况  父子类之间的类型转换</span></span><br><span class="line">	Dog* dog1 = <span class="keyword">new</span> <span class="built_in">Dog</span>();</span><br><span class="line">	Animal* a1 = <span class="keyword">static_cast</span>&lt;Animal*&gt;(dog1); <span class="comment">//子类的指针转型到父类指针</span></span><br><span class="line"></span><br><span class="line">	Dog* dog1_1 = <span class="keyword">static_cast</span>&lt;Dog*&gt;(a1);     <span class="comment">//父类的指针转型到子类的指针</span></span><br><span class="line">	Cat* cat1 = <span class="keyword">static_cast</span>&lt;Cat*&gt;(a1);       <span class="comment">//父子到子类，有风险，这样时不行的，会出问题</span></span><br><span class="line"></span><br><span class="line">	Dog dog2;</span><br><span class="line">	Animal&amp; a2 = <span class="keyword">static_cast</span>&lt;Animal&amp;&gt;(dog2); <span class="comment">//子类的引用转型到父类的引用</span></span><br><span class="line">	Dog &amp;dog2_2 = <span class="keyword">static_cast</span>&lt;Dog&amp;&gt;(a2);     <span class="comment">//父类到子类引用</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//第二种 基本类型的转换</span></span><br><span class="line">	<span class="keyword">int</span>  kk = <span class="number">234</span>;</span><br><span class="line">	<span class="keyword">char</span> cc = <span class="keyword">static_cast</span>&lt;<span class="keyword">char</span>&gt;(kk);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//第三种 把空指针转换成目标类型的空指针。</span></span><br><span class="line">	<span class="keyword">int</span>* p = <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>*&gt;(<span class="literal">NULL</span>);</span><br><span class="line">	Dog* dp = <span class="keyword">static_cast</span>&lt;Dog*&gt;(<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//第四种 把任何类型的表达式转换成void类型</span></span><br><span class="line">	<span class="keyword">int</span>* pi = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line">	<span class="keyword">void</span>* vp = <span class="keyword">static_cast</span>&lt;<span class="keyword">void</span>*&gt;(pi);</span><br><span class="line">	vp = pi;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="reinterpret-cast"><a href="#reinterpret-cast" class="headerlink" title="reinterpret_cast"></a>reinterpret_cast</h1><p>重新解释类型(挂羊头，卖狗肉) 不同类型间的互转，数值与指针间的互转</p>
+<p>&emsp; &emsp;&emsp;用法：<br>&emsp; &emsp;&emsp;&emsp; &emsp;&emsp; <strong>TYPE b = reinterpret_cast <TYPE> ( a )<br>&emsp; &emsp;&emsp;&emsp; &emsp;&emsp;TYPE</strong>必须是一个指针、引用、算术类型、函数指针.</p>
+<p><strong>忠告</strong>:<em>滥用 reinterpret_cast 运算符可能很容易带来风险。 除非所需转换本身是低级别的，否则应使用其他强制转换运算符之一。</em></p>
+<p><strong>注!</strong> :<strong><font color=Red>不同类型指针转换不能使用static_cast</strong></font><br><em>代码示例:</em></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;动物叫&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;喵喵瞄&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;汪汪汪&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//用法一   数值与指针之间的转换</span></span><br><span class="line">	<span class="keyword">int</span>* p = <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">int</span>*&gt;(<span class="number">0x99999</span>);</span><br><span class="line">	<span class="keyword">int</span> val = <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">int</span>&gt;(p);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//用法二  不同类型指针和引用之间的转换</span></span><br><span class="line">	Dog  dog1;</span><br><span class="line">	Animal* a1 = &amp;dog1;</span><br><span class="line">	a1-&gt;<span class="built_in">cry</span>();</span><br><span class="line"></span><br><span class="line">	Dog* dog1_p = <span class="keyword">reinterpret_cast</span>&lt;Dog*&gt;(a1);</span><br><span class="line">	Dog* dog2_p = <span class="keyword">static_cast</span>&lt;Dog*&gt;(a1);   <span class="comment">//如果能用static_cast ，static_cast 优先</span></span><br><span class="line"></span><br><span class="line">	Cat* cat2_p = <span class="keyword">reinterpret_cast</span>&lt;Cat*&gt;(dog1_p);</span><br><span class="line"></span><br><span class="line">	Animal&amp; a2 = dog1;</span><br><span class="line">	Dog&amp; dog3 = <span class="keyword">reinterpret_cast</span>&lt;Dog&amp;&gt;(a2);<span class="comment">//引用强转用法</span></span><br><span class="line"></span><br><span class="line">	dog1_p-&gt;<span class="built_in">cry</span>();</span><br><span class="line">	dog2_p-&gt;<span class="built_in">cry</span>();</span><br><span class="line"></span><br><span class="line">	cat2_p-&gt;<span class="built_in">cry</span>();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="dynamic-cast"><a href="#dynamic-cast" class="headerlink" title="dynamic_cast"></a>dynamic_cast</h1><p><strong>动态类型转换</strong><br>&emsp; &emsp;&emsp;&emsp; &emsp;&emsp;将一个基类对象指针cast到继承类指针，<strong>dynamic_cast</strong> 会根据基类指针是否真正指向继承类指针来做相应处理。失败返回null，成功返回正常cast后的对象指针；<br>&emsp; &emsp;&emsp;&emsp; &emsp;&emsp;将一个基类对象引用cast 继承类对象，<strong>dynamic_cast</strong> 会根据基类对象是否真正属于继承类来做相应处理。失败抛出异常bad_cast<br>注意：<strong>dynamic_cast</strong>在将父类cast到子类时，父类必须要有虚函数一起。</p>
+<p><em>代码示例:</em></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;喵喵瞄&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">play</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;爬爬树&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;汪汪汪&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">play</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;溜达溜达&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">animalPlay</span><span class="params">(Animal&amp; animal)</span> </span>&#123;</span><br><span class="line">	animal.<span class="built_in">cry</span>();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		Dog&amp; pDog = <span class="keyword">dynamic_cast</span>&lt;Dog&amp;&gt;(animal);</span><br><span class="line">		pDog.<span class="built_in">play</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in"><span class="keyword">catch</span></span> (std::bad_cast bc) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;不是狗，那应该是猫&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		Cat&amp; pCat = <span class="keyword">dynamic_cast</span>&lt;Cat&amp;&gt;(animal);</span><br><span class="line">		pCat.<span class="built_in">play</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in"><span class="keyword">catch</span></span> (std::bad_cast bc) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;不是猫，那应该是上面的狗&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">animalPlay</span><span class="params">(Animal* animal)</span> </span>&#123;</span><br><span class="line">	animal-&gt;<span class="built_in">cry</span>();</span><br><span class="line"></span><br><span class="line">	Dog* pDog = <span class="keyword">dynamic_cast</span>&lt;Dog*&gt;(animal);</span><br><span class="line">	<span class="keyword">if</span> (pDog) &#123;</span><br><span class="line">		pDog-&gt;<span class="built_in">play</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;<span class="comment">//pDog == NULL</span></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;不是狗，别骗我！&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	Cat* pCat = <span class="keyword">dynamic_cast</span>&lt;Cat*&gt;(animal);</span><br><span class="line">	<span class="keyword">if</span> (pCat) &#123;</span><br><span class="line">		pCat-&gt;<span class="built_in">play</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;<span class="comment">//pDog == NULL</span></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;不是猫，别骗我！&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	Dog* dog1 = <span class="keyword">new</span> <span class="built_in">Dog</span>();</span><br><span class="line">	Animal* a1 = dog1;</span><br><span class="line"></span><br><span class="line">	Dog dog2;</span><br><span class="line">	<span class="built_in">animalPlay</span>(dog2);</span><br><span class="line"></span><br><span class="line">	Cat* cat1 = <span class="keyword">new</span> <span class="built_in">Cat</span>();</span><br><span class="line">	Animal* a2 = cat1;</span><br><span class="line"></span><br><span class="line">	Cat cat2;</span><br><span class="line">	<span class="built_in">animalPlay</span>(cat2);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="const-cast"><a href="#const-cast" class="headerlink" title="const_cast"></a>const_cast</h1><p><strong>去const属性.(仅针对于指针和引用)</strong></p>
+<p><em>代码示例:</em></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">demo</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//对指针去掉cost 重新赋值</span></span><br><span class="line">	<span class="comment">//char* p1 = const_cast&lt;char *&gt;(p);</span></span><br><span class="line">	<span class="comment">//p1[0] = &#x27;A&#x27;;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//直接去掉const修改</span></span><br><span class="line">	<span class="keyword">const_cast</span>&lt;<span class="keyword">char</span>*&gt;(p)[<span class="number">0</span>] = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	cout &lt;&lt; p &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//字符串数组</span></span><br><span class="line">	<span class="comment">//char p[] = &quot;12345678&quot;;</span></span><br><span class="line">	<span class="comment">//demo(p);  //合情合理</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//常量字符串不能去掉const 修改</span></span><br><span class="line">	<span class="comment">//警告： 在去掉常量限定符之前，保证指针所指向的内存能够修改，不能修改则会引起异常。</span></span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span>* cp = <span class="string">&quot;987654321&quot;</span>;</span><br><span class="line">	<span class="built_in">demo</span>(cp);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="类型转换使用建议"><a href="#类型转换使用建议" class="headerlink" title="类型转换使用建议"></a>类型转换使用建议</h2><blockquote>
+<p><strong>1.static_cast静态类型转换，编译的时c++编译器会做编译时的类型检查；隐式转换；<br>基本类型转换，父子类之间合理转换<br>    2.若不同类型之间，进行强制类型转换，用reinterpret_cast&lt;&gt;() 进行重新解释<br>       建  议：<br>C语言中  能隐式类型转换的，在c++中可用 static_cast&lt;&gt;()进行类型转换。因C++编译器在编译检查一般都能通过；C语言中不能隐式类型转换的，在c++中可以用 reinterpret_cast&lt;&gt;() 进行强制类型解释。<br>总结：static_cast&lt;&gt;()和reinterpret_cast&lt;&gt;() 基本上把C语言中的 强制类型转换给覆盖，注意reinterpret_cast&lt;&gt;()很难保证移植性。<br>3.dynamic_cast&lt;&gt;()，动态类型转换，安全的虚基类和子类之间转换；运行时类型检查<br>    4.const_cast&lt;&gt;()，去除变量的只读属性<br>最后的忠告：程序员必须清楚的知道: 要转的变量，类型转换前是什么类型，类型转换                后是什么类型，转换后有什么后果。</strong></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>速度之巅-位图算法</title>
     <url>/2021/12/23/bitmap//</url>
     <content><![CDATA[<p><strong>问题：</strong></p>
@@ -843,6 +876,21 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </categories>
       <tags>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>const</title>
+    <url>/2021/11/22/const//</url>
+    <content><![CDATA[<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> Girl = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">int</span> Woman = <span class="number">30</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> * <span class="keyword">const</span> p = &amp;Girl ;</span><br><span class="line">p = &amp;Woman;	<span class="comment">//错误</span></span><br><span class="line">p = <span class="number">30</span>;		<span class="comment">//错误</span></span><br><span class="line">	</span><br><span class="line"><span class="keyword">int</span> <span class="keyword">const</span> * p1 = &amp;Girl ;</span><br><span class="line">p1 = &amp;Woman;	<span class="comment">//正确</span></span><br><span class="line">p1 = Woman;		<span class="comment">//错误</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> * p2 = &amp;Girl ;</span><br><span class="line">p2 = &amp;Woman;	<span class="comment">//正确</span></span><br><span class="line">p2 = Woman;		<span class="comment">//错误</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> * <span class="keyword">const</span> p3 = &amp;girl;</span><br><span class="line">p3 = &amp;Woman;	<span class="comment">//错误</span></span><br><span class="line">p3 = Woman;		<span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
+
+
+<p>总结: <strong>看 const 离类型近，还是离类型远，离谁进，就修饰谁，谁就不能变</strong></p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
       </tags>
   </entry>
   <entry>
@@ -898,51 +946,21 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
-    <title>C++ 类型转换</title>
-    <url>/2021/11/29/TypeConversion//</url>
-    <content><![CDATA[<h3 id="旧式转换与新式转换"><a href="#旧式转换与新式转换" class="headerlink" title="旧式转换与新式转换"></a>旧式转换与新式转换</h3><p><strong>旧式转型</strong> &emsp;C风格的强制类型<br>&emsp; &emsp; <strong>TYPE b=(TYPE)a</strong><br>    &emsp; &emsp;&emsp; &emsp;<strong>列如:<br>    &emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; int i=48<br>    &emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; char c=(char)i;</strong><br><strong>新式转型</strong>C++风格的类型转换提供了4种类型转换操作符来应对不同场合的应用。<br>格式：<br>        <strong>TYPE b = 类型操作符<TYPE>(a)<br>       类型操作符</strong>= <font color=Red>static_cast<br>             &emsp; &emsp; &emsp; &emsp;&emsp;  reinterpreter_cast<br>    &emsp; &emsp;    &emsp; &emsp;&emsp;   dynamic_cast<br>       &emsp; &emsp;&emsp;  &emsp; &emsp;&emsp; const_cast</font></p>
-<h1 id="static-cast"><a href="#static-cast" class="headerlink" title="static_cast"></a>static_cast</h1><p> 静态类型转换（斯文的劝导，温柔的转换）。如int转换成char<br>&emsp; &emsp;&emsp; <strong>主要用法：</strong><br>&emsp; &emsp;&emsp; &emsp; &emsp;&emsp; 用于类层次结构中基类（父类）和派生类（子类）之间指针或引用的转换。上行指针或引用(派生类到基类)转换安全，下行不安全<br>&emsp; &emsp;&emsp; &emsp; &emsp;&emsp; 用于基本数据类型之间的转换，如把int转换成char，把int转换成enum。这种转换的安全性也要开发人员来保证。<br>&emsp; &emsp;&emsp; &emsp; &emsp;&emsp; 把空指针转换成目标类型的空指针。<br>&emsp; &emsp;&emsp; &emsp; &emsp;&emsp; 把任何类型的表达式转换成void类型。</p>
-<p><em>代码示例:</em></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;喵喵瞄&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;汪汪汪&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">//第一种情况  父子类之间的类型转换</span></span><br><span class="line">	Dog* dog1 = <span class="keyword">new</span> <span class="built_in">Dog</span>();</span><br><span class="line">	Animal* a1 = <span class="keyword">static_cast</span>&lt;Animal*&gt;(dog1); <span class="comment">//子类的指针转型到父类指针</span></span><br><span class="line"></span><br><span class="line">	Dog* dog1_1 = <span class="keyword">static_cast</span>&lt;Dog*&gt;(a1);     <span class="comment">//父类的指针转型到子类的指针</span></span><br><span class="line">	Cat* cat1 = <span class="keyword">static_cast</span>&lt;Cat*&gt;(a1);       <span class="comment">//父子到子类，有风险，这样时不行的，会出问题</span></span><br><span class="line"></span><br><span class="line">	Dog dog2;</span><br><span class="line">	Animal&amp; a2 = <span class="keyword">static_cast</span>&lt;Animal&amp;&gt;(dog2); <span class="comment">//子类的引用转型到父类的引用</span></span><br><span class="line">	Dog &amp;dog2_2 = <span class="keyword">static_cast</span>&lt;Dog&amp;&gt;(a2);     <span class="comment">//父类到子类引用</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//第二种 基本类型的转换</span></span><br><span class="line">	<span class="keyword">int</span>  kk = <span class="number">234</span>;</span><br><span class="line">	<span class="keyword">char</span> cc = <span class="keyword">static_cast</span>&lt;<span class="keyword">char</span>&gt;(kk);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//第三种 把空指针转换成目标类型的空指针。</span></span><br><span class="line">	<span class="keyword">int</span>* p = <span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>*&gt;(<span class="literal">NULL</span>);</span><br><span class="line">	Dog* dp = <span class="keyword">static_cast</span>&lt;Dog*&gt;(<span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//第四种 把任何类型的表达式转换成void类型</span></span><br><span class="line">	<span class="keyword">int</span>* pi = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>];</span><br><span class="line">	<span class="keyword">void</span>* vp = <span class="keyword">static_cast</span>&lt;<span class="keyword">void</span>*&gt;(pi);</span><br><span class="line">	vp = pi;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="reinterpret-cast"><a href="#reinterpret-cast" class="headerlink" title="reinterpret_cast"></a>reinterpret_cast</h1><p>重新解释类型(挂羊头，卖狗肉) 不同类型间的互转，数值与指针间的互转</p>
-<p>&emsp; &emsp;&emsp;用法：<br>&emsp; &emsp;&emsp;&emsp; &emsp;&emsp; <strong>TYPE b = reinterpret_cast <TYPE> ( a )<br>&emsp; &emsp;&emsp;&emsp; &emsp;&emsp;TYPE</strong>必须是一个指针、引用、算术类型、函数指针.</p>
-<p><strong>忠告</strong>:<em>滥用 reinterpret_cast 运算符可能很容易带来风险。 除非所需转换本身是低级别的，否则应使用其他强制转换运算符之一。</em></p>
-<p><strong>注!</strong> :<strong><font color=Red>不同类型指针转换不能使用static_cast</strong></font><br><em>代码示例:</em></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;动物叫&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;喵喵瞄&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;汪汪汪&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//用法一   数值与指针之间的转换</span></span><br><span class="line">	<span class="keyword">int</span>* p = <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">int</span>*&gt;(<span class="number">0x99999</span>);</span><br><span class="line">	<span class="keyword">int</span> val = <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">int</span>&gt;(p);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//用法二  不同类型指针和引用之间的转换</span></span><br><span class="line">	Dog  dog1;</span><br><span class="line">	Animal* a1 = &amp;dog1;</span><br><span class="line">	a1-&gt;<span class="built_in">cry</span>();</span><br><span class="line"></span><br><span class="line">	Dog* dog1_p = <span class="keyword">reinterpret_cast</span>&lt;Dog*&gt;(a1);</span><br><span class="line">	Dog* dog2_p = <span class="keyword">static_cast</span>&lt;Dog*&gt;(a1);   <span class="comment">//如果能用static_cast ，static_cast 优先</span></span><br><span class="line"></span><br><span class="line">	Cat* cat2_p = <span class="keyword">reinterpret_cast</span>&lt;Cat*&gt;(dog1_p);</span><br><span class="line"></span><br><span class="line">	Animal&amp; a2 = dog1;</span><br><span class="line">	Dog&amp; dog3 = <span class="keyword">reinterpret_cast</span>&lt;Dog&amp;&gt;(a2);<span class="comment">//引用强转用法</span></span><br><span class="line"></span><br><span class="line">	dog1_p-&gt;<span class="built_in">cry</span>();</span><br><span class="line">	dog2_p-&gt;<span class="built_in">cry</span>();</span><br><span class="line"></span><br><span class="line">	cat2_p-&gt;<span class="built_in">cry</span>();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="dynamic-cast"><a href="#dynamic-cast" class="headerlink" title="dynamic_cast"></a>dynamic_cast</h1><p><strong>动态类型转换</strong><br>&emsp; &emsp;&emsp;&emsp; &emsp;&emsp;将一个基类对象指针cast到继承类指针，<strong>dynamic_cast</strong> 会根据基类指针是否真正指向继承类指针来做相应处理。失败返回null，成功返回正常cast后的对象指针；<br>&emsp; &emsp;&emsp;&emsp; &emsp;&emsp;将一个基类对象引用cast 继承类对象，<strong>dynamic_cast</strong> 会根据基类对象是否真正属于继承类来做相应处理。失败抛出异常bad_cast<br>注意：<strong>dynamic_cast</strong>在将父类cast到子类时，父类必须要有虚函数一起。</p>
-<p><em>代码示例:</em></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;喵喵瞄&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">play</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;爬爬树&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> :</span><span class="keyword">public</span> Animal</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">cry</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;汪汪汪&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">play</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;溜达溜达&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">animalPlay</span><span class="params">(Animal&amp; animal)</span> </span>&#123;</span><br><span class="line">	animal.<span class="built_in">cry</span>();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		Dog&amp; pDog = <span class="keyword">dynamic_cast</span>&lt;Dog&amp;&gt;(animal);</span><br><span class="line">		pDog.<span class="built_in">play</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in"><span class="keyword">catch</span></span> (std::bad_cast bc) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;不是狗，那应该是猫&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		Cat&amp; pCat = <span class="keyword">dynamic_cast</span>&lt;Cat&amp;&gt;(animal);</span><br><span class="line">		pCat.<span class="built_in">play</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in"><span class="keyword">catch</span></span> (std::bad_cast bc) &#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;不是猫，那应该是上面的狗&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">animalPlay</span><span class="params">(Animal* animal)</span> </span>&#123;</span><br><span class="line">	animal-&gt;<span class="built_in">cry</span>();</span><br><span class="line"></span><br><span class="line">	Dog* pDog = <span class="keyword">dynamic_cast</span>&lt;Dog*&gt;(animal);</span><br><span class="line">	<span class="keyword">if</span> (pDog) &#123;</span><br><span class="line">		pDog-&gt;<span class="built_in">play</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;<span class="comment">//pDog == NULL</span></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;不是狗，别骗我！&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	Cat* pCat = <span class="keyword">dynamic_cast</span>&lt;Cat*&gt;(animal);</span><br><span class="line">	<span class="keyword">if</span> (pCat) &#123;</span><br><span class="line">		pCat-&gt;<span class="built_in">play</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> &#123;<span class="comment">//pDog == NULL</span></span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;不是猫，别骗我！&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	Dog* dog1 = <span class="keyword">new</span> <span class="built_in">Dog</span>();</span><br><span class="line">	Animal* a1 = dog1;</span><br><span class="line"></span><br><span class="line">	Dog dog2;</span><br><span class="line">	<span class="built_in">animalPlay</span>(dog2);</span><br><span class="line"></span><br><span class="line">	Cat* cat1 = <span class="keyword">new</span> <span class="built_in">Cat</span>();</span><br><span class="line">	Animal* a2 = cat1;</span><br><span class="line"></span><br><span class="line">	Cat cat2;</span><br><span class="line">	<span class="built_in">animalPlay</span>(cat2);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="const-cast"><a href="#const-cast" class="headerlink" title="const_cast"></a>const_cast</h1><p><strong>去const属性.(仅针对于指针和引用)</strong></p>
-<p><em>代码示例:</em></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">demo</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//对指针去掉cost 重新赋值</span></span><br><span class="line">	<span class="comment">//char* p1 = const_cast&lt;char *&gt;(p);</span></span><br><span class="line">	<span class="comment">//p1[0] = &#x27;A&#x27;;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//直接去掉const修改</span></span><br><span class="line">	<span class="keyword">const_cast</span>&lt;<span class="keyword">char</span>*&gt;(p)[<span class="number">0</span>] = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	cout &lt;&lt; p &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//字符串数组</span></span><br><span class="line">	<span class="comment">//char p[] = &quot;12345678&quot;;</span></span><br><span class="line">	<span class="comment">//demo(p);  //合情合理</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//常量字符串不能去掉const 修改</span></span><br><span class="line">	<span class="comment">//警告： 在去掉常量限定符之前，保证指针所指向的内存能够修改，不能修改则会引起异常。</span></span><br><span class="line">	<span class="keyword">const</span> <span class="keyword">char</span>* cp = <span class="string">&quot;987654321&quot;</span>;</span><br><span class="line">	<span class="built_in">demo</span>(cp);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="类型转换使用建议"><a href="#类型转换使用建议" class="headerlink" title="类型转换使用建议"></a>类型转换使用建议</h2><blockquote>
-<p><strong>1.static_cast静态类型转换，编译的时c++编译器会做编译时的类型检查；隐式转换；<br>基本类型转换，父子类之间合理转换<br>    2.若不同类型之间，进行强制类型转换，用reinterpret_cast&lt;&gt;() 进行重新解释<br>       建  议：<br>C语言中  能隐式类型转换的，在c++中可用 static_cast&lt;&gt;()进行类型转换。因C++编译器在编译检查一般都能通过；C语言中不能隐式类型转换的，在c++中可以用 reinterpret_cast&lt;&gt;() 进行强制类型解释。<br>总结：static_cast&lt;&gt;()和reinterpret_cast&lt;&gt;() 基本上把C语言中的 强制类型转换给覆盖，注意reinterpret_cast&lt;&gt;()很难保证移植性。<br>3.dynamic_cast&lt;&gt;()，动态类型转换，安全的虚基类和子类之间转换；运行时类型检查<br>    4.const_cast&lt;&gt;()，去除变量的只读属性<br>最后的忠告：程序员必须清楚的知道: 要转的变量，类型转换前是什么类型，类型转换                后是什么类型，转换后有什么后果。</strong></p>
-</blockquote>
-]]></content>
+    <title>归并排序</title>
+    <url>/2022/01/05/mergesort//</url>
+    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/d69e487339a6b8cc.png"><br>给定你一个长度为 n 的整数数列。</p>
+<p>请你使用归并排序对这个数列按照从小到大进行排序。</p>
+<p>并将排好序的数列按顺序输出。</p>
+<p>输入格式<br>输入共两行，第一行包含整数 n。</p>
+<p>第二行包含 n 个整数（所有整数均在 1∼109 范围内），表示整个数列。</p>
+<p>输出格式<br>输出共一行，包含 n 个整数，表示排好序的数列。</p>
+<p>数据范围<br>1≤n≤100000<br>输入样例：<br>5<br>3 1 2 4 5<br>输出样例：<br>1 2 3 4 5</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> s[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="built_in">merge_sort</span>(l,mid);</span><br><span class="line">    <span class="built_in">merge_sort</span>(mid+<span class="number">1</span>,r);</span><br><span class="line">    <span class="keyword">int</span> i=l;</span><br><span class="line">    <span class="keyword">int</span> j=mid+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> k=l;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid &amp;&amp; j&lt;=r)&#123;</span><br><span class="line">        <span class="keyword">if</span>(q[i]&lt;q[j])   s[k++]=q[i++];</span><br><span class="line">        <span class="keyword">else</span>    s[k++]=q[j++];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)   s[k++]=q[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r) s[k++]=q[j++];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memcpy</span>(q+l,s+l,<span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>)*(r-l+<span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cin &gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">merge_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cout &lt;&lt; q[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    cout &lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>C/C++</category>
+        <category>算法</category>
       </categories>
       <tags>
-        <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>const</title>
-    <url>/2021/11/22/const//</url>
-    <content><![CDATA[<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> Girl = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">int</span> Woman = <span class="number">30</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> * <span class="keyword">const</span> p = &amp;Girl ;</span><br><span class="line">p = &amp;Woman;	<span class="comment">//错误</span></span><br><span class="line">p = <span class="number">30</span>;		<span class="comment">//错误</span></span><br><span class="line">	</span><br><span class="line"><span class="keyword">int</span> <span class="keyword">const</span> * p1 = &amp;Girl ;</span><br><span class="line">p1 = &amp;Woman;	<span class="comment">//正确</span></span><br><span class="line">p1 = Woman;		<span class="comment">//错误</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> * p2 = &amp;Girl ;</span><br><span class="line">p2 = &amp;Woman;	<span class="comment">//正确</span></span><br><span class="line">p2 = Woman;		<span class="comment">//错误</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> * <span class="keyword">const</span> p3 = &amp;girl;</span><br><span class="line">p3 = &amp;Woman;	<span class="comment">//错误</span></span><br><span class="line">p3 = Woman;		<span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
-
-
-<p>总结: <strong>看 const 离类型近，还是离类型远，离谁进，就修饰谁，谁就不能变</strong></p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C/C++</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -1002,6 +1020,29 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
+    <title>P1908 逆序对</title>
+    <url>/2022/01/05/mergesort2//</url>
+    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/e36c2e67ce76d320.png"></p>
+<p><strong>题目描述</strong><br>猫猫 TOM 和小老鼠 JERRY 最近又较量上了，但是毕竟都是成年人，他们已经不喜欢再玩那种你追我赶的游戏，现在他们喜欢玩统计。</p>
+<p>最近，TOM 老猫查阅到一个人类称之为“逆序对”的东西，这东西是这样定义的：对于给定的一段正整数序列，逆序对就是序列中 a_i&gt;a_ja<br>i<br>​&gt;a<br>j<br>​<br>  且 i&lt;ji&lt;j 的有序对。知道这概念后，他们就比赛谁先算出给定的一段正整数序列中逆序对的数目。注意序列中可能有重复数字。</p>
+<p><strong>Update:数据已加强。</strong></p>
+<p><strong>输入格式</strong><br>第一行，一个数 nn，表示序列中有 nn个数。</p>
+<p>第二行 nn 个数，表示给定的序列。序列中每个数字不超过 10^910<br>9<br> 。</p>
+<p><strong>输出格式</strong><br>输出序列中逆序对的数目。</p>
+<p><strong>输入输出样例</strong><br><strong>输入</strong><br>6<br>5 4 2 6 3 1<br><strong>输出</strong><br>11<br><strong>说明/提示</strong><br>对于 25%25% 的数据，n \leq 2500n≤2500</p>
+<p>对于 50%50% 的数据，n \leq 4 \times 10^4n≤4×10<br>4<br> 。</p>
+<p>对于所有数据，n \leq 5 \times 10^5n≤5×10<br>5</p>
+<p>请使用较快的输入输出</p>
+<p>应该不会 O(n^2)O(n<br>2<br> ) 过 50 万吧 by chen_zhe</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">500010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> s[N];</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> ans =<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="built_in">merge_sort</span>(l,mid);</span><br><span class="line">    <span class="built_in">merge_sort</span>(mid+<span class="number">1</span>,r);</span><br><span class="line">    <span class="keyword">int</span> i=l;</span><br><span class="line">    <span class="keyword">int</span> j=mid+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> k=l;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid &amp;&amp; j&lt;=r)&#123;</span><br><span class="line">        <span class="keyword">if</span>(q[i]&lt;=q[j])&#123;   </span><br><span class="line">            s[k++]=q[i++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            s[k++]=q[j++];</span><br><span class="line">            ans+=mid-i+<span class="number">1</span>;</span><br><span class="line">        &#125;    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)   s[k++]=q[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r) s[k++]=q[j++];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memcpy</span>(q+l,s+l,<span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>)*(r-l+<span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cin &gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">merge_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt;ans &lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指 Offer II 001. 整数除法</title>
     <url>/2022/01/26/offer001//</url>
     <content><![CDATA[<p>给定两个整数 a 和 b ，求它们的除法的商 a/b ，要求不得使用乘号 ‘*’、除号 ‘/‘ 以及求余符号 ‘%’ 。</p>
@@ -1043,24 +1084,6 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
-    <title>归并排序</title>
-    <url>/2022/01/05/mergesort//</url>
-    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/d69e487339a6b8cc.png"><br>给定你一个长度为 n 的整数数列。</p>
-<p>请你使用归并排序对这个数列按照从小到大进行排序。</p>
-<p>并将排好序的数列按顺序输出。</p>
-<p>输入格式<br>输入共两行，第一行包含整数 n。</p>
-<p>第二行包含 n 个整数（所有整数均在 1∼109 范围内），表示整个数列。</p>
-<p>输出格式<br>输出共一行，包含 n 个整数，表示排好序的数列。</p>
-<p>数据范围<br>1≤n≤100000<br>输入样例：<br>5<br>3 1 2 4 5<br>输出样例：<br>1 2 3 4 5</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> s[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="built_in">merge_sort</span>(l,mid);</span><br><span class="line">    <span class="built_in">merge_sort</span>(mid+<span class="number">1</span>,r);</span><br><span class="line">    <span class="keyword">int</span> i=l;</span><br><span class="line">    <span class="keyword">int</span> j=mid+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> k=l;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid &amp;&amp; j&lt;=r)&#123;</span><br><span class="line">        <span class="keyword">if</span>(q[i]&lt;q[j])   s[k++]=q[i++];</span><br><span class="line">        <span class="keyword">else</span>    s[k++]=q[j++];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)   s[k++]=q[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r) s[k++]=q[j++];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memcpy</span>(q+l,s+l,<span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>)*(r-l+<span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cin &gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">merge_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cout &lt;&lt; q[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    cout &lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>剑指 Offer II 002. 二进制加法</title>
     <url>/2022/01/26/offer002//</url>
     <content><![CDATA[<p>给定两个 01 字符串 a 和 b ，请计算它们的和，并以二进制字符串的形式输出。</p>
@@ -1095,26 +1118,37 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
-    <title>P1908 逆序对</title>
-    <url>/2022/01/05/mergesort2//</url>
-    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/e36c2e67ce76d320.png"></p>
-<p><strong>题目描述</strong><br>猫猫 TOM 和小老鼠 JERRY 最近又较量上了，但是毕竟都是成年人，他们已经不喜欢再玩那种你追我赶的游戏，现在他们喜欢玩统计。</p>
-<p>最近，TOM 老猫查阅到一个人类称之为“逆序对”的东西，这东西是这样定义的：对于给定的一段正整数序列，逆序对就是序列中 a_i&gt;a_ja<br>i<br>​&gt;a<br>j<br>​<br>  且 i&lt;ji&lt;j 的有序对。知道这概念后，他们就比赛谁先算出给定的一段正整数序列中逆序对的数目。注意序列中可能有重复数字。</p>
-<p><strong>Update:数据已加强。</strong></p>
-<p><strong>输入格式</strong><br>第一行，一个数 nn，表示序列中有 nn个数。</p>
-<p>第二行 nn 个数，表示给定的序列。序列中每个数字不超过 10^910<br>9<br> 。</p>
-<p><strong>输出格式</strong><br>输出序列中逆序对的数目。</p>
-<p><strong>输入输出样例</strong><br><strong>输入</strong><br>6<br>5 4 2 6 3 1<br><strong>输出</strong><br>11<br><strong>说明/提示</strong><br>对于 25%25% 的数据，n \leq 2500n≤2500</p>
-<p>对于 50%50% 的数据，n \leq 4 \times 10^4n≤4×10<br>4<br> 。</p>
-<p>对于所有数据，n \leq 5 \times 10^5n≤5×10<br>5</p>
-<p>请使用较快的输入输出</p>
-<p>应该不会 O(n^2)O(n<br>2<br> ) 过 50 万吧 by chen_zhe</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">500010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> s[N];</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> ans =<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="built_in">merge_sort</span>(l,mid);</span><br><span class="line">    <span class="built_in">merge_sort</span>(mid+<span class="number">1</span>,r);</span><br><span class="line">    <span class="keyword">int</span> i=l;</span><br><span class="line">    <span class="keyword">int</span> j=mid+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> k=l;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid &amp;&amp; j&lt;=r)&#123;</span><br><span class="line">        <span class="keyword">if</span>(q[i]&lt;=q[j])&#123;   </span><br><span class="line">            s[k++]=q[i++];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            s[k++]=q[j++];</span><br><span class="line">            ans+=mid-i+<span class="number">1</span>;</span><br><span class="line">        &#125;    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)   s[k++]=q[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r) s[k++]=q[j++];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memcpy</span>(q+l,s+l,<span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>)*(r-l+<span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cin &gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">merge_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt;ans &lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    <title>剑指 Offer II 003. 前 n 个数字二进制中 1 的个数</title>
+    <url>/2022/01/26/offer003//</url>
+    <content><![CDATA[<p>给定一个非负整数 n ，请计算 0 到 n 之间的每个数字的二进制表示中 1 的个数，并输出一个数组。</p>
+<p><strong>示例 1:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> n = 2<br><br><strong>输出:</strong> [0,1,1]<br><br><strong>解释:</strong> <br><br>0 –&gt; 0<br><br>1 –&gt; 1<br><br>2 –&gt; 10<br></p>
+</blockquote>
+<p><strong>示例 2:</strong></p>
+<blockquote>
+<p><strong>输入:</strong> n = 5<br><br><strong>输出:</strong> [0,1,1,2,1,2]<br><br><strong>解释:</strong><br><br>0 –&gt; 0<br><br>1 –&gt; 1<br><br>2 –&gt; 10<br><br>3 –&gt; 11<br><br>4 –&gt; 100<br><br>5 –&gt; 101<br>
+ </p>
+</blockquote>
+<p><strong>说明 :</strong></p>
+<ul>
+<li>0 &lt;= n &lt;= 105
+ </li>
+</ul>
+<p><strong>进阶:</strong></p>
+<ul>
+<li>给出时间复杂度为 O(n*sizeof(integer)) 的解答非常容易。但你可以在线性时间 O(n) 内用一趟扫描做到吗？</li>
+<li>要求算法的空间复杂度为 O(n) 。</li>
+<li>你能进一步完善解法吗？要求在C++或任何其他语言中不使用任何内置函数（如 C++ 中的 __builtin_popcount ）来执行此操作。</li>
+</ul>
+<p><strong>代码</strong><br></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">countBits</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(n+<span class="number">1</span>,<span class="number">0</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;i++)   dp[i]=(i&amp;<span class="number">1</span>)+dp[i&gt;&gt;<span class="number">1</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a><a href="https://leetcode-cn.com/problems/w3tCBm/">题目链接</a></h1>]]></content>
       <categories>
-        <category>算法</category>
+        <category>力扣</category>
       </categories>
       <tags>
-        <tag>算法</tag>
+        <tag>力扣</tag>
       </tags>
   </entry>
   <entry>
@@ -1150,7 +1184,7 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
   <entry>
     <title>孤儿僵尸守护进程</title>
     <url>/2022/01/30/process//</url>
-    <content><![CDATA[<h1 id="孤儿进程："><a href="#孤儿进程：" class="headerlink" title="孤儿进程："></a>孤儿进程：</h1><p>一个父进程退出，而它的一个或多个子进程还在运行，那么那些子进程将成为孤儿进程。<br><br>孤儿进程将被init进程所收养，并由init进程对它们完成状态收集工作。<br><br>想想我们如何模仿一个孤儿进程？<br><code>答案是：  **kill 父进程!**&lt;br&gt;</code></p>
+    <content><![CDATA[<h1 id="孤儿进程："><a href="#孤儿进程：" class="headerlink" title="孤儿进程："></a>孤儿进程：</h1><p>一个父进程退出，而它的一个或多个子进程还在运行，那么那些子进程将成为孤儿进程。<br><br>孤儿进程将被init进程所收养，并由init进程对它们完成状态收集工作。<br><br>想想我们如何模仿一个孤儿进程？<br><code>答案是：kill 父进程!</code></p>
 <h1 id="僵尸进程："><a href="#僵尸进程：" class="headerlink" title="僵尸进程："></a>僵尸进程：<br></h1><p>  一个进程使用<strong>fork</strong>创建子进程，如果子进程退出，而父进程并没有调用<strong>wait</strong>或<strong>waitpid</strong>获取子进程的状态信息，那么子进程的进程描述符仍然保存在系统中。这种进程称之为僵尸进程。<br><br>1.  <strong>僵尸进程怎样产生的:</strong><br><br>   一个进程在调用<strong>exit</strong>命令结束自己的生命的时候，其实它并没有真正的被销毁，而是留下一个称为僵尸进程（<strong>Zombie</strong>）的数据结构（系统调用 <strong>exit</strong>，它的作用是使进程退出，但也仅仅限于将一个正常的进程变成一个僵尸进程，并不能将其完全销毁）。<br><br>  在Linux进程的状态中，僵尸进程是非常特殊的一种，它已经放弃了几乎所有内存空间，没有任何可执行代码，也不能被调度，仅仅在进程列表中保留一个位置，记载该进程的退出状态等信息供其他进程收集，除此之外，僵尸进程不再占有任何内存空间。它需要它的父进程来为它收尸，如果他的父进程没安装 <strong>SIGCHLD</strong>信号处理函数调用<strong>wait</strong>或<strong>waitpid()<strong>等待子进程结束，又没有显式忽略该信号，那么它就一直保持僵尸状态，如果这时父进程结束了，那么 <strong>init</strong> 进程自动会接手这个子进程，为它收尸，它还是能被清除的。但是如果如果父进程是一个循环，不会结束，那么子进程就会一直保持僵尸状态，这就是 为什么系统中有时会有很多的僵尸进程。<br><br>2. <strong>怎么查看僵尸进程</strong>：<br>　　利用命令</strong>ps</strong>，可以看到有标记为**<defunc>t<strong>的进程就是僵尸进程。<br>3. <strong>怎样来清除僵尸进程:</strong><br><br>  改写父进程，在子进程死后要为它收尸。具体做法是接管</strong>SIGCHLD<strong>信号。子进程死后，会发送</strong>SIGCHLD<strong>信号给父进程，父进程收到此信号后，执行</strong>waitpid()<strong>函数为子进程收尸。这是基于这样的原理：就算父进程没有调用 <strong>wait</strong>，内核也会向它发送</strong>SIGCHLD<strong>消息，尽管对默认处理是忽略，如果想响应这个消息，可以设置一个处理函数。 <br><br>  把父进程杀掉。父进程死后，僵尸进程成为”<strong>孤儿进程</strong>“，过继给1号进程</strong>init<strong>，</strong>init**始终会负责清理僵尸进程。它产生的所有僵尸进程也跟着消失。<br></p>
 <h1 id="守护进程"><a href="#守护进程" class="headerlink" title="守护进程"></a>守护进程</h1><p>  不与任何终端关联的进程，通常情况下守护进程在系统启动时就在运行，它们以<strong>root用户</strong>或者其他特殊用户(<strong>apache和postfix</strong>)运行，并能处理一些系统级的任务。守护进程脱离于终端，是为了避免进程在执行过程中的信息在任何终端上显示，并且进程也不会被任何终端所产生的终端信息所打断（比如关闭终端等）。那如何成为一个守护进程呢？ 步骤如下：<br></p>
 <blockquote>
@@ -1256,55 +1290,102 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
-    <title>快速排序</title>
-    <url>/2022/01/05/sort//</url>
-    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/e89e1d4856450600.png"><br>题目描述<br>利用快速排序算法将读入的 NN 个数从小到大排序后输出。</p>
-<p>快速排序是信息学竞赛的必备算法之一。对于快速排序不是很了解的同学可以自行上网查询相关资料，掌握后独立完成。（C++ 选手请不要试图使用 STL，虽然你可以使用 sort 一遍过，但是你并没有掌握快速排序算法的精髓。）</p>
-<p>输入格式<br>第 11 行为一个正整数 NN，第 22 行包含 NN 个空格隔开的正整数 a_ia<br>i<br>​<br> ，为你需要进行排序的数，数据保证了 A_iA<br>i<br>​<br>  不超过 10^910<br>9<br> 。</p>
-<p>输出格式<br>将给定的 NN 个数从小到大输出，数之间空格隔开，行末换行且无空格。</p>
-<p>输入输出样例<br>输入<br>5<br>4 2 4 5 1</p>
-<p>输出<br>1 2 4 4 5</p>
-<p>说明/提示<br>对于 20%20% 的数据，有 N\leq 10^3N≤10<br>3；<br>对于 100%100% 的数据，有 N\leq 10^5N≤10<br>5。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span> ;</span><br><span class="line">    <span class="keyword">int</span> i=l<span class="number">-1</span>,j=r+<span class="number">1</span>,val=q[l+r&gt;&gt;<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;j)&#123;</span><br><span class="line">        <span class="keyword">do</span> i++;<span class="keyword">while</span>(q[i]&lt;val);</span><br><span class="line">        <span class="keyword">do</span> j--;<span class="keyword">while</span>(q[j]&gt;val);</span><br><span class="line">    <span class="keyword">if</span>(i&lt;j) <span class="built_in">swap</span>(q[i],q[j]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">quick_sort</span>(l,j);</span><br><span class="line">    <span class="built_in">quick_sort</span>(j+<span class="number">1</span>,r);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cin&gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">quick_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cout&lt;&lt;q[i]&lt;&lt;<span class="string">&#x27; &#x27;</span>;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    <title>Linux下的signal</title>
+    <url>/2022/02/01/signal//</url>
+    <content><![CDATA[<table>
+<thead>
+<tr>
+<th>信号</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SIGABORT</td>
+<td>进程异常终止</td>
+</tr>
+<tr>
+<td>SIGALRM</td>
+<td>超时告警</td>
+</tr>
+<tr>
+<td>SIGFPE</td>
+<td>浮点运算异常</td>
+</tr>
+<tr>
+<td>SIGHUP</td>
+<td>连接挂断</td>
+</tr>
+<tr>
+<td>SIGILL</td>
+<td>非法指令</td>
+</tr>
+<tr>
+<td>SIGINT</td>
+<td>终端中断  (Ctrl+C将产生该信号)</td>
+</tr>
+<tr>
+<td>SIGKILL</td>
+<td>*终止进程</td>
+</tr>
+<tr>
+<td>SIGPIPE</td>
+<td>向没有读进程的管道写数据</td>
+</tr>
+<tr>
+<td>SIGQUIT</td>
+<td>终端退出（Ctrl+\将产生该信号</td>
+</tr>
+<tr>
+<td>SIGSEGV</td>
+<td>无效内存段访问</td>
+</tr>
+<tr>
+<td>SIGTERM</td>
+<td>终止</td>
+</tr>
+<tr>
+<td>SIGUSR1</td>
+<td>*用户自定义信号1</td>
+</tr>
+<tr>
+<td>SIGUSR2</td>
+<td>*用户自定义信号2</td>
+</tr>
+<tr>
+<td>以上信号如果不被捕获，则进程接受到后都会终止！</td>
+<td>以上信号如果不被捕获，则进程接受到后都会终止！</td>
+</tr>
+<tr>
+<td>SIGCHLD</td>
+<td>子进程已停止或退出</td>
+</tr>
+<tr>
+<td>SIGCONT</td>
+<td>*让暂停的进程继续执行</td>
+</tr>
+<tr>
+<td>SIGSTOP</td>
+<td>*停止执行(即“暂停”)</td>
+</tr>
+<tr>
+<td>SIGTSTP</td>
+<td>中断挂起</td>
+</tr>
+<tr>
+<td>SIGTTIN</td>
+<td>后台进程尝试读操作</td>
+</tr>
+<tr>
+<td>SIGTTOU</td>
+<td>后台进程尝试写</td>
+</tr>
+</tbody></table>
+]]></content>
       <categories>
-        <category>算法</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>剑指 Offer II 003. 前 n 个数字二进制中 1 的个数</title>
-    <url>/2022/01/26/offer003//</url>
-    <content><![CDATA[<p>给定一个非负整数 n ，请计算 0 到 n 之间的每个数字的二进制表示中 1 的个数，并输出一个数组。</p>
-<p><strong>示例 1:</strong></p>
-<blockquote>
-<p><strong>输入:</strong> n = 2<br><br><strong>输出:</strong> [0,1,1]<br><br><strong>解释:</strong> <br><br>0 –&gt; 0<br><br>1 –&gt; 1<br><br>2 –&gt; 10<br></p>
-</blockquote>
-<p><strong>示例 2:</strong></p>
-<blockquote>
-<p><strong>输入:</strong> n = 5<br><br><strong>输出:</strong> [0,1,1,2,1,2]<br><br><strong>解释:</strong><br><br>0 –&gt; 0<br><br>1 –&gt; 1<br><br>2 –&gt; 10<br><br>3 –&gt; 11<br><br>4 –&gt; 100<br><br>5 –&gt; 101<br>
- </p>
-</blockquote>
-<p><strong>说明 :</strong></p>
-<ul>
-<li>0 &lt;= n &lt;= 105
- </li>
-</ul>
-<p><strong>进阶:</strong></p>
-<ul>
-<li>给出时间复杂度为 O(n*sizeof(integer)) 的解答非常容易。但你可以在线性时间 O(n) 内用一趟扫描做到吗？</li>
-<li>要求算法的空间复杂度为 O(n) 。</li>
-<li>你能进一步完善解法吗？要求在C++或任何其他语言中不使用任何内置函数（如 C++ 中的 __builtin_popcount ）来执行此操作。</li>
-</ul>
-<p><strong>代码</strong><br></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">countBits</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(n+<span class="number">1</span>,<span class="number">0</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=n;i++)   dp[i]=(i&amp;<span class="number">1</span>)+dp[i&gt;&gt;<span class="number">1</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> dp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a><a href="https://leetcode-cn.com/problems/w3tCBm/">题目链接</a></h1>]]></content>
-      <categories>
-        <category>力扣</category>
-      </categories>
-      <tags>
-        <tag>力扣</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1316,6 +1397,24 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
 <p>输出格式<br>无</p>
 <p>输入输出样例<br>输入 #1复制<br>5 1<br>4 3 2 1 5<br>输出 #1复制<br>2</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">5e6</span>+<span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> k;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r) <span class="keyword">return</span> ;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> i=l<span class="number">-1</span>, j=r+<span class="number">1</span>,val = q[l+r&gt;&gt;<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">do</span> i++; <span class="keyword">while</span>(q[i]&lt;val);</span><br><span class="line">        <span class="keyword">do</span> j--; <span class="keyword">while</span>(q[j]&gt;val);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(i&lt;j) <span class="built_in">swap</span>(q[i],q[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(k&lt;=j)</span><br><span class="line">        <span class="built_in">quick_sort</span>(l,j);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">quick_sort</span>(j+<span class="number">1</span>,r);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cin&gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">quick_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; q[k] &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>快速排序</title>
+    <url>/2022/01/05/sort//</url>
+    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/e89e1d4856450600.png"><br>题目描述<br>利用快速排序算法将读入的 NN 个数从小到大排序后输出。</p>
+<p>快速排序是信息学竞赛的必备算法之一。对于快速排序不是很了解的同学可以自行上网查询相关资料，掌握后独立完成。（C++ 选手请不要试图使用 STL，虽然你可以使用 sort 一遍过，但是你并没有掌握快速排序算法的精髓。）</p>
+<p>输入格式<br>第 11 行为一个正整数 NN，第 22 行包含 NN 个空格隔开的正整数 a_ia<br>i<br>​<br> ，为你需要进行排序的数，数据保证了 A_iA<br>i<br>​<br>  不超过 10^910<br>9<br> 。</p>
+<p>输出格式<br>将给定的 NN 个数从小到大输出，数之间空格隔开，行末换行且无空格。</p>
+<p>输入输出样例<br>输入<br>5<br>4 2 4 5 1</p>
+<p>输出<br>1 2 4 4 5</p>
+<p>说明/提示<br>对于 20%20% 的数据，有 N\leq 10^3N≤10<br>3；<br>对于 100%100% 的数据，有 N\leq 10^5N≤10<br>5。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span> ;</span><br><span class="line">    <span class="keyword">int</span> i=l<span class="number">-1</span>,j=r+<span class="number">1</span>,val=q[l+r&gt;&gt;<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;j)&#123;</span><br><span class="line">        <span class="keyword">do</span> i++;<span class="keyword">while</span>(q[i]&lt;val);</span><br><span class="line">        <span class="keyword">do</span> j--;<span class="keyword">while</span>(q[j]&gt;val);</span><br><span class="line">    <span class="keyword">if</span>(i&lt;j) <span class="built_in">swap</span>(q[i],q[j]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">quick_sort</span>(l,j);</span><br><span class="line">    <span class="built_in">quick_sort</span>(j+<span class="number">1</span>,r);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cin&gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">quick_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cout&lt;&lt;q[i]&lt;&lt;<span class="string">&#x27; &#x27;</span>;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法</category>
       </categories>

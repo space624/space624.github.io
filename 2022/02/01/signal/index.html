@@ -15,7 +15,7 @@
 
 
 
-<title>剑指 Offer II 002. 二进制加法 | Space Blog</title>
+<title>Linux下的signal | Space Blog</title>
 
 
 
@@ -42,45 +42,6 @@
 
     
     
-        
-            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    "HTML-CSS": {
-        preferredFont: "TeX",
-        availableFonts: ["STIX","TeX"],
-        linebreaks: { automatic:true },
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
-        processEscapes: true,
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
-        Macros: { href: "{}" }
-    },
-    messageStyle: "none"
-    });
-</script>
-<!-- 给MathJax元素添加has-jax class -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-<!-- 通过连接CDN加载MathJax的js代码 -->
-<script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-
-
         
     
 
@@ -172,7 +133,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">剑指 Offer II 002. 二进制加法</h1>
+            <h1 class="post-title">Linux下的signal</h1>
             
                 <div class="post-meta">
                     
@@ -181,14 +142,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">一月 26, 2022&nbsp;&nbsp;0:00:00</a>
+                        Date: <a href="#">二月 1, 2022&nbsp;&nbsp;0:00:00</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/%E5%8A%9B%E6%89%A3/">力扣</a>
+                                <a href="/categories/Linux/">Linux</a>
                             
                         </span>
                     
@@ -197,29 +158,94 @@
         </header>
 
         <div class="post-content">
-            <p>给定两个 01 字符串 a 和 b ，请计算它们的和，并以二进制字符串的形式输出。</p>
-<p>输入为 <strong>非空</strong> 字符串且只包含数字 1 和 0。</p>
-<p> </p>
-<p><strong>示例 1:</strong><br></p>
-<blockquote>
-<p><strong>输入:</strong> a = “11”, b = “10”<br><br><strong>输出:</strong> “101”<br></p>
-</blockquote>
-<p><strong>示例 2:</strong><br></p>
-<blockquote>
-<p><strong>输入:</strong> a = “1010”, b = “1011”<br><br><strong>输出:</strong> “10101”<br>
- </p>
-</blockquote>
-<p><strong>提示：</strong></p>
-<ul>
-<li>每个字符串仅由字符 ‘0’ 或 ‘1’ 组成。</li>
-<li>1 &lt;= a.length, b.length &lt;= 10^4</li>
-<li>字符串如果不是 “0” ，就都不含前导零。</li>
-</ul>
-<p><strong>代码</strong><br></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">addBinary</span><span class="params">(string a, string b)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">reverse</span>(a.<span class="built_in">begin</span>(),a.<span class="built_in">end</span>());</span><br><span class="line">        <span class="built_in">reverse</span>(b.<span class="built_in">begin</span>(),b.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> t=<span class="number">0</span>;</span><br><span class="line">        string res;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.<span class="built_in">size</span>() || i&lt;b.<span class="built_in">size</span>()||t;i++)&#123;</span><br><span class="line">             <span class="keyword">if</span>(i &lt; a.<span class="built_in">size</span>()) t += (a[i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            <span class="keyword">if</span>(i &lt; b.<span class="built_in">size</span>()) t += (b[i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            res += (t % <span class="number">2</span> % <span class="number">10</span> + <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            t /= <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">         <span class="built_in">reverse</span>(res.<span class="built_in">begin</span>(),res.<span class="built_in">end</span>());</span><br><span class="line">         <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<br>
-# [题目链接](https://leetcode-cn.com/problems/JFETK5)
-
+            <table>
+<thead>
+<tr>
+<th>信号</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SIGABORT</td>
+<td>进程异常终止</td>
+</tr>
+<tr>
+<td>SIGALRM</td>
+<td>超时告警</td>
+</tr>
+<tr>
+<td>SIGFPE</td>
+<td>浮点运算异常</td>
+</tr>
+<tr>
+<td>SIGHUP</td>
+<td>连接挂断</td>
+</tr>
+<tr>
+<td>SIGILL</td>
+<td>非法指令</td>
+</tr>
+<tr>
+<td>SIGINT</td>
+<td>终端中断  (Ctrl+C将产生该信号)</td>
+</tr>
+<tr>
+<td>SIGKILL</td>
+<td>*终止进程</td>
+</tr>
+<tr>
+<td>SIGPIPE</td>
+<td>向没有读进程的管道写数据</td>
+</tr>
+<tr>
+<td>SIGQUIT</td>
+<td>终端退出（Ctrl+\将产生该信号</td>
+</tr>
+<tr>
+<td>SIGSEGV</td>
+<td>无效内存段访问</td>
+</tr>
+<tr>
+<td>SIGTERM</td>
+<td>终止</td>
+</tr>
+<tr>
+<td>SIGUSR1</td>
+<td>*用户自定义信号1</td>
+</tr>
+<tr>
+<td>SIGUSR2</td>
+<td>*用户自定义信号2</td>
+</tr>
+<tr>
+<td>以上信号如果不被捕获，则进程接受到后都会终止！</td>
+<td>以上信号如果不被捕获，则进程接受到后都会终止！</td>
+</tr>
+<tr>
+<td>SIGCHLD</td>
+<td>子进程已停止或退出</td>
+</tr>
+<tr>
+<td>SIGCONT</td>
+<td>*让暂停的进程继续执行</td>
+</tr>
+<tr>
+<td>SIGSTOP</td>
+<td>*停止执行(即“暂停”)</td>
+</tr>
+<tr>
+<td>SIGTSTP</td>
+<td>中断挂起</td>
+</tr>
+<tr>
+<td>SIGTTIN</td>
+<td>后台进程尝试读操作</td>
+</tr>
+<tr>
+<td>SIGTTOU</td>
+<td>后台进程尝试写</td>
+</tr>
+</tbody></table>
 
         </div>
 
@@ -234,7 +260,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://spaceout.cn/2022/01/26/offer002/">https://spaceout.cn/2022/01/26/offer002/</a></span>
+                        <span><a href="https://spaceout.cn/2022/02/01/signal/">https://spaceout.cn/2022/02/01/signal/</a></span>
                     </p>
                 
                 
@@ -258,7 +284,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/%E5%8A%9B%E6%89%A3/"># 力扣</a>
+                        <a href="/tags/Linux/"># Linux</a>
                     
                         
                 </span>
@@ -271,10 +297,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/01/26/offer001/">剑指 Offer II 001. 整数除法</a>
             
-            
-            <a class="next" rel="next" href="/2022/01/26/offer003/">剑指 Offer II 003. 前 n 个数字二进制中 1 的个数</a>
+            <a class="next" rel="next" href="/2022/01/30/process/">孤儿僵尸守护进程</a>
             
         </section>
 
