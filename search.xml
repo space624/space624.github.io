@@ -1,68 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>高精度加减乘除法</title>
-    <url>/2022/01/08/AddDouble//</url>
-    <content><![CDATA[<h2 id="题目连接"><a href="#题目连接" class="headerlink" title="题目连接"></a><a href="https://www.luogu.com.cn/problem/P1601">题目连接</a></h2><p><strong>A+B:</strong><br><strong>题目描述</strong><br>高精度加法，相当于a+b problem，不用考虑负数.</p>
-<p><strong>输入格式</strong><br>分两行输入。a,b \leq 10^{500}a,b≤10<br>500</p>
-<p><strong>输出格式</strong><br>输出只有一行，代表a+ba+b的值</p>
-<p><strong>输入输出样例</strong><br><strong>输入 #1</strong></p>
-<blockquote>
-<p>1<br>1</p>
-</blockquote>
-<p><strong>输出 #1</strong></p>
-<blockquote>
-<p>2</p>
-</blockquote>
-<p><strong>输入 #2</strong></p>
-<blockquote>
-<p>1001<br>9099</p>
-</blockquote>
-<p><strong>输出 #2</strong></p>
-<blockquote>
-<p>10100</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function">string <span class="title">add</span><span class="params">(string a,string b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(a.<span class="built_in">size</span>() &lt; b.<span class="built_in">size</span>())  <span class="keyword">return</span> <span class="built_in">add</span>(b,a);</span><br><span class="line">    string res;</span><br><span class="line">    <span class="keyword">int</span> t=<span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=a.<span class="built_in">size</span>()<span class="number">-1</span>,j=b.<span class="built_in">size</span>()<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        t+=a[i]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        <span class="keyword">if</span>(j&gt;=<span class="number">0</span>) t+=b[j--]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        res.<span class="built_in">push_back</span>(t%<span class="number">10</span>+<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        t/=<span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(t)   res.<span class="built_in">push_back</span>(<span class="string">&#x27;1&#x27;</span>);</span><br><span class="line">    <span class="built_in">reverse</span>(res.<span class="built_in">begin</span>(),res.<span class="built_in">end</span>());</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    string a,b;</span><br><span class="line">    cin &gt;&gt; a &gt;&gt; b;</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; <span class="built_in">add</span>(a,b) &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<p><a href="https://www.luogu.com.cn/problem/P2142">题目链接</a><br><strong>A-B:</strong><br><strong>题目描述</strong><br>高精度减法。</p>
-<p><strong>输入格式</strong><br>两个整数 a,ba,b（第二个可能比第一个大）。</p>
-<p><strong>输出格式</strong><br>结果（是负数要输出负号）。</p>
-<p><strong>输入输出样</strong><br><strong>输入</strong><br>2<br>1<br><strong>输出</strong><br>1<br><strong>说明/提示</strong><br>20%20% 数据 a,ba,b 在 long long 范围内；<br>100%100% 数据 0&lt;a,b\le 10^{10086}0&lt;a,b≤10<br>10086<br> 。<br> <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(string a, string b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(a.<span class="built_in">size</span>()!=b.<span class="built_in">size</span>()) <span class="keyword">return</span> a.<span class="built_in">size</span>()&lt;b.<span class="built_in">size</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.<span class="built_in">size</span>();i++)</span><br><span class="line">        <span class="keyword">if</span>(a[i]!=b[i]) <span class="keyword">return</span> a[i]&lt;b[i];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">string <span class="title">sub</span><span class="params">(string a,string b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">bool</span> flag=<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">cmp</span>(a,b))&#123;</span><br><span class="line">        flag=<span class="literal">true</span>;</span><br><span class="line">        <span class="built_in">swap</span>(a,b);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> t =<span class="number">0</span>;</span><br><span class="line">    string res;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=a.<span class="built_in">size</span>()<span class="number">-1</span>,j=b.<span class="built_in">size</span>()<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        t+=a[i]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        <span class="keyword">if</span>(j&gt;=<span class="number">0</span>) t-=b[j--]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        res.<span class="built_in">push_back</span>((t+<span class="number">10</span>)%<span class="number">10</span>+<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        t=t&lt;<span class="number">0</span>?<span class="number">-1</span>:<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(res.<span class="built_in">size</span>()&gt;<span class="number">1</span>&amp;&amp; res.<span class="built_in">back</span>()==<span class="string">&#x27;0&#x27;</span>) res.<span class="built_in">pop_back</span>();</span><br><span class="line">    <span class="built_in">reverse</span>(res.<span class="built_in">begin</span>(),res.<span class="built_in">end</span>());</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(flag)    <span class="keyword">return</span> <span class="string">&quot;-&quot;</span>+res;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    string a,b;</span><br><span class="line">    cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; <span class="built_in">sub</span>(a,b) &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><a href="https://www.luogu.com.cn/problem/P1480">题目链接</a><br><strong>A/B:</strong></p>
-<p><strong>题目描述</strong><br>输入两个整数 a,ba,b，输出它们的商。</p>
-<p><strong>输入格式</strong><br>两行，第一行是被除数，第二行是除数。</p>
-<p><strong>输出格式</strong><br>一行，商的整数部分。</p>
-<p><strong>输入输出样例</strong><br><strong>输入</strong> #1复制<br>10<br>2<br><strong>输出</strong> #1复制<br>5<br><strong>说明/提示</strong><br>0\le a\le 10^{5000}0≤a≤10<br>5000<br> ，1\le b\le 10^91≤b≤10<br>9<br> 。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function">string <span class="title">div</span><span class="params">(string a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(a==<span class="string">&quot;0&quot;</span>)  <span class="keyword">return</span> <span class="string">&quot;0&quot;</span>;</span><br><span class="line">    string res;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> t=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">        t=t*<span class="number">10</span>+(a[i]-<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        res.<span class="built_in">push_back</span>(t/b+<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        t%=b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">reverse</span>(res.<span class="built_in">begin</span>(),res.<span class="built_in">end</span>());</span><br><span class="line">    <span class="keyword">while</span>(res.<span class="built_in">size</span>()&gt;<span class="number">1</span> &amp;&amp; res.<span class="built_in">back</span>()==<span class="string">&#x27;0&#x27;</span>) res.<span class="built_in">pop_back</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">reverse</span>(res.<span class="built_in">begin</span>(),res.<span class="built_in">end</span>());</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    string a;</span><br><span class="line">    <span class="keyword">int</span> b;</span><br><span class="line">    cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">div</span>(a,b) &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网络编程bin函数</title>
-    <url>/2021/12/20/Bin//</url>
-    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>sockfd：</strong><br>    socket文件描述符<br><strong>addr:</strong><br>    构造出IP地址加端口号<br><strong>addrlen:</strong><br>    sizeof(addr)长度<br>返回值：<br>    成功返回0，失败返回-1, 设置errno</p>
-</blockquote>
-<p>*<em>服务器程序所监听的网络地址和端口号通常是固定不变的，客户端程序得知服务器程序的地址和端口号后就可以向服务器发起连接，因此服务器需要调用bind绑定一个固定的网络地址和端口号。<br>bind()的作用是将参数sockfd和addr绑定在一起，使sockfd这个用于网络通讯的文件描述符监听addr所描述的地址和端口号。前面讲过，struct sockaddr <em>是一个通用指针类型，addr参数实际上可以接受多种协议的sockaddr结构体，而它们的长度各不相同，所以需要第三个参数addrlen指定结构体的长度。</em></em></p>
-<h3 id="列"><a href="#列" class="headerlink" title="列:"></a>列:</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct sockaddr_in servaddr;</span><br><span class="line">bzero(&amp;servaddr, sizeof(servaddr));</span><br><span class="line">servaddr.sin_family = AF_INET;</span><br><span class="line">servaddr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">servaddr.sin_port = htons(6666);</span><br></pre></td></tr></table></figure>
-<p><strong>首先将整个结构体清零，然后设置地址类型为AF_INET，网络地址为INADDR_ANY，这个宏表示本地的任意IP地址，因为服务器可能有多个网卡，每个网卡也可能绑定多个IP地址，这样设置可以在所有的IP地址上监听，直到与某个客户端建立了连接时才确定下来到底用哪个IP地址，端口号为6666。</strong></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>函数模板与类模板</title>
     <url>/2021/12/11/FunctionClassTemplate//</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><strong>C++提供了模板(template)编程的概念。所谓模板，实际上是建立一个通用函数或类，其类内部的类型和函数的形参类型不具体指定，用一个虚拟的类型来代表。这种通用的方式称为模板。模板是泛型编程的基础,泛型编程即以一种独立于任何特定类型的方式编写代码。</strong></p>
@@ -179,21 +117,16 @@
       </tags>
   </entry>
   <entry>
-    <title>Gtest安装以及错误解决</title>
-    <url>/2021/12/14/Gtest//</url>
-    <content><![CDATA[<h1 id="Gtest安装"><a href="#Gtest安装" class="headerlink" title="Gtest安装"></a><strong>Gtest安装</strong></h1><ul>
-<li><code> sudo apt-get install git</code></li>
-<li><code> git clone https://github.com/google/googletest.git</code></li>
-<li> 或者在<a href="https://github.com/google/googletest">Windows浏览器下载</a>再利用samba服务器传输到Linux下</li>
-<li> <code>cd googletest </code></li>
-<li> <code>cmake .</code></li>
-<li> <code>make</code></li>
-<li> <code>ls lib</code></li>
-</ul>
-<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><h2 id="在make时报错"><a href="#在make时报错" class="headerlink" title="在make时报错:"></a><strong>在make时报错:</strong></h2><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://s3.bmp.ovh/imgs/2021/12/054ee1afb84325bb.png"></h2><p><strong>在 CMakeList.txt 里面加上</strong><br><code> SET(CMAKE_CXX_FLAGS &quot;-std=c++11&quot;)</code></p>
-<hr>
-<h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://i.bmp.ovh/imgs/2021/12/bedd24703dac8e3b.png"></h2><p><strong>再次执行</strong><code>cmake .</code> <strong>&amp;&amp;</strong> <code>cmake</code></p>
-<h2 id="成功"><a href="#成功" class="headerlink" title="成功:"></a><strong>成功:</strong></h2><h2 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="https://i.bmp.ovh/imgs/2021/12/ebe147683b8300ef.png"></h2>]]></content>
+    <title>网络编程bin函数</title>
+    <url>/2021/12/20/Bin//</url>
+    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>sockfd：</strong><br>    socket文件描述符<br><strong>addr:</strong><br>    构造出IP地址加端口号<br><strong>addrlen:</strong><br>    sizeof(addr)长度<br>返回值：<br>    成功返回0，失败返回-1, 设置errno</p>
+</blockquote>
+<p>*<em>服务器程序所监听的网络地址和端口号通常是固定不变的，客户端程序得知服务器程序的地址和端口号后就可以向服务器发起连接，因此服务器需要调用bind绑定一个固定的网络地址和端口号。<br>bind()的作用是将参数sockfd和addr绑定在一起，使sockfd这个用于网络通讯的文件描述符监听addr所描述的地址和端口号。前面讲过，struct sockaddr <em>是一个通用指针类型，addr参数实际上可以接受多种协议的sockaddr结构体，而它们的长度各不相同，所以需要第三个参数addrlen指定结构体的长度。</em></em></p>
+<h3 id="列"><a href="#列" class="headerlink" title="列:"></a>列:</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct sockaddr_in servaddr;</span><br><span class="line">bzero(&amp;servaddr, sizeof(servaddr));</span><br><span class="line">servaddr.sin_family = AF_INET;</span><br><span class="line">servaddr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">servaddr.sin_port = htons(6666);</span><br></pre></td></tr></table></figure>
+<p><strong>首先将整个结构体清零，然后设置地址类型为AF_INET，网络地址为INADDR_ANY，这个宏表示本地的任意IP地址，因为服务器可能有多个网卡，每个网卡也可能绑定多个IP地址，这样设置可以在所有的IP地址上监听，直到与某个客户端建立了连接时才确定下来到底用哪个IP地址，端口号为6666。</strong></p>
+]]></content>
       <categories>
         <category>Linux</category>
       </categories>
@@ -202,22 +135,47 @@
       </tags>
   </entry>
   <entry>
-    <title>网络编程listen函数</title>
-    <url>/2021/12/20/Listen//</url>
-    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int listen(int sockfd, int backlog);</span><br></pre></td></tr></table></figure>
+    <title>高精度加减乘除法</title>
+    <url>/2022/01/08/AddDouble//</url>
+    <content><![CDATA[<h2 id="题目连接"><a href="#题目连接" class="headerlink" title="题目连接"></a><a href="https://www.luogu.com.cn/problem/P1601">题目连接</a></h2><p><strong>A+B:</strong><br><strong>题目描述</strong><br>高精度加法，相当于a+b problem，不用考虑负数.</p>
+<p><strong>输入格式</strong><br>分两行输入。a,b \leq 10^{500}a,b≤10<br>500</p>
+<p><strong>输出格式</strong><br>输出只有一行，代表a+ba+b的值</p>
+<p><strong>输入输出样例</strong><br><strong>输入 #1</strong></p>
 <blockquote>
-<p><strong>sockfd:</strong><br>    socket文件描述符<br><strong>backlog:</strong><br>    在Linux 系统中，它是指排队等待建立3次握手队列长度<br>查看系统默认backlog<br><code>cat /proc/sys/net/ipv4/tcp_max_syn_backlog</code></p>
+<p>1<br>1</p>
 </blockquote>
+<p><strong>输出 #1</strong></p>
 <blockquote>
-<p>改变 系统限制的backlog 大小<br>vim /etc/sysctl.conf<br>最后添加<br>net.core.somaxconn = 1024<br>net.ipv4.tcp_max_syn_backlog = 1024<br>保存，然后执行<br>sysctl -p</p>
+<p>2</p>
 </blockquote>
-<p><strong>典型的服务器程序可以同时服务于多个客户端，当有客户端发起连接时，服务器调用的accept()返回并接受这个连接，如果有大量的客户端发起连接而服务器来不及处理，尚未accept的客户端就处于连接等待状态，listen()声明sockfd处于监听状态，并且最多允许有backlog个客户端处于连接待状态，如果接收到更多的连接请求就忽略。listen()成功返回0，失败返回-1。</strong></p>
+<p><strong>输入 #2</strong></p>
+<blockquote>
+<p>1001<br>9099</p>
+</blockquote>
+<p><strong>输出 #2</strong></p>
+<blockquote>
+<p>10100</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function">string <span class="title">add</span><span class="params">(string a,string b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(a.<span class="built_in">size</span>() &lt; b.<span class="built_in">size</span>())  <span class="keyword">return</span> <span class="built_in">add</span>(b,a);</span><br><span class="line">    string res;</span><br><span class="line">    <span class="keyword">int</span> t=<span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=a.<span class="built_in">size</span>()<span class="number">-1</span>,j=b.<span class="built_in">size</span>()<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        t+=a[i]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        <span class="keyword">if</span>(j&gt;=<span class="number">0</span>) t+=b[j--]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        res.<span class="built_in">push_back</span>(t%<span class="number">10</span>+<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        t/=<span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(t)   res.<span class="built_in">push_back</span>(<span class="string">&#x27;1&#x27;</span>);</span><br><span class="line">    <span class="built_in">reverse</span>(res.<span class="built_in">begin</span>(),res.<span class="built_in">end</span>());</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    string a,b;</span><br><span class="line">    cin &gt;&gt; a &gt;&gt; b;</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; <span class="built_in">add</span>(a,b) &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><a href="https://www.luogu.com.cn/problem/P2142">题目链接</a><br><strong>A-B:</strong><br><strong>题目描述</strong><br>高精度减法。</p>
+<p><strong>输入格式</strong><br>两个整数 a,ba,b（第二个可能比第一个大）。</p>
+<p><strong>输出格式</strong><br>结果（是负数要输出负号）。</p>
+<p><strong>输入输出样</strong><br><strong>输入</strong><br>2<br>1<br><strong>输出</strong><br>1<br><strong>说明/提示</strong><br>20%20% 数据 a,ba,b 在 long long 范围内；<br>100%100% 数据 0&lt;a,b\le 10^{10086}0&lt;a,b≤10<br>10086<br> 。<br> <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"> <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">cmp</span><span class="params">(string a, string b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(a.<span class="built_in">size</span>()!=b.<span class="built_in">size</span>()) <span class="keyword">return</span> a.<span class="built_in">size</span>()&lt;b.<span class="built_in">size</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.<span class="built_in">size</span>();i++)</span><br><span class="line">        <span class="keyword">if</span>(a[i]!=b[i]) <span class="keyword">return</span> a[i]&lt;b[i];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">string <span class="title">sub</span><span class="params">(string a,string b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">bool</span> flag=<span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">cmp</span>(a,b))&#123;</span><br><span class="line">        flag=<span class="literal">true</span>;</span><br><span class="line">        <span class="built_in">swap</span>(a,b);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> t =<span class="number">0</span>;</span><br><span class="line">    string res;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=a.<span class="built_in">size</span>()<span class="number">-1</span>,j=b.<span class="built_in">size</span>()<span class="number">-1</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">        t+=a[i]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        <span class="keyword">if</span>(j&gt;=<span class="number">0</span>) t-=b[j--]-<span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">        res.<span class="built_in">push_back</span>((t+<span class="number">10</span>)%<span class="number">10</span>+<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        t=t&lt;<span class="number">0</span>?<span class="number">-1</span>:<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(res.<span class="built_in">size</span>()&gt;<span class="number">1</span>&amp;&amp; res.<span class="built_in">back</span>()==<span class="string">&#x27;0&#x27;</span>) res.<span class="built_in">pop_back</span>();</span><br><span class="line">    <span class="built_in">reverse</span>(res.<span class="built_in">begin</span>(),res.<span class="built_in">end</span>());</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(flag)    <span class="keyword">return</span> <span class="string">&quot;-&quot;</span>+res;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    string a,b;</span><br><span class="line">    cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; <span class="built_in">sub</span>(a,b) &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><a href="https://www.luogu.com.cn/problem/P1480">题目链接</a><br><strong>A/B:</strong></p>
+<p><strong>题目描述</strong><br>输入两个整数 a,ba,b，输出它们的商。</p>
+<p><strong>输入格式</strong><br>两行，第一行是被除数，第二行是除数。</p>
+<p><strong>输出格式</strong><br>一行，商的整数部分。</p>
+<p><strong>输入输出样例</strong><br><strong>输入</strong> #1复制<br>10<br>2<br><strong>输出</strong> #1复制<br>5<br><strong>说明/提示</strong><br>0\le a\le 10^{5000}0≤a≤10<br>5000<br> ，1\le b\le 10^91≤b≤10<br>9<br> 。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function">string <span class="title">div</span><span class="params">(string a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(a==<span class="string">&quot;0&quot;</span>)  <span class="keyword">return</span> <span class="string">&quot;0&quot;</span>;</span><br><span class="line">    string res;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">long</span> <span class="keyword">long</span> t=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">        t=t*<span class="number">10</span>+(a[i]-<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        res.<span class="built_in">push_back</span>(t/b+<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">        t%=b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">reverse</span>(res.<span class="built_in">begin</span>(),res.<span class="built_in">end</span>());</span><br><span class="line">    <span class="keyword">while</span>(res.<span class="built_in">size</span>()&gt;<span class="number">1</span> &amp;&amp; res.<span class="built_in">back</span>()==<span class="string">&#x27;0&#x27;</span>) res.<span class="built_in">pop_back</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">reverse</span>(res.<span class="built_in">begin</span>(),res.<span class="built_in">end</span>());</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    string a;</span><br><span class="line">    <span class="keyword">int</span> b;</span><br><span class="line">    cin&gt;&gt;a&gt;&gt;b;</span><br><span class="line">    cout &lt;&lt; <span class="built_in">div</span>(a,b) &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>算法</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -297,6 +255,137 @@
       </tags>
   </entry>
   <entry>
+    <title>网络编程listen函数</title>
+    <url>/2021/12/20/Listen//</url>
+    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int listen(int sockfd, int backlog);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>sockfd:</strong><br>    socket文件描述符<br><strong>backlog:</strong><br>    在Linux 系统中，它是指排队等待建立3次握手队列长度<br>查看系统默认backlog<br><code>cat /proc/sys/net/ipv4/tcp_max_syn_backlog</code></p>
+</blockquote>
+<blockquote>
+<p>改变 系统限制的backlog 大小<br>vim /etc/sysctl.conf<br>最后添加<br>net.core.somaxconn = 1024<br>net.ipv4.tcp_max_syn_backlog = 1024<br>保存，然后执行<br>sysctl -p</p>
+</blockquote>
+<p><strong>典型的服务器程序可以同时服务于多个客户端，当有客户端发起连接时，服务器调用的accept()返回并接受这个连接，如果有大量的客户端发起连接而服务器来不及处理，尚未accept的客户端就处于连接等待状态，listen()声明sockfd处于监听状态，并且最多允许有backlog个客户端处于连接待状态，如果接收到更多的连接请求就忽略。listen()成功返回0，失败返回-1。</strong></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>高并发传统方式的弊端以及解决方式</title>
+    <url>/2022/02/07/MallocFree//</url>
+    <content><![CDATA[<h1 id="弊端一"><a href="#弊端一" class="headerlink" title="弊端一."></a>弊端一.</h1><p><strong>高并发时较小内存块使用导致内存调用频繁,降低了系统的执行效率</strong><br><img src="https://i.bmp.ovh/imgs/2022/02/80a0fb343bb8e2fc.png"></p>
+<hr>
+<h1 id="弊端二"><a href="#弊端二" class="headerlink" title="弊端二."></a>弊端二.</h1><p><strong>频繁使用时增加了系统内存的碎片,降低内存使用效率</strong><br><br>&emsp;    <font color=GoldenRod>内部碎片</font> –&emsp;已经被分配出去(能明确指出属于哪个进程) 却不能利用的内存空间;<br><br>  &emsp;&emsp;&emsp;<font color=red>产生根源</font><strong>1.内存分配必须起始于可被 4、8 或 16 整除（视处理器体系结构而定）的地址<br></strong><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;<strong>2.MMU的分页机制的限制</strong><br><br><br></p>
+<table>
+<thead>
+<tr>
+<th><strong>处理器</strong></th>
+<th><strong>页大小</strong></th>
+<th><strong>分页的级别</strong></th>
+<th>虚拟****地址分级</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>x86</strong></td>
+<td><strong>4KB</strong></td>
+<td><strong>2</strong></td>
+<td><strong>10+10+12</strong></td>
+</tr>
+<tr>
+<td><strong>x86(extended)</strong></td>
+<td><strong>4KB</strong></td>
+<td><strong>1</strong></td>
+<td><strong>10+22</strong></td>
+</tr>
+<tr>
+<td><strong>x86(PAE)</strong></td>
+<td><strong>4KB</strong></td>
+<td><strong>3</strong></td>
+<td><strong>2+9+9+12</strong></td>
+</tr>
+<tr>
+<td><strong>x86-64</strong></td>
+<td><strong>4KB</strong></td>
+<td><strong>4</strong></td>
+<td><strong>9+9+9+9+12</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="弊端三"><a href="#弊端三" class="headerlink" title="弊端三."></a>弊端三.</h1><p><strong>没有垃圾回收机制,容易造成内存泄露,导致内存枯竭</strong><br></p>
+<p><font color=red><strong>情形一:</strong></font></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">log_error</span><span class="params">(<span class="keyword">char</span> *reason)</span></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> *p1;</span><br><span class="line">	p1 = <span class="built_in">malloc</span>(<span class="number">100</span>);</span><br><span class="line">	<span class="built_in">sprintf</span>(p1,<span class="string">&quot;The f1 error occurred because of &#x27;%s&#x27;,reason&quot;</span>);</span><br><span class="line">	<span class="built_in">log</span>(p1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><font color=red><strong>情形二:</strong></font></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getkey</span><span class="params">(<span class="keyword">char</span> *filename)</span></span>&#123;</span><br><span class="line">	FILE *fp;</span><br><span class="line">	<span class="keyword">int</span> key;</span><br><span class="line">	fp=<span class="built_in">fopen</span>(filename,<span class="string">&quot;r&quot;</span>);</span><br><span class="line">	<span class="built_in">fscanf</span>(sp,<span class="string">&quot;%d&quot;</span>,&amp;key);</span><br><span class="line">	<span class="comment">//fclose(fp);</span></span><br><span class="line">	<span class="keyword">return</span> key;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="弊端四"><a href="#弊端四" class="headerlink" title="弊端四."></a>弊端四.</h1><p><strong>内存分配与释放的逻辑在程序中相隔较远时,降低程序的稳定性</strong><br></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">ret <span class="title">get_stu_info</span><span class="params">(Student *_stu)</span></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> *name = <span class="literal">NULL</span>;</span><br><span class="line">	name = <span class="built_in">getName</span>(_stu-&gt;no);</span><br><span class="line">	<span class="comment">//处理逻辑</span></span><br><span class="line">	<span class="keyword">if</span>(name)&#123;</span><br><span class="line">		<span class="built_in">free</span>(name);</span><br><span class="line">		name = <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>↓↓↓</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">char</span> stu_name[MAX];		<span class="comment">//全局变量</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">getName</span><span class="params">(<span class="keyword">int</span> stu_no)</span></span>&#123;</span><br><span class="line">	<span class="comment">//查找相应的学号并赋值给 stu_name</span></span><br><span class="line">	<span class="built_in">snprintf</span>(stu_name,MAX,<span class="string">&quot;%s&quot;</span>,name);</span><br><span class="line">	<span class="keyword">return</span> stu_name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="解决弊端"><a href="#解决弊端" class="headerlink" title="解决弊端"></a>解决弊端</h1><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://i.bmp.ovh/imgs/2022/02/a6cc9e72b22931e9.png"></h2><h1 id="内存管理组件选择"><a href="#内存管理组件选择" class="headerlink" title="内存管理组件选择"></a>内存管理组件选择</h1><table>
+<thead>
+<tr>
+<th></th>
+<th>PtMalloc<br><strong>(glibc自带)</strong></th>
+<th>TcMalloc</th>
+<th>JeMalloc</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>概念</strong></td>
+<td><font color=DarkSalmon><strong>Glibc自带</strong></font></td>
+<td><font color=DarkSalmon><strong>Google开源</strong></font></td>
+<td><font color=DarkSalmon><strong>Jason Evans</strong></font><br><font color=red>(FreeBSD著名开发人员)</font></td>
+</tr>
+<tr>
+<td><strong>性能</strong><br><font color=red>(一次malloc/free操作)</td>
+<td><font color=DarkSalmon><strong>300ns</strong></font></td>
+<td><font color=DarkSalmon><strong>50ns</strong></font></td>
+<td><font color=DarkSalmon>**&lt;=50ns**</font></td>
+</tr>
+<tr>
+<td><strong>弊端</strong></td>
+<td><font color=DarkSalmon><strong>锁机制减低性能,容易导致内存碎片</strong></font></td>
+<td><font color=DarkSalmon><strong>1%左右的额外内存开销</strong></font></td>
+<td><font color=DarkSalmon><strong>1%左右的额外内存开销</strong></font></td>
+</tr>
+<tr>
+<td><strong>优点</strong></td>
+<td><font color=DarkSalmon><strong>传统,稳定</strong></font></td>
+<td><font color=DarkSalmon><strong>线程本地缓存,多线程分配效率高</strong></font></td>
+<td><font color=DarkSalmon><strong>线程本地缓存,多核多线程分配效率相当高</strong></font></td>
+</tr>
+<tr>
+<td><strong>使用方式</strong></td>
+<td><font color=DarkSalmon><strong>Glibc 编译</strong></font></td>
+<td><font color=DarkSalmon><strong>动态链接库</strong></font></td>
+<td><font color=DarkSalmon><strong>动态链接库</strong></font></td>
+</tr>
+<tr>
+<td><strong>谁在用</strong></td>
+<td><font color=DarkSalmon><strong>较普通</strong></font></td>
+<td><font color=DarkSalmon><strong>safari、chrome等</strong></font></td>
+<td><font color=DarkSalmon><strong>facebook、firefox等</strong></font></td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td><font color=DarkSalmon><strong>除特别追求高效内存分配以外的</strong></font></td>
+<td><font color=DarkSalmon><strong>多线程下高校内存分配</strong></font></td>
+<td><font color=DarkSalmon><strong>多线程下高效内存分配</strong></font></td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MySQL字符串类型char与varchar</title>
     <url>/2021/12/24/MySQLCharVarchar//</url>
     <content><![CDATA[<p>在MySQL中<strong>char</strong>最大值为~255。<br>char的长度是固定的，<br>若char(100)中只储存20个字节，那么就有80个字节被转化为空格并不会显示。</p>
@@ -333,20 +422,26 @@
       </tags>
   </entry>
   <entry>
-    <title>QEvent处理时间的五种方法</title>
-    <url>/2021/12/22/QEvent//</url>
-    <content><![CDATA[<p>①:<strong>重新实现部件的 paintEvent() mousePressEvent()等事件处理函数，不过只能用来处理特定的事件。</strong></p>
-<p>②:<strong>重新实现notify()函数，这个函数功能强大，提供了完全的控制，可以在事件过滤器得到事件之前就获取它们。但是，它一次只能处理一个事件。</strong></p>
-<p>③:<strong>向QApplication对象上安装事件过滤器。应为一个程序只有一个QApplication对象，所以这样实现的功能与notify()函数是相同的，优点就是可以同时处理多个事件。</strong></p>
-<p>④:<strong>重新实现event()函数，QObject类的event()函数可以在事件到达默认的事件处理函数之前获得该事件。</strong></p>
-<p>⑤:<strong>在对象上安装事件过滤器，使用事件过滤器可以在一个界面类中同时处理不同子部件的不同事件。</strong></p>
-<p>在实际编程中，最常用的是①，其次是⑤，方法二需要继承QAppliction类；而③要使用一个全局的事件过滤器这将减缓事件的传递，所以很少被用到。</p>
-]]></content>
+    <title>Gtest安装以及错误解决</title>
+    <url>/2021/12/14/Gtest//</url>
+    <content><![CDATA[<h1 id="Gtest安装"><a href="#Gtest安装" class="headerlink" title="Gtest安装"></a><strong>Gtest安装</strong></h1><ul>
+<li><code> sudo apt-get install git</code></li>
+<li><code> git clone https://github.com/google/googletest.git</code></li>
+<li> 或者在<a href="https://github.com/google/googletest">Windows浏览器下载</a>再利用samba服务器传输到Linux下</li>
+<li> <code>cd googletest </code></li>
+<li> <code>cmake .</code></li>
+<li> <code>make</code></li>
+<li> <code>ls lib</code></li>
+</ul>
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><h2 id="在make时报错"><a href="#在make时报错" class="headerlink" title="在make时报错:"></a><strong>在make时报错:</strong></h2><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://s3.bmp.ovh/imgs/2021/12/054ee1afb84325bb.png"></h2><p><strong>在 CMakeList.txt 里面加上</strong><br><code> SET(CMAKE_CXX_FLAGS &quot;-std=c++11&quot;)</code></p>
+<hr>
+<h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://i.bmp.ovh/imgs/2021/12/bedd24703dac8e3b.png"></h2><p><strong>再次执行</strong><code>cmake .</code> <strong>&amp;&amp;</strong> <code>cmake</code></p>
+<h2 id="成功"><a href="#成功" class="headerlink" title="成功:"></a><strong>成功:</strong></h2><h2 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="https://i.bmp.ovh/imgs/2021/12/ebe147683b8300ef.png"></h2>]]></content>
       <categories>
-        <category>Qt</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>Qt</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -354,21 +449,6 @@
     <url>/2021/12/21/QMessageBox//</url>
     <content><![CDATA[<p>报错内容为<br><img src="https://img-blog.csdnimg.cn/20210610143041925.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTQwMTkz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>解决办法:在定义QMessageBox 接收 标准按钮的时候 定义为QMessageBox::StandardButton 就完美解决.<br><img src="https://img-blog.csdnimg.cn/20210610143134753.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQ1MTQwMTkz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-]]></content>
-      <categories>
-        <category>Qt</category>
-      </categories>
-      <tags>
-        <tag>Qt</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Qt Combo Box</title>
-    <url>/2021/12/21/Qt%20Combo%20Box//</url>
-    <content><![CDATA[<p><strong>完成效果预览</strong><br><img src="https://img-blog.csdnimg.cn/2021011710554354.png" alt="Combo Box"><br><strong>代码实现</strong></p>
-<p><strong>sizeComboxBox是Combo Box的名字</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//初始化字号列表项</span></span><br><span class="line">    QFontDatabase fontdb;</span><br><span class="line">    <span class="comment">//返回链表链表里边保存的是int类型</span></span><br><span class="line">    foreach(<span class="keyword">int</span> fontsize,fontdb.<span class="built_in">standardSizes</span>())</span><br><span class="line">        ui-&gt;sizeComboxBox-&gt;<span class="built_in">addItem</span>(QString::<span class="built_in">number</span>(fontsize));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    QFont defFont;      <span class="comment">//当前应用程序默认字体</span></span><br><span class="line">    QString sFontSize;  <span class="comment">//字体大小</span></span><br><span class="line">    <span class="keyword">int</span> defDontSize;    <span class="comment">//当前应用程序默认字体的大小</span></span><br><span class="line">    <span class="keyword">int</span> deFontindex;    <span class="comment">//当前字号在组合框中的索引号</span></span><br><span class="line"></span><br><span class="line">    defFont = QApplication::<span class="built_in">font</span>(); <span class="comment">//获取当前字体信息</span></span><br><span class="line">    defDontSize = defFont.<span class="built_in">pointSize</span>();    <span class="comment">//返回字号</span></span><br><span class="line">    sFontSize = QString::<span class="built_in">number</span>(defDontSize);</span><br><span class="line">    <span class="comment">//获取字号在索引框的位置</span></span><br><span class="line">    deFontindex = ui-&gt;sizeComboxBox-&gt;<span class="built_in">findText</span>(sFontSize);</span><br><span class="line">    <span class="comment">//设置默认字号</span></span><br><span class="line">    ui-&gt;sizeComboxBox-&gt;<span class="built_in">setCurrentIndex</span>(defDontSize);</span><br></pre></td></tr></table></figure>
-
 ]]></content>
       <categories>
         <category>Qt</category>
@@ -408,6 +488,23 @@
       </tags>
   </entry>
   <entry>
+    <title>QEvent处理时间的五种方法</title>
+    <url>/2021/12/22/QEvent//</url>
+    <content><![CDATA[<p>①:<strong>重新实现部件的 paintEvent() mousePressEvent()等事件处理函数，不过只能用来处理特定的事件。</strong></p>
+<p>②:<strong>重新实现notify()函数，这个函数功能强大，提供了完全的控制，可以在事件过滤器得到事件之前就获取它们。但是，它一次只能处理一个事件。</strong></p>
+<p>③:<strong>向QApplication对象上安装事件过滤器。应为一个程序只有一个QApplication对象，所以这样实现的功能与notify()函数是相同的，优点就是可以同时处理多个事件。</strong></p>
+<p>④:<strong>重新实现event()函数，QObject类的event()函数可以在事件到达默认的事件处理函数之前获得该事件。</strong></p>
+<p>⑤:<strong>在对象上安装事件过滤器，使用事件过滤器可以在一个界面类中同时处理不同子部件的不同事件。</strong></p>
+<p>在实际编程中，最常用的是①，其次是⑤，方法二需要继承QAppliction类；而③要使用一个全局的事件过滤器这将减缓事件的传递，所以很少被用到。</p>
+]]></content>
+      <categories>
+        <category>Qt</category>
+      </categories>
+      <tags>
+        <tag>Qt</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Qt QPalette调色板</title>
     <url>/2021/12/16/QtQPalette//</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><font color=#999AAA >
@@ -433,49 +530,6 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
 
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;dialog.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;QGridLayout&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Dialog::<span class="built_in">Dialog</span>(QWidget *parent)</span><br><span class="line">    : <span class="built_in">QDialog</span>(parent)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">setWindowTitle</span>(<span class="string">&quot;QPalette&quot;</span>);</span><br><span class="line">    <span class="built_in">setWindowFlags</span>(Qt::WindowCloseButtonHint);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">createCtrlFrame</span>();</span><br><span class="line">    <span class="built_in">createContentFrame</span>();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//水平布局</span></span><br><span class="line">    QHBoxLayout *mainLayout = <span class="keyword">new</span> <span class="built_in">QHBoxLayout</span>(<span class="keyword">this</span>);</span><br><span class="line">    mainLayout-&gt;<span class="built_in">addWidget</span>(m_ctrlFrame);</span><br><span class="line">    mainLayout-&gt;<span class="built_in">addWidget</span>(m_contentFrame);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Dialog::~<span class="built_in">Dialog</span>()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dialog::createCtrlFrame</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    m_ctrlFrame = <span class="keyword">new</span> QFrame;</span><br><span class="line">    m_ctrlFrame-&gt;<span class="built_in">setFrameStyle</span>(QFrame::Sunken | QFrame::Box);       <span class="comment">//设置风格</span></span><br><span class="line">    m_windowLabel = <span class="keyword">new</span> <span class="built_in">QLabel</span>(<span class="string">&quot;QPalette::Window:&quot;</span>);</span><br><span class="line">    m_windowComboBox = <span class="keyword">new</span> QComboBox;</span><br><span class="line">    <span class="built_in">fillColorList</span>(m_windowComboBox);        <span class="comment">//填充颜色</span></span><br><span class="line">    <span class="built_in">connect</span>(m_windowComboBox,<span class="built_in">SIGNAL</span>(<span class="built_in">activated</span>(<span class="keyword">int</span>)),<span class="keyword">this</span>,<span class="built_in">SLOT</span>(<span class="built_in">ShowWindow</span>(<span class="keyword">int</span>)));</span><br><span class="line"></span><br><span class="line">    m_windowTextLabel = <span class="keyword">new</span> <span class="built_in">QLabel</span>(<span class="string">&quot;QPalette::WindowText:&quot;</span>);</span><br><span class="line">    m_windowTextComboBox = <span class="keyword">new</span> QComboBox;</span><br><span class="line">    <span class="built_in">fillColorList</span>(m_windowTextComboBox);</span><br><span class="line">    <span class="built_in">connect</span>(m_windowTextComboBox,<span class="built_in">SIGNAL</span>(<span class="built_in">activated</span>(<span class="keyword">int</span>)),<span class="keyword">this</span>,<span class="built_in">SLOT</span>(<span class="built_in">ShowWindowText</span>(<span class="keyword">int</span>)));</span><br><span class="line"></span><br><span class="line">    m_buttonLabel = <span class="keyword">new</span> <span class="built_in">QLabel</span>(<span class="string">&quot;QPatte::Button:&quot;</span>);</span><br><span class="line">    m_buttonLabelComboBox = <span class="keyword">new</span> QComboBox;</span><br><span class="line">    <span class="built_in">fillColorList</span>(m_buttonLabelComboBox);</span><br><span class="line">    <span class="built_in">connect</span>(m_buttonLabelComboBox,<span class="built_in">SIGNAL</span>(<span class="built_in">activated</span>(<span class="keyword">int</span>)),<span class="keyword">this</span>,<span class="built_in">SLOT</span>(<span class="built_in">ShowButton</span>(<span class="keyword">int</span>)));</span><br><span class="line"></span><br><span class="line">    m_buttonTextLabel = <span class="keyword">new</span> <span class="built_in">QLabel</span>(<span class="string">&quot;QPatte::ButtonText:&quot;</span>);</span><br><span class="line">    m_buttonTextComboBox = <span class="keyword">new</span> QComboBox;</span><br><span class="line">    <span class="built_in">fillColorList</span>(m_buttonTextComboBox);</span><br><span class="line">    <span class="built_in">connect</span>(m_buttonTextComboBox,<span class="built_in">SIGNAL</span>(<span class="built_in">activated</span>(<span class="keyword">int</span>)),<span class="keyword">this</span>,<span class="built_in">SLOT</span>(<span class="built_in">ShowButtonText</span>(<span class="keyword">int</span>)));</span><br><span class="line"></span><br><span class="line">    m_baseLabel = <span class="keyword">new</span> <span class="built_in">QLabel</span>(<span class="string">&quot;QPalette::Base:&quot;</span>);</span><br><span class="line">    m_baseComboBox = <span class="keyword">new</span> QComboBox;</span><br><span class="line">    <span class="built_in">fillColorList</span>(m_baseComboBox);</span><br><span class="line">    <span class="built_in">connect</span>(m_baseComboBox,<span class="built_in">SIGNAL</span>(<span class="built_in">activated</span>(<span class="keyword">int</span>)),<span class="keyword">this</span>,<span class="built_in">SLOT</span>(<span class="built_in">ShowBase</span>(<span class="keyword">int</span>)));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//格线布局</span></span><br><span class="line">    QGridLayout *mainLayout = <span class="keyword">new</span> <span class="built_in">QGridLayout</span>(m_ctrlFrame);</span><br><span class="line">    mainLayout-&gt;<span class="built_in">setSpacing</span>(<span class="number">20</span>); <span class="comment">//设置间隙</span></span><br><span class="line">    mainLayout-&gt;<span class="built_in">addWidget</span>(m_windowLabel,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">    mainLayout-&gt;<span class="built_in">addWidget</span>(m_windowComboBox,<span class="number">0</span>,<span class="number">1</span>);</span><br><span class="line">    mainLayout-&gt;<span class="built_in">addWidget</span>(m_windowTextLabel,<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">    mainLayout-&gt;<span class="built_in">addWidget</span>(m_windowTextComboBox,<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line">    mainLayout-&gt;<span class="built_in">addWidget</span>(m_buttonLabel,<span class="number">2</span>,<span class="number">0</span>);</span><br><span class="line">    mainLayout-&gt;<span class="built_in">addWidget</span>(m_buttonLabelComboBox,<span class="number">2</span>,<span class="number">1</span>);</span><br><span class="line">    mainLayout-&gt;<span class="built_in">addWidget</span>(m_buttonTextLabel,<span class="number">3</span>,<span class="number">0</span>);</span><br><span class="line">    mainLayout-&gt;<span class="built_in">addWidget</span>(m_buttonTextComboBox,<span class="number">3</span>,<span class="number">1</span>);</span><br><span class="line">    mainLayout-&gt;<span class="built_in">addWidget</span>(m_baseLabel,<span class="number">4</span>,<span class="number">0</span>);</span><br><span class="line">    mainLayout-&gt;<span class="built_in">addWidget</span>(m_baseComboBox,<span class="number">4</span>,<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dialog::createContentFrame</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    m_contentFrame = <span class="keyword">new</span> QFrame;</span><br><span class="line">    m_contentFrame-&gt;<span class="built_in">setAutoFillBackground</span>(<span class="literal">true</span>);</span><br><span class="line">    m_label1 = <span class="keyword">new</span> <span class="built_in">QLabel</span>(<span class="string">&quot;请选择一个值&quot;</span>);</span><br><span class="line">    m_label2 = <span class="keyword">new</span> <span class="built_in">QLabel</span>(<span class="string">&quot;请输入字符串&quot;</span>);</span><br><span class="line">    m_comboBox1 = <span class="keyword">new</span> QComboBox;</span><br><span class="line">    m_lineEdit = <span class="keyword">new</span> QLineEdit;</span><br><span class="line">    m_textEdit = <span class="keyword">new</span> QTextEdit;</span><br><span class="line">    m_okBtn = <span class="keyword">new</span> <span class="built_in">QPushButton</span>(<span class="built_in">QString</span>(<span class="string">&quot;确认&quot;</span>));</span><br><span class="line">    m_canceBtn = <span class="keyword">new</span> <span class="built_in">QPushButton</span>(<span class="built_in">QString</span>(<span class="string">&quot;取消&quot;</span>));</span><br><span class="line">    m_okBtn-&gt;<span class="built_in">setAutoFillBackground</span>(<span class="literal">true</span>);   <span class="comment">//背景自动填充</span></span><br><span class="line"></span><br><span class="line">    QGridLayout *Toplayout = <span class="keyword">new</span> QGridLayout;</span><br><span class="line">    Toplayout-&gt;<span class="built_in">addWidget</span>(m_label1 ,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">    Toplayout-&gt;<span class="built_in">addWidget</span>(m_comboBox1,<span class="number">0</span>,<span class="number">1</span>);</span><br><span class="line">    Toplayout-&gt;<span class="built_in">addWidget</span>(m_label2,<span class="number">1</span>,<span class="number">0</span>);</span><br><span class="line">    Toplayout-&gt;<span class="built_in">addWidget</span>(m_lineEdit,<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line">    Toplayout-&gt;<span class="built_in">addWidget</span>(m_textEdit,<span class="number">2</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    QHBoxLayout *bottomLayout = <span class="keyword">new</span> QHBoxLayout;</span><br><span class="line">    bottomLayout-&gt;<span class="built_in">addWidget</span>(m_okBtn);</span><br><span class="line">    bottomLayout-&gt;<span class="built_in">addWidget</span>(m_canceBtn);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//垂直布局</span></span><br><span class="line">    QVBoxLayout *mainLayout = <span class="keyword">new</span> <span class="built_in">QVBoxLayout</span>(m_contentFrame);</span><br><span class="line">    mainLayout-&gt;<span class="built_in">addLayout</span>(Toplayout);</span><br><span class="line">    mainLayout-&gt;<span class="built_in">addLayout</span>(bottomLayout);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dialog::fillColorList</span><span class="params">(QComboBox *comboBox)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//将所有颜色放入链表</span></span><br><span class="line">    QStringList colorList = QColor::<span class="built_in">colorNames</span>();</span><br><span class="line"></span><br><span class="line">    QString color;</span><br><span class="line">    foreach(color,colorList)&#123;</span><br><span class="line">        <span class="function">QPixmap <span class="title">pix</span><span class="params">(QSize(<span class="number">70</span>,<span class="number">20</span>))</span></span>;</span><br><span class="line">        pix.<span class="built_in">fill</span>(<span class="built_in">QColor</span>(color));</span><br><span class="line">        comboBox-&gt;<span class="built_in">addItem</span>(<span class="built_in">QIcon</span>(pix),<span class="literal">NULL</span>);</span><br><span class="line">        comboBox-&gt;<span class="built_in">setIconSize</span>(<span class="built_in">QSize</span>(<span class="number">70</span>,<span class="number">20</span>));</span><br><span class="line">        <span class="comment">//根据内容进行适应</span></span><br><span class="line">        comboBox-&gt;<span class="built_in">setSizeAdjustPolicy</span>(QComboBox::AdjustToContents);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dialog::ShowWindow</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    QStringList colorList = QColor::<span class="built_in">colorNames</span>();</span><br><span class="line">    QColor color = <span class="built_in">QColor</span>(colorList[index]);</span><br><span class="line">    QPalette p = m_contentFrame-&gt;<span class="built_in">palette</span>();</span><br><span class="line">    p.<span class="built_in">setColor</span>(QPalette::Window,color);</span><br><span class="line">    m_contentFrame-&gt;<span class="built_in">setPalette</span>(p);</span><br><span class="line">    <span class="comment">//触发重绘</span></span><br><span class="line">    m_contentFrame-&gt;<span class="built_in">update</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dialog::ShowWindowText</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    QStringList colorList = QColor::<span class="built_in">colorNames</span>();</span><br><span class="line">    QColor color = <span class="built_in">QColor</span>(colorList[index]);</span><br><span class="line"></span><br><span class="line">    QPalette p = m_contentFrame-&gt;<span class="built_in">palette</span>();</span><br><span class="line">    p.<span class="built_in">setColor</span>(QPalette::WindowText,color);</span><br><span class="line">    m_contentFrame-&gt;<span class="built_in">setPalette</span>(p);</span><br><span class="line">    m_contentFrame-&gt;<span class="built_in">update</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dialog::ShowButton</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    QStringList colorList = QColor::<span class="built_in">colorNames</span>();</span><br><span class="line">    QColor color = <span class="built_in">QColor</span>(colorList[index]);</span><br><span class="line"></span><br><span class="line">    QPalette p = m_contentFrame-&gt;<span class="built_in">palette</span>();</span><br><span class="line">    p.<span class="built_in">setColor</span>(QPalette::Button,color);</span><br><span class="line">    m_contentFrame-&gt;<span class="built_in">setPalette</span>(p);</span><br><span class="line">    m_contentFrame-&gt;<span class="built_in">update</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dialog::ShowButtonText</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    QStringList colorList = QColor::<span class="built_in">colorNames</span>();</span><br><span class="line">    QColor color = <span class="built_in">QColor</span>(colorList[index]);</span><br><span class="line"></span><br><span class="line">    QPalette p = m_contentFrame-&gt;<span class="built_in">palette</span>();</span><br><span class="line">    p.<span class="built_in">setColor</span>(QPalette::ButtonText,color);</span><br><span class="line">    m_contentFrame-&gt;<span class="built_in">setPalette</span>(p);</span><br><span class="line">    m_contentFrame-&gt;<span class="built_in">update</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Dialog::ShowBase</span><span class="params">(<span class="keyword">int</span> index)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    QStringList colorList = QColor::<span class="built_in">colorNames</span>();</span><br><span class="line">    QColor color = <span class="built_in">QColor</span>(colorList[index]);</span><br><span class="line"></span><br><span class="line">    QPalette p = m_contentFrame-&gt;<span class="built_in">palette</span>();</span><br><span class="line">    p.<span class="built_in">setColor</span>(QPalette::Base,color);</span><br><span class="line">    m_contentFrame-&gt;<span class="built_in">setPalette</span>(p);</span><br><span class="line">    m_contentFrame-&gt;<span class="built_in">update</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-]]></content>
-      <categories>
-        <category>Qt</category>
-      </categories>
-      <tags>
-        <tag>Qt</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Qt 窗体透明,部件透明及阴影与不规则窗体</title>
-    <url>/2021/12/17/QtWinShade//</url>
-    <content><![CDATA[<font color=#999AAA >
-</font>
-
-<p>@<a href="%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95">TOC</a></p>
-<hr style=" border:solid; width:100px; height:1px;" color=#000000 size=1">
-
-
-<h1 id="一、窗口透明"><a href="#一、窗口透明" class="headerlink" title="一、窗口透明"></a>一、窗口透明</h1><p><font color=#999AAA >示例：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//窗口透明,取值0~1，0表示完全透明,1表示完全不透明</span></span><br><span class="line"><span class="built_in">setWindowOpacity</span>(<span class="number">0.5</span>);</span><br></pre></td></tr></table></figure>
-<p><font color=#999AAA >样例：<br><img src="https://img-blog.csdnimg.cn/29c1ecb0b1fc47d6ac503c2c9f3f7929.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-<h2 id="1-窗口透明-部件不透明"><a href="#1-窗口透明-部件不透明" class="headerlink" title="1.窗口透明,部件不透明"></a>1.窗口透明,部件不透明</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//窗体透明部件不透明windows需配合无边框风格实现</span></span><br><span class="line">   <span class="built_in">setWindowFlags</span>(Qt::FramelessWindowHint);</span><br><span class="line">   <span class="built_in">setAttribute</span>(Qt::WA_TranslucentBackground);</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img src="https://img-blog.csdnimg.cn/cb8e637b25154f81af6bf472259771a7.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_19,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-<h1 id="二、部件透明"><a href="#二、部件透明" class="headerlink" title="二、部件透明"></a>二、部件透明</h1><p><font color=#999AAA >代码如下（示例）：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//需添加头文件 #include &lt;QGraphicsOpacityEffect&gt;</span></span><br><span class="line"></span><br><span class="line">   	QGraphicsOpacityEffect *opacityEffect = <span class="keyword">new</span> QGraphicsOpacityEffect;</span><br><span class="line">    <span class="comment">//设置透明度</span></span><br><span class="line">    opacityEffect-&gt;<span class="built_in">setOpacity</span>(<span class="number">0.1</span>);</span><br><span class="line">    ui-&gt;label-&gt;<span class="built_in">setGraphicsEffect</span>(opacityEffect);</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://img-blog.csdnimg.cn/a0665f3d82d44b7f8de5dc591175688e.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-<h2 id="1-部件设置阴影"><a href="#1-部件设置阴影" class="headerlink" title="1.部件设置阴影"></a>1.部件设置阴影</h2><p><font color=#999AAA >代码如下（示例）：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//需添加头文件#include &lt;QGraphicsDropShadowEffect &gt;</span></span><br><span class="line"></span><br><span class="line"> 	 QGraphicsDropShadowEffect *shadowEffect = <span class="keyword">new</span> QGraphicsDropShadowEffect;</span><br><span class="line">    <span class="comment">//阴影色，透明度</span></span><br><span class="line">    shadowEffect-&gt;<span class="built_in">setColor</span>(<span class="built_in">QColor</span>(<span class="number">100</span>,<span class="number">100</span>,<span class="number">100</span>));</span><br><span class="line">    <span class="comment">//阴影模糊半径</span></span><br><span class="line">    shadowEffect-&gt;<span class="built_in">setBlurRadius</span>(<span class="number">20</span>);</span><br><span class="line">    <span class="comment">//阴影偏移值</span></span><br><span class="line">    shadowEffect-&gt;<span class="built_in">setXOffset</span>(<span class="number">20</span>);</span><br><span class="line">    ui-&gt;label-&gt;<span class="built_in">setGraphicsEffect</span>(shadowEffect);</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://img-blog.csdnimg.cn/434db2b9c7a64618b5a9693adc2a171c.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
-<hr style=" border:solid; width:100px; height:1px;" color=#000000 size=1">
-
-<h1 id="三-、不规则窗体"><a href="#三-、不规则窗体" class="headerlink" title="三 、不规则窗体"></a>三 、不规则窗体</h1><p><strong>此处需重写 <em>painterEvent</em> 事件</strong><br><font color=#999AAA >代码如下（**.h**示例）：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">paintEvent</span><span class="params">(QPaintEvent *event)</span> <span class="keyword">override</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p><font color=#999AAA >代码如下（**.cpp**示例）：</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//构造函数中</span></span><br><span class="line">Widget::<span class="built_in">Widget</span>(QWidget *parent)</span><br><span class="line">    : <span class="built_in">QWidget</span>(parent)</span><br><span class="line">    , <span class="built_in">ui</span>(<span class="keyword">new</span> Ui::Widget)</span><br><span class="line">&#123;</span><br><span class="line">    ui-&gt;<span class="built_in">setupUi</span>(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    QPixmap pixmap;</span><br><span class="line">    pixmap.<span class="built_in">load</span>(<span class="string">&quot;:/flower.png&quot;</span>);</span><br><span class="line">    ui-&gt;label-&gt;<span class="built_in">resize</span>(pixmap.<span class="built_in">size</span>());</span><br><span class="line">    <span class="keyword">this</span>-&gt;<span class="built_in">resize</span>(pixmap.<span class="built_in">size</span>());</span><br><span class="line">    <span class="comment">//设置遮罩</span></span><br><span class="line">    <span class="built_in">setMask</span>(pixmap.<span class="built_in">mask</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Widget::paintEvent</span><span class="params">(QPaintEvent *event)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QPainter <span class="title">painter</span><span class="params">(<span class="keyword">this</span>)</span></span>;</span><br><span class="line">    painter.<span class="built_in">drawPixmap</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="built_in">QPixmap</span>(<span class="string">&quot;:/flower.png&quot;</span>));</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>效果展示:<img src="https://img-blog.csdnimg.cn/1f5936fd7cf94119bb0b251848223f77.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
 ]]></content>
       <categories>
         <category>Qt</category>
@@ -651,6 +705,24 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
+    <title>网络编程socket函数</title>
+    <url>/2021/12/20/Socket//</url>
+    <content><![CDATA[<p>[TOC]</p>
+<h1 id="socket创建流程图"><a href="#socket创建流程图" class="headerlink" title="socket创建流程图"></a>socket创建流程图</h1><p><img src="https://i.bmp.ovh/imgs/2022/01/70145893b5e39494.png"></p>
+<h2 id="socket-函数"><a href="#socket-函数" class="headerlink" title="socket 函数"></a>socket 函数</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;  //* See NOTES </span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int socket(int domain, int type, int protocol);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>domain:</strong><br>    AF_INET 这是大多数用来产生socket的协议，使用TCP或UDP来传输，用IPv4的地址<br>    AF_INET6 与上面类似，不过是来用IPv6的地址<br>    AF_UNIX 本地协议，使用在Unix和Linux系统上，一般都是当客户端和服务器在同一台及其上的时候使用<br><strong>type:</strong><br>    SOCK_STREAM 这个协议是按照顺序的、可靠的、数据完整的基于字节流的连接。这是一个使用最多的socket类型，这个socket是使用TCP来进行传输。<br>    SOCK_DGRAM 这个协议是无连接的、固定长度的传输调用。该协议是不可靠的，使用UDP来进行它的连接。<br>    SOCK_SEQPACKET该协议是双线路的、可靠的连接，发送固定长度的数据包进行传输。必须把这个包完整的接受才能进行读取。<br>    SOCK_RAW socket类型提供单一的网络访问，这个socket类型使用ICMP公共协议。（ping、traceroute使用该协议）<br>    SOCK_RDM 这个类型是很少使用的，在大部分的操作系统上没有实现，它是提供给数据链路层使用，不保证数据包的顺序<br>protocol:<br>    传0 表示使用默认协议。<br>返回值：<br>    成功：返回指向新创建的socket的文件描述符，失败：返回-1，设置errno</p>
+</blockquote>
+<p><strong>socket()打开一个网络通讯端口，如果成功的话，就像open()一样返回一个文件描述符，应用程序可以像读写文件一样用read/write在网络上收发数据，如果socket()调用出错则返回-1。对于IPv4，domain参数指定为AF_INET。对于TCP协议，type参数指定为SOCK_STREAM，表示面向流的传输协议。如果是UDP协议，则type参数指定为SOCK_DGRAM，表示面向数据报的传输协议。protocol参数的介绍从略，指定为0即可。</strong></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Sigaction</title>
     <url>/2022/02/02/Sigaction//</url>
     <content><![CDATA[<p> <strong>sigaction</strong>与<strong>signal</strong>的区别： <strong>sigaction</strong>比<strong>signal</strong>更“<strong>健壮</strong>”，建议使用<strong>sigaction</strong><br></p>
@@ -673,6 +745,21 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
+    <title>Qt Combo Box</title>
+    <url>/2021/12/21/Qt%20Combo%20Box//</url>
+    <content><![CDATA[<p><strong>完成效果预览</strong><br><img src="https://img-blog.csdnimg.cn/2021011710554354.png" alt="Combo Box"><br><strong>代码实现</strong></p>
+<p><strong>sizeComboxBox是Combo Box的名字</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//初始化字号列表项</span></span><br><span class="line">    QFontDatabase fontdb;</span><br><span class="line">    <span class="comment">//返回链表链表里边保存的是int类型</span></span><br><span class="line">    foreach(<span class="keyword">int</span> fontsize,fontdb.<span class="built_in">standardSizes</span>())</span><br><span class="line">        ui-&gt;sizeComboxBox-&gt;<span class="built_in">addItem</span>(QString::<span class="built_in">number</span>(fontsize));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    QFont defFont;      <span class="comment">//当前应用程序默认字体</span></span><br><span class="line">    QString sFontSize;  <span class="comment">//字体大小</span></span><br><span class="line">    <span class="keyword">int</span> defDontSize;    <span class="comment">//当前应用程序默认字体的大小</span></span><br><span class="line">    <span class="keyword">int</span> deFontindex;    <span class="comment">//当前字号在组合框中的索引号</span></span><br><span class="line"></span><br><span class="line">    defFont = QApplication::<span class="built_in">font</span>(); <span class="comment">//获取当前字体信息</span></span><br><span class="line">    defDontSize = defFont.<span class="built_in">pointSize</span>();    <span class="comment">//返回字号</span></span><br><span class="line">    sFontSize = QString::<span class="built_in">number</span>(defDontSize);</span><br><span class="line">    <span class="comment">//获取字号在索引框的位置</span></span><br><span class="line">    deFontindex = ui-&gt;sizeComboxBox-&gt;<span class="built_in">findText</span>(sFontSize);</span><br><span class="line">    <span class="comment">//设置默认字号</span></span><br><span class="line">    ui-&gt;sizeComboxBox-&gt;<span class="built_in">setCurrentIndex</span>(defDontSize);</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Qt</category>
+      </categories>
+      <tags>
+        <tag>Qt</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Socket-Ip地址转换</title>
     <url>/2022/01/02/SocketIP//</url>
     <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/16056322709f2b74.png"></p>
@@ -683,24 +770,6 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
 <p><strong>输出结果为:</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">s_addr: 5040302</span><br><span class="line">s_addr from net to host : 2030405</span><br><span class="line">server ip : 2.3.4.5</span><br></pre></td></tr></table></figure>
 
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>网络编程socket函数</title>
-    <url>/2021/12/20/Socket//</url>
-    <content><![CDATA[<p>[TOC]</p>
-<h1 id="socket创建流程图"><a href="#socket创建流程图" class="headerlink" title="socket创建流程图"></a>socket创建流程图</h1><p><img src="https://i.bmp.ovh/imgs/2022/01/70145893b5e39494.png"></p>
-<h2 id="socket-函数"><a href="#socket-函数" class="headerlink" title="socket 函数"></a>socket 函数</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;  //* See NOTES </span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int socket(int domain, int type, int protocol);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>domain:</strong><br>    AF_INET 这是大多数用来产生socket的协议，使用TCP或UDP来传输，用IPv4的地址<br>    AF_INET6 与上面类似，不过是来用IPv6的地址<br>    AF_UNIX 本地协议，使用在Unix和Linux系统上，一般都是当客户端和服务器在同一台及其上的时候使用<br><strong>type:</strong><br>    SOCK_STREAM 这个协议是按照顺序的、可靠的、数据完整的基于字节流的连接。这是一个使用最多的socket类型，这个socket是使用TCP来进行传输。<br>    SOCK_DGRAM 这个协议是无连接的、固定长度的传输调用。该协议是不可靠的，使用UDP来进行它的连接。<br>    SOCK_SEQPACKET该协议是双线路的、可靠的连接，发送固定长度的数据包进行传输。必须把这个包完整的接受才能进行读取。<br>    SOCK_RAW socket类型提供单一的网络访问，这个socket类型使用ICMP公共协议。（ping、traceroute使用该协议）<br>    SOCK_RDM 这个类型是很少使用的，在大部分的操作系统上没有实现，它是提供给数据链路层使用，不保证数据包的顺序<br>protocol:<br>    传0 表示使用默认协议。<br>返回值：<br>    成功：返回指向新创建的socket的文件描述符，失败：返回-1，设置errno</p>
-</blockquote>
-<p><strong>socket()打开一个网络通讯端口，如果成功的话，就像open()一样返回一个文件描述符，应用程序可以像读写文件一样用read/write在网络上收发数据，如果socket()调用出错则返回-1。对于IPv4，domain参数指定为AF_INET。对于TCP协议，type参数指定为SOCK_STREAM，表示面向流的传输协议。如果是UDP协议，则type参数指定为SOCK_DGRAM，表示面向数据报的传输协议。protocol参数的介绍从略，指定为0即可。</strong></p>
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -761,119 +830,6 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </categories>
       <tags>
         <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Valgrind</title>
-    <url>/2022/01/29/Valgrind//</url>
-    <content><![CDATA[<h1 id="Valgrind-安装"><a href="#Valgrind-安装" class="headerlink" title="Valgrind 安装"></a>Valgrind 安装</h1><ul>
-<li><p><strong>方法 1.  <a href="http://valgrind.org/">valgrind官网下载</a></strong></p>
-</li>
-<li><p><strong>方法 2.  Ubuntu  sudo apt-get install valgrind</strong></p>
-</li>
-</ul>
-<hr>
-<h1 id="Memcheck-检测范围"><a href="#Memcheck-检测范围" class="headerlink" title="Memcheck 检测范围"></a>Memcheck 检测范围</h1><p>   **用来检测c/c++程序中出现的内存问题，所有对内存的读写都会被检测到，一切对malloc()/free()/new/delete的调用都会被捕获。所以，它能检测以下问题： **</p>
-<blockquote>
-<ol>
-<li>对未初始化内存的使用； </li>
-<li>读/写释放后的内存块；</li>
-<li>读/写超出malloc等分配的动态内存范围； </li>
-<li>读/写不适当的栈中内存块； </li>
-<li>内存泄漏，指向一块内存的指针永远丢失； </li>
-<li>不正确的malloc/free或new/delete匹配； </li>
-<li> memcpy()相关函数中的dst和src指针重叠问题.</li>
-</ol>
-</blockquote>
-<hr>
-<h1 id="Memcheck-检查步骤及注意事项"><a href="#Memcheck-检查步骤及注意事项" class="headerlink" title="Memcheck 检查步骤及注意事项"></a>Memcheck 检查步骤及注意事项</h1><ul>
-<li>1.在编译程序的时候打开调试模式（gcc编译器的-g选项），以便显示行号，编译时去掉-O1 -O2等优化选项;检查的是C++程序的时候，考虑加上选项： <strong>-fno-inline</strong> ,这样它函数调用链会很清晰<br></li>
-<li>2.执行：<strong>valgrind –tool=memcheck –leak-check=full –log-file=./log.txt  ./YourProgram</strong></li>
-<li>3.程序运行结束，查看 <strong>log.txt</strong> 中的结果.</li>
-</ul>
-<hr>
-<h1 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h1><p>Valgrind(memcheck)包含这7类错误:</p>
-<ul>
-<li><p><strong>1.illegal read/illegal write errors    非法读取/非法写入错误</strong></p>
-</li>
-<li><p><strong>2.use of uninitialised values        使用未初始化的区域</strong></p>
-</li>
-<li><p><strong>3.use of uninitialised or unaddressable values in system calls 系统调用时使用了未初始化或不可寻址的地址</strong></p>
-</li>
-<li><p><strong>4.illegal frees   非法的释放</strong></p>
-</li>
-<li><p><strong>5.when a heap block is freed with an inappropriate deallocation function 分配和释放函数不匹配</strong></p>
-</li>
-<li><p><strong>6.overlapping source and destination blocks   源和目的内存块重叠</strong></p>
-</li>
-<li><p><strong>7.memory leak detection    内存泄漏检测</strong></p>
-<blockquote>
-<p><strong>7.1 Still reachable <br></strong><br>  内存指针还在还有机会使用或者释放，指针指向的动态内存还没有被释放就退出了<br><br>  <strong>7.2 Definitely lost <br></strong><br>  确定的内存泄露，已经不能够访问这块内存<br><br>  <strong>7.3 Indirectly lost <br></strong><br>  指向该内存的指针都位于内存泄露处<br><br>  <strong>7.4 Possibly lost <br></strong><br>  可能的内存泄露，仍然存在某个指针能够访问某块内存，但该指针指向的已经不是该内<br>  存首位置<br><br>  <strong>7.5 Suppressed</strong>  <br><br>  某些库产生的错误不予以提示，这些错误会被统计到suppressed项目<br></p>
-</blockquote>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>二分查找</title>
-    <url>/2022/01/05/binary//</url>
-    <content><![CDATA[<p><strong>查找某个值的位置</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a[N],n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">binary_search</span><span class="params">(<span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> l=<span class="number">0</span>,r=n<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(l&lt;=r)&#123;</span><br><span class="line">    	<span class="keyword">int</span> mid = l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(a[mid]==k)	<span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(k&lt;a[mid]) r=mid<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">else</span> l=mid+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<p><strong>查找第一个大于等于某个数的位置</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a[N],n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">binary_max</span><span class="params">(<span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> l=<span class="number">0</span>,r=n<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">    	<span class="keyword">int</span> mid = l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">		 <span class="keyword">if</span>(k&lt;=a[mid]) r=mid;</span><br><span class="line">        <span class="keyword">else</span> l=mid+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<p><strong>最后一个小于等于某个数的位置</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a[N],n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">binary_min</span><span class="params">(<span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> l=<span class="number">0</span>,r=n<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">    	<span class="keyword">int</span> mid = l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">		 <span class="keyword">if</span>(k&gt;=a[mid]) l=mid;</span><br><span class="line">        <span class="keyword">else</span> r=mid+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<p><a href="https://nanti.jisuanke.com/t/T1560">题目链接</a></p>
-<p>蒜头君手上有个长度为 n 的数组 <strong>A</strong>。由于数组实在太大了，所以蒜头君也不知道数组里面有什么数字，所以蒜头君会经常询问整数 x 是否在数组 <strong>A</strong> 中。</p>
-<p><strong>输入格式</strong><br>第一行输入两个整数 n 和 m，分别表示数组的长度和查询的次数。</p>
-<p>接下来一行有 n 个整数 a_ia<br>i<br>​<br> 。</p>
-<p>接下来 mm 行，每行有 11 个整数 xx，表示蒜头君询问的整数。</p>
-<p><strong>输出格式</strong><br>对于每次查询，如果可以找到，输出”YES”，否则输出”NO”。</p>
-<p><strong>数据范围</strong><br>1 \le n, m \le 10^5, 0 \le x \le 10^61≤n,m≤10<br>5<br> ,0≤x≤10<br>6<br> 。</p>
-<p>输出时每行末尾的多余空格，不影响答案正确性<br><strong>样例输入</strong></p>
-<blockquote>
-<p>10 5<br>1 1 1 2 3 5 5 7 8 9<br>0<br>1<br>4<br>9<br>10</p>
-</blockquote>
-<p><strong>样例输出</strong></p>
-<blockquote>
-<p>NO<br>YES<br>NO<br>YES<br>NO</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">binary_search</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> l=<span class="number">0</span>,r=n<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(l&lt;=r)&#123;</span><br><span class="line">        <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(x==q[mid])   <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(x&gt;q[mid])    l=mid+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span>    r=mid<span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cin &gt;&gt;q[i];</span><br><span class="line">    <span class="built_in">sort</span>(q,q+n);</span><br><span class="line">    <span class="keyword">while</span>(m--)&#123;</span><br><span class="line">        <span class="keyword">int</span> x;</span><br><span class="line">        cin &gt;&gt; x;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">binary_search</span>(x))</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;YES&quot;</span> &lt;&lt; endl;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;NO&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<hr>
-<p><a href="https://nanti.jisuanke.com/t/T1561">题目链接</a></p>
-<p>蒜头君手上有个长度为 nn 的数组 AA。由于数组实在太大了，所以蒜头君也不知道数组里面有什么数字，所以蒜头君会经常询问在数组 AA 中，大于等于 xx 的最小值是多大？</p>
-<p><strong>输入格式</strong><br>第一行输入两个整数 nn 和 mm，分别表示数组的长度和查询的次数。</p>
-<p>接下来一行有 nn 个整数 a_ia<br>i<br>​<br> 。</p>
-<p>接下来 mm 行，每行有 11 个整数 xx，表示蒜头君询问的整数。</p>
-<p><strong>输出格式</strong><br>对于每次查询，如果可以找到，输出这个整数。</p>
-<p>否则输出 -1−1。</p>
-<p><strong>数据范围</strong><br>1 \le n, m \le 10^5, 0 \le x \le 10^61≤n,m≤10<br>5<br> ,0≤x≤10<br>6<br> 。</p>
-<p>输出时每行末尾的多余空格，不影响答案正确性</p>
-<p><strong>样例输入</strong></p>
-<blockquote>
-<p>10 5<br>1 1 1 2 3 5 5 7 8 9<br>0<br>1<br>4<br>9<br>10</p>
-</blockquote>
-<p><strong>样例输出</strong></p>
-<blockquote>
-<p>1<br>1<br>5<br>9<br>-1</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">binary_search</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> l=<span class="number">0</span>,r=n<span class="number">-1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">        <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(x&lt;=q[mid]) r=mid;</span><br><span class="line">        <span class="keyword">else</span>    l=mid+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cin &gt;&gt;q[i];</span><br><span class="line">    <span class="built_in">sort</span>(q,q+n);</span><br><span class="line">    <span class="keyword">while</span>(m--)&#123;</span><br><span class="line">        <span class="keyword">int</span> x;</span><br><span class="line">        cin &gt;&gt; x;</span><br><span class="line">        <span class="keyword">int</span> k=<span class="built_in">binary_search</span>(x);</span><br><span class="line">     <span class="keyword">if</span>(k&lt;n &amp;&amp; k&gt;=<span class="number">0</span> &amp;&amp; q[k]&gt;=x)</span><br><span class="line">         cout &lt;&lt; q[k] &lt;&lt; endl;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            cout &lt;&lt; <span class="number">-1</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><a href="https://nanti.jisuanke.com/t/T1562">相关题目1</a><br><a href="https://nanti.jisuanke.com/t/T1563">相关题目2</a></p>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -968,6 +924,105 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
+    <title>Qt 窗体透明,部件透明及阴影与不规则窗体</title>
+    <url>/2021/12/17/QtWinShade//</url>
+    <content><![CDATA[<font color=#999AAA >
+</font>
+
+<p>@<a href="%E6%96%87%E7%AB%A0%E7%9B%AE%E5%BD%95">TOC</a></p>
+<hr style=" border:solid; width:100px; height:1px;" color=#000000 size=1">
+
+
+<h1 id="一、窗口透明"><a href="#一、窗口透明" class="headerlink" title="一、窗口透明"></a>一、窗口透明</h1><p><font color=#999AAA >示例：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//窗口透明,取值0~1，0表示完全透明,1表示完全不透明</span></span><br><span class="line"><span class="built_in">setWindowOpacity</span>(<span class="number">0.5</span>);</span><br></pre></td></tr></table></figure>
+<p><font color=#999AAA >样例：<br><img src="https://img-blog.csdnimg.cn/29c1ecb0b1fc47d6ac503c2c9f3f7929.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h2 id="1-窗口透明-部件不透明"><a href="#1-窗口透明-部件不透明" class="headerlink" title="1.窗口透明,部件不透明"></a>1.窗口透明,部件不透明</h2><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//窗体透明部件不透明windows需配合无边框风格实现</span></span><br><span class="line">   <span class="built_in">setWindowFlags</span>(Qt::FramelessWindowHint);</span><br><span class="line">   <span class="built_in">setAttribute</span>(Qt::WA_TranslucentBackground);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://img-blog.csdnimg.cn/cb8e637b25154f81af6bf472259771a7.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_19,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h1 id="二、部件透明"><a href="#二、部件透明" class="headerlink" title="二、部件透明"></a>二、部件透明</h1><p><font color=#999AAA >代码如下（示例）：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//需添加头文件 #include &lt;QGraphicsOpacityEffect&gt;</span></span><br><span class="line"></span><br><span class="line">   	QGraphicsOpacityEffect *opacityEffect = <span class="keyword">new</span> QGraphicsOpacityEffect;</span><br><span class="line">    <span class="comment">//设置透明度</span></span><br><span class="line">    opacityEffect-&gt;<span class="built_in">setOpacity</span>(<span class="number">0.1</span>);</span><br><span class="line">    ui-&gt;label-&gt;<span class="built_in">setGraphicsEffect</span>(opacityEffect);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/a0665f3d82d44b7f8de5dc591175688e.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<h2 id="1-部件设置阴影"><a href="#1-部件设置阴影" class="headerlink" title="1.部件设置阴影"></a>1.部件设置阴影</h2><p><font color=#999AAA >代码如下（示例）：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//需添加头文件#include &lt;QGraphicsDropShadowEffect &gt;</span></span><br><span class="line"></span><br><span class="line"> 	 QGraphicsDropShadowEffect *shadowEffect = <span class="keyword">new</span> QGraphicsDropShadowEffect;</span><br><span class="line">    <span class="comment">//阴影色，透明度</span></span><br><span class="line">    shadowEffect-&gt;<span class="built_in">setColor</span>(<span class="built_in">QColor</span>(<span class="number">100</span>,<span class="number">100</span>,<span class="number">100</span>));</span><br><span class="line">    <span class="comment">//阴影模糊半径</span></span><br><span class="line">    shadowEffect-&gt;<span class="built_in">setBlurRadius</span>(<span class="number">20</span>);</span><br><span class="line">    <span class="comment">//阴影偏移值</span></span><br><span class="line">    shadowEffect-&gt;<span class="built_in">setXOffset</span>(<span class="number">20</span>);</span><br><span class="line">    ui-&gt;label-&gt;<span class="built_in">setGraphicsEffect</span>(shadowEffect);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/434db2b9c7a64618b5a9693adc2a171c.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+<hr style=" border:solid; width:100px; height:1px;" color=#000000 size=1">
+
+<h1 id="三-、不规则窗体"><a href="#三-、不规则窗体" class="headerlink" title="三 、不规则窗体"></a>三 、不规则窗体</h1><p><strong>此处需重写 <em>painterEvent</em> 事件</strong><br><font color=#999AAA >代码如下（**.h**示例）：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">paintEvent</span><span class="params">(QPaintEvent *event)</span> <span class="keyword">override</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><font color=#999AAA >代码如下（**.cpp**示例）：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="comment">//构造函数中</span></span><br><span class="line">Widget::<span class="built_in">Widget</span>(QWidget *parent)</span><br><span class="line">    : <span class="built_in">QWidget</span>(parent)</span><br><span class="line">    , <span class="built_in">ui</span>(<span class="keyword">new</span> Ui::Widget)</span><br><span class="line">&#123;</span><br><span class="line">    ui-&gt;<span class="built_in">setupUi</span>(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    QPixmap pixmap;</span><br><span class="line">    pixmap.<span class="built_in">load</span>(<span class="string">&quot;:/flower.png&quot;</span>);</span><br><span class="line">    ui-&gt;label-&gt;<span class="built_in">resize</span>(pixmap.<span class="built_in">size</span>());</span><br><span class="line">    <span class="keyword">this</span>-&gt;<span class="built_in">resize</span>(pixmap.<span class="built_in">size</span>());</span><br><span class="line">    <span class="comment">//设置遮罩</span></span><br><span class="line">    <span class="built_in">setMask</span>(pixmap.<span class="built_in">mask</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Widget::paintEvent</span><span class="params">(QPaintEvent *event)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">QPainter <span class="title">painter</span><span class="params">(<span class="keyword">this</span>)</span></span>;</span><br><span class="line">    painter.<span class="built_in">drawPixmap</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="built_in">QPixmap</span>(<span class="string">&quot;:/flower.png&quot;</span>));</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果展示:<img src="https://img-blog.csdnimg.cn/1f5936fd7cf94119bb0b251848223f77.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAX1NwYWNlXw==,size_20,color_FFFFFF,t_70,g_se,x_16" alt="在这里插入图片描述"></p>
+]]></content>
+      <categories>
+        <category>Qt</category>
+      </categories>
+      <tags>
+        <tag>Qt</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二分查找</title>
+    <url>/2022/01/05/binary//</url>
+    <content><![CDATA[<p><strong>查找某个值的位置</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a[N],n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">binary_search</span><span class="params">(<span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> l=<span class="number">0</span>,r=n<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(l&lt;=r)&#123;</span><br><span class="line">    	<span class="keyword">int</span> mid = l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(a[mid]==k)	<span class="keyword">return</span> mid;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(k&lt;a[mid]) r=mid<span class="number">-1</span>;</span><br><span class="line">        <span class="keyword">else</span> l=mid+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>查找第一个大于等于某个数的位置</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a[N],n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">binary_max</span><span class="params">(<span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> l=<span class="number">0</span>,r=n<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">    	<span class="keyword">int</span> mid = l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">		 <span class="keyword">if</span>(k&lt;=a[mid]) r=mid;</span><br><span class="line">        <span class="keyword">else</span> l=mid+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>最后一个小于等于某个数的位置</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> a[N],n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">binary_min</span><span class="params">(<span class="keyword">int</span> k)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> l=<span class="number">0</span>,r=n<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">    	<span class="keyword">int</span> mid = l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">		 <span class="keyword">if</span>(k&gt;=a[mid]) l=mid;</span><br><span class="line">        <span class="keyword">else</span> r=mid+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><a href="https://nanti.jisuanke.com/t/T1560">题目链接</a></p>
+<p>蒜头君手上有个长度为 n 的数组 <strong>A</strong>。由于数组实在太大了，所以蒜头君也不知道数组里面有什么数字，所以蒜头君会经常询问整数 x 是否在数组 <strong>A</strong> 中。</p>
+<p><strong>输入格式</strong><br>第一行输入两个整数 n 和 m，分别表示数组的长度和查询的次数。</p>
+<p>接下来一行有 n 个整数 a_ia<br>i<br>​<br> 。</p>
+<p>接下来 mm 行，每行有 11 个整数 xx，表示蒜头君询问的整数。</p>
+<p><strong>输出格式</strong><br>对于每次查询，如果可以找到，输出”YES”，否则输出”NO”。</p>
+<p><strong>数据范围</strong><br>1 \le n, m \le 10^5, 0 \le x \le 10^61≤n,m≤10<br>5<br> ,0≤x≤10<br>6<br> 。</p>
+<p>输出时每行末尾的多余空格，不影响答案正确性<br><strong>样例输入</strong></p>
+<blockquote>
+<p>10 5<br>1 1 1 2 3 5 5 7 8 9<br>0<br>1<br>4<br>9<br>10</p>
+</blockquote>
+<p><strong>样例输出</strong></p>
+<blockquote>
+<p>NO<br>YES<br>NO<br>YES<br>NO</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">binary_search</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> l=<span class="number">0</span>,r=n<span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span>(l&lt;=r)&#123;</span><br><span class="line">        <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(x==q[mid])   <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(x&gt;q[mid])    l=mid+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">else</span>    r=mid<span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cin &gt;&gt;q[i];</span><br><span class="line">    <span class="built_in">sort</span>(q,q+n);</span><br><span class="line">    <span class="keyword">while</span>(m--)&#123;</span><br><span class="line">        <span class="keyword">int</span> x;</span><br><span class="line">        cin &gt;&gt; x;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">binary_search</span>(x))</span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;YES&quot;</span> &lt;&lt; endl;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            cout &lt;&lt; <span class="string">&quot;NO&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><a href="https://nanti.jisuanke.com/t/T1561">题目链接</a></p>
+<p>蒜头君手上有个长度为 nn 的数组 AA。由于数组实在太大了，所以蒜头君也不知道数组里面有什么数字，所以蒜头君会经常询问在数组 AA 中，大于等于 xx 的最小值是多大？</p>
+<p><strong>输入格式</strong><br>第一行输入两个整数 nn 和 mm，分别表示数组的长度和查询的次数。</p>
+<p>接下来一行有 nn 个整数 a_ia<br>i<br>​<br> 。</p>
+<p>接下来 mm 行，每行有 11 个整数 xx，表示蒜头君询问的整数。</p>
+<p><strong>输出格式</strong><br>对于每次查询，如果可以找到，输出这个整数。</p>
+<p>否则输出 -1−1。</p>
+<p><strong>数据范围</strong><br>1 \le n, m \le 10^5, 0 \le x \le 10^61≤n,m≤10<br>5<br> ,0≤x≤10<br>6<br> 。</p>
+<p>输出时每行末尾的多余空格，不影响答案正确性</p>
+<p><strong>样例输入</strong></p>
+<blockquote>
+<p>10 5<br>1 1 1 2 3 5 5 7 8 9<br>0<br>1<br>4<br>9<br>10</p>
+</blockquote>
+<p><strong>样例输出</strong></p>
+<blockquote>
+<p>1<br>1<br>5<br>9<br>-1</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">binary_search</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> l=<span class="number">0</span>,r=n<span class="number">-1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(l&lt;r)&#123;</span><br><span class="line">        <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span>(x&lt;=q[mid]) r=mid;</span><br><span class="line">        <span class="keyword">else</span>    l=mid+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> m;</span><br><span class="line">    cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cin &gt;&gt;q[i];</span><br><span class="line">    <span class="built_in">sort</span>(q,q+n);</span><br><span class="line">    <span class="keyword">while</span>(m--)&#123;</span><br><span class="line">        <span class="keyword">int</span> x;</span><br><span class="line">        cin &gt;&gt; x;</span><br><span class="line">        <span class="keyword">int</span> k=<span class="built_in">binary_search</span>(x);</span><br><span class="line">     <span class="keyword">if</span>(k&lt;n &amp;&amp; k&gt;=<span class="number">0</span> &amp;&amp; q[k]&gt;=x)</span><br><span class="line">         cout &lt;&lt; q[k] &lt;&lt; endl;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            cout &lt;&lt; <span class="number">-1</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://nanti.jisuanke.com/t/T1562">相关题目1</a><br><a href="https://nanti.jisuanke.com/t/T1563">相关题目2</a></p>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>gdb调试 与 coredump</title>
     <url>/2022/01/28/gdb//</url>
     <content><![CDATA[<p><strong><a href="https://spaceout.cn/2022/01/27/MakeFile/">该文章需要用到MakeFile点击阅读</a></strong></p>
@@ -1024,24 +1079,6 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
-    <title>归并排序</title>
-    <url>/2022/01/05/mergesort//</url>
-    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/d69e487339a6b8cc.png"><br>给定你一个长度为 n 的整数数列。</p>
-<p>请你使用归并排序对这个数列按照从小到大进行排序。</p>
-<p>并将排好序的数列按顺序输出。</p>
-<p>输入格式<br>输入共两行，第一行包含整数 n。</p>
-<p>第二行包含 n 个整数（所有整数均在 1∼109 范围内），表示整个数列。</p>
-<p>输出格式<br>输出共一行，包含 n 个整数，表示排好序的数列。</p>
-<p>数据范围<br>1≤n≤100000<br>输入样例：<br>5<br>3 1 2 4 5<br>输出样例：<br>1 2 3 4 5</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> s[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="built_in">merge_sort</span>(l,mid);</span><br><span class="line">    <span class="built_in">merge_sort</span>(mid+<span class="number">1</span>,r);</span><br><span class="line">    <span class="keyword">int</span> i=l;</span><br><span class="line">    <span class="keyword">int</span> j=mid+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> k=l;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid &amp;&amp; j&lt;=r)&#123;</span><br><span class="line">        <span class="keyword">if</span>(q[i]&lt;q[j])   s[k++]=q[i++];</span><br><span class="line">        <span class="keyword">else</span>    s[k++]=q[j++];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)   s[k++]=q[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r) s[k++]=q[j++];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memcpy</span>(q+l,s+l,<span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>)*(r-l+<span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cin &gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">merge_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cout &lt;&lt; q[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    cout &lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>P1908 逆序对</title>
     <url>/2022/01/05/mergesort2//</url>
     <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/e36c2e67ce76d320.png"></p>
@@ -1065,44 +1102,21 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
-    <title>剑指 Offer II 001. 整数除法</title>
-    <url>/2022/01/26/offer001//</url>
-    <content><![CDATA[<p>给定两个整数 a 和 b ，求它们的除法的商 a/b ，要求不得使用乘号 ‘*’、除号 ‘/‘ 以及求余符号 ‘%’ 。</p>
-<p> </p>
-<p><strong>注意：</strong></p>
-<ul>
-<li>整数除法的结果应当截去（truncate）其小数部分，例如：truncate(8.345) = 8 以及 truncate(-2.7335) = -2</li>
-<li>假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−231, 231−1]。本题中，如果除法结果溢出，则返回 231 − 1
- </li>
-</ul>
-<p><strong>示例 1：</strong></p>
-<blockquote>
-<p><strong>输入：</strong>a = 15, b = 2<br><br><strong>输出</strong>：7<br><br><strong>解释：</strong>15/2 = truncate(7.5) = 7</p>
-</blockquote>
-<p><strong>示例 2：</strong></p>
-<blockquote>
-<p><strong>输入</strong>：a = 7, b = -3<br><br><strong>输出</strong>：-2<br><br><strong>解释：</strong>7/-3 = truncate(-2.33333..) = -2<br></p>
-</blockquote>
-<p><strong>示例 3：</strong></p>
-<blockquote>
-<p><strong>输入：</strong>a = 0, b = 1<br><br><strong>输出：</strong>0<br></p>
-</blockquote>
-<p><strong>示例 4：</strong><br></p>
-<blockquote>
-<p><strong>输入：</strong>a = 1, b = 1<br><br><strong>输出：</strong>1
- </p>
-</blockquote>
-<p><strong>提示:</strong></p>
-<p>-231 &lt;= a, b &lt;= 231 - 1<br>b != 0</p>
-<p><strong>代码：</strong><br></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">	<span class="keyword">public</span>:</span><br><span class="line">		<span class="function"><span class="keyword">int</span> <span class="title">divide</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(a==INT_MIN &amp;&amp; b==<span class="number">-1</span>) <span class="keyword">return</span> INT_MAX;</span><br><span class="line">		<span class="keyword">if</span>(a==INT_MIN &amp;&amp; b==<span class="number">1</span>)  <span class="keyword">return</span> INT_MIN;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">bool</span> sign = (a&gt;<span class="number">0</span>)^(b&gt;<span class="number">0</span>)?<span class="number">0</span>:<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">int</span> da=<span class="built_in">abs</span>(a),db=<span class="built_in">abs</span>(b),res=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">31</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">			<span class="keyword">if</span>((da&gt;&gt;i)&gt;=db)&#123;</span><br><span class="line">				res+=<span class="number">1</span>&lt;&lt;i;</span><br><span class="line">				da-=db&lt;&lt;i; </span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">return</span> sign?res:-res;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a><a href="https://leetcode-cn.com/problems/xoh6Oh">题目链接</a></h1>]]></content>
+    <title>归并排序</title>
+    <url>/2022/01/05/mergesort//</url>
+    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/d69e487339a6b8cc.png"><br>给定你一个长度为 n 的整数数列。</p>
+<p>请你使用归并排序对这个数列按照从小到大进行排序。</p>
+<p>并将排好序的数列按顺序输出。</p>
+<p>输入格式<br>输入共两行，第一行包含整数 n。</p>
+<p>第二行包含 n 个整数（所有整数均在 1∼109 范围内），表示整个数列。</p>
+<p>输出格式<br>输出共一行，包含 n 个整数，表示排好序的数列。</p>
+<p>数据范围<br>1≤n≤100000<br>输入样例：<br>5<br>3 1 2 4 5<br>输出样例：<br>1 2 3 4 5</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> s[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="built_in">merge_sort</span>(l,mid);</span><br><span class="line">    <span class="built_in">merge_sort</span>(mid+<span class="number">1</span>,r);</span><br><span class="line">    <span class="keyword">int</span> i=l;</span><br><span class="line">    <span class="keyword">int</span> j=mid+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> k=l;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid &amp;&amp; j&lt;=r)&#123;</span><br><span class="line">        <span class="keyword">if</span>(q[i]&lt;q[j])   s[k++]=q[i++];</span><br><span class="line">        <span class="keyword">else</span>    s[k++]=q[j++];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)   s[k++]=q[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r) s[k++]=q[j++];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memcpy</span>(q+l,s+l,<span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>)*(r-l+<span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cin &gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">merge_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cout &lt;&lt; q[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    cout &lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
-        <category>力扣</category>
+        <category>算法</category>
       </categories>
       <tags>
-        <tag>力扣</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -1140,6 +1154,63 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
+    <title>Valgrind</title>
+    <url>/2022/01/29/Valgrind//</url>
+    <content><![CDATA[<h1 id="Valgrind-安装"><a href="#Valgrind-安装" class="headerlink" title="Valgrind 安装"></a>Valgrind 安装</h1><ul>
+<li><p><strong>方法 1.  <a href="http://valgrind.org/">valgrind官网下载</a></strong></p>
+</li>
+<li><p><strong>方法 2.  Ubuntu  sudo apt-get install valgrind</strong></p>
+</li>
+</ul>
+<hr>
+<h1 id="Memcheck-检测范围"><a href="#Memcheck-检测范围" class="headerlink" title="Memcheck 检测范围"></a>Memcheck 检测范围</h1><p>   **用来检测c/c++程序中出现的内存问题，所有对内存的读写都会被检测到，一切对malloc()/free()/new/delete的调用都会被捕获。所以，它能检测以下问题： **</p>
+<blockquote>
+<ol>
+<li>对未初始化内存的使用； </li>
+<li>读/写释放后的内存块；</li>
+<li>读/写超出malloc等分配的动态内存范围； </li>
+<li>读/写不适当的栈中内存块； </li>
+<li>内存泄漏，指向一块内存的指针永远丢失； </li>
+<li>不正确的malloc/free或new/delete匹配； </li>
+<li> memcpy()相关函数中的dst和src指针重叠问题.</li>
+</ol>
+</blockquote>
+<hr>
+<h1 id="Memcheck-检查步骤及注意事项"><a href="#Memcheck-检查步骤及注意事项" class="headerlink" title="Memcheck 检查步骤及注意事项"></a>Memcheck 检查步骤及注意事项</h1><ul>
+<li>1.在编译程序的时候打开调试模式（gcc编译器的-g选项），以便显示行号，编译时去掉-O1 -O2等优化选项;检查的是C++程序的时候，考虑加上选项： <strong>-fno-inline</strong> ,这样它函数调用链会很清晰<br></li>
+<li>2.执行：<strong>valgrind –tool=memcheck –leak-check=full –log-file=./log.txt  ./YourProgram</strong></li>
+<li>3.程序运行结束，查看 <strong>log.txt</strong> 中的结果.</li>
+</ul>
+<hr>
+<h1 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h1><p>Valgrind(memcheck)包含这7类错误:</p>
+<ul>
+<li><p><strong>1.illegal read/illegal write errors    非法读取/非法写入错误</strong></p>
+</li>
+<li><p><strong>2.use of uninitialised values        使用未初始化的区域</strong></p>
+</li>
+<li><p><strong>3.use of uninitialised or unaddressable values in system calls 系统调用时使用了未初始化或不可寻址的地址</strong></p>
+</li>
+<li><p><strong>4.illegal frees   非法的释放</strong></p>
+</li>
+<li><p><strong>5.when a heap block is freed with an inappropriate deallocation function 分配和释放函数不匹配</strong></p>
+</li>
+<li><p><strong>6.overlapping source and destination blocks   源和目的内存块重叠</strong></p>
+</li>
+<li><p><strong>7.memory leak detection    内存泄漏检测</strong></p>
+<blockquote>
+<p><strong>7.1 Still reachable <br></strong><br>  内存指针还在还有机会使用或者释放，指针指向的动态内存还没有被释放就退出了<br><br>  <strong>7.2 Definitely lost <br></strong><br>  确定的内存泄露，已经不能够访问这块内存<br><br>  <strong>7.3 Indirectly lost <br></strong><br>  指向该内存的指针都位于内存泄露处<br><br>  <strong>7.4 Possibly lost <br></strong><br>  可能的内存泄露，仍然存在某个指针能够访问某块内存，但该指针指向的已经不是该内<br>  存首位置<br><br>  <strong>7.5 Suppressed</strong>  <br><br>  某些库产生的错误不予以提示，这些错误会被统计到suppressed项目<br></p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>剑指 Offer II 003. 前 n 个数字二进制中 1 的个数</title>
     <url>/2022/01/26/offer003//</url>
     <content><![CDATA[<p>给定一个非负整数 n ，请计算 0 到 n 之间的每个数字的二进制表示中 1 的个数，并输出一个数组。</p>
@@ -1174,28 +1245,39 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
-    <title>剑指 Offer II 004. 只出现一次的数字</title>
-    <url>/2022/01/26/offer004//</url>
-    <content><![CDATA[<p>给你一个整数数组 nums ，除某个元素仅出现 <strong>一次</strong> 外，其余每个元素都恰出现 <strong>三次</strong> 。请你找出并返回那个只出现了一次的元素。</p>
+    <title>剑指 Offer II 001. 整数除法</title>
+    <url>/2022/01/26/offer001//</url>
+    <content><![CDATA[<p>给定两个整数 a 和 b ，求它们的除法的商 a/b ，要求不得使用乘号 ‘*’、除号 ‘/‘ 以及求余符号 ‘%’ 。</p>
 <p> </p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>整数除法的结果应当截去（truncate）其小数部分，例如：truncate(8.345) = 8 以及 truncate(-2.7335) = -2</li>
+<li>假设我们的环境只能存储 32 位有符号整数，其数值范围是 [−231, 231−1]。本题中，如果除法结果溢出，则返回 231 − 1
+ </li>
+</ul>
 <p><strong>示例 1：</strong></p>
 <blockquote>
-<p><strong>输入：</strong>nums = [2,2,3,2]<br><br><strong>输出：</strong>3<br></p>
+<p><strong>输入：</strong>a = 15, b = 2<br><br><strong>输出</strong>：7<br><br><strong>解释：</strong>15/2 = truncate(7.5) = 7</p>
 </blockquote>
 <p><strong>示例 2：</strong></p>
 <blockquote>
-<p><strong>输入：</strong>nums = [0,1,0,1,0,1,100]<br><br><strong>输出：</strong>100<br>
+<p><strong>输入</strong>：a = 7, b = -3<br><br><strong>输出</strong>：-2<br><br><strong>解释：</strong>7/-3 = truncate(-2.33333..) = -2<br></p>
+</blockquote>
+<p><strong>示例 3：</strong></p>
+<blockquote>
+<p><strong>输入：</strong>a = 0, b = 1<br><br><strong>输出：</strong>0<br></p>
+</blockquote>
+<p><strong>示例 4：</strong><br></p>
+<blockquote>
+<p><strong>输入：</strong>a = 1, b = 1<br><br><strong>输出：</strong>1
  </p>
 </blockquote>
-<p><strong>提示：</strong></p>
-<ul>
-<li>1 &lt;= nums.length &lt;= 3 * 104</li>
-<li>-231 &lt;= nums[i] &lt;= 231 - 1</li>
-<li>nums 中，除某个元素仅出现 一次 外，其余每个元素都恰出现 三次</li>
-</ul>
-<p><strong>代码</strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a=<span class="number">0</span>,b=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> num:nums)  b=~a&amp;(b^num),a=~b&amp;(a^num);</span><br><span class="line">        <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a><a href="https://leetcode-cn.com/problems/WGki4K/">题目链接</a></h1>]]></content>
+<p><strong>提示:</strong></p>
+<p>-231 &lt;= a, b &lt;= 231 - 1<br>b != 0</p>
+<p><strong>代码：</strong><br></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line">	<span class="keyword">public</span>:</span><br><span class="line">		<span class="function"><span class="keyword">int</span> <span class="title">divide</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(a==INT_MIN &amp;&amp; b==<span class="number">-1</span>) <span class="keyword">return</span> INT_MAX;</span><br><span class="line">		<span class="keyword">if</span>(a==INT_MIN &amp;&amp; b==<span class="number">1</span>)  <span class="keyword">return</span> INT_MIN;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">bool</span> sign = (a&gt;<span class="number">0</span>)^(b&gt;<span class="number">0</span>)?<span class="number">0</span>:<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">unsigned</span> <span class="keyword">int</span> da=<span class="built_in">abs</span>(a),db=<span class="built_in">abs</span>(b),res=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">31</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line">			<span class="keyword">if</span>((da&gt;&gt;i)&gt;=db)&#123;</span><br><span class="line">				res+=<span class="number">1</span>&lt;&lt;i;</span><br><span class="line">				da-=db&lt;&lt;i; </span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="keyword">return</span> sign?res:-res;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a><a href="https://leetcode-cn.com/problems/xoh6Oh">题目链接</a></h1>]]></content>
       <categories>
         <category>力扣</category>
       </categories>
@@ -1250,6 +1332,135 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </categories>
       <tags>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux下的signal</title>
+    <url>/2022/02/01/signal//</url>
+    <content><![CDATA[<table>
+<thead>
+<tr>
+<th>信号</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SIGABORT</td>
+<td>进程异常终止</td>
+</tr>
+<tr>
+<td>SIGALRM</td>
+<td>超时告警</td>
+</tr>
+<tr>
+<td>SIGFPE</td>
+<td>浮点运算异常</td>
+</tr>
+<tr>
+<td>SIGHUP</td>
+<td>连接挂断</td>
+</tr>
+<tr>
+<td>SIGILL</td>
+<td>非法指令</td>
+</tr>
+<tr>
+<td>SIGINT</td>
+<td>终端中断  (Ctrl+C将产生该信号)</td>
+</tr>
+<tr>
+<td>SIGKILL</td>
+<td>*终止进程</td>
+</tr>
+<tr>
+<td>SIGPIPE</td>
+<td>向没有读进程的管道写数据</td>
+</tr>
+<tr>
+<td>SIGQUIT</td>
+<td>终端退出（Ctrl+\将产生该信号</td>
+</tr>
+<tr>
+<td>SIGSEGV</td>
+<td>无效内存段访问</td>
+</tr>
+<tr>
+<td>SIGTERM</td>
+<td>终止</td>
+</tr>
+<tr>
+<td>SIGUSR1</td>
+<td>*用户自定义信号1</td>
+</tr>
+<tr>
+<td>SIGUSR2</td>
+<td>*用户自定义信号2</td>
+</tr>
+<tr>
+<td>以上信号如果不被捕获，则进程接受到后都会终止！</td>
+<td>以上信号如果不被捕获，则进程接受到后都会终止！</td>
+</tr>
+<tr>
+<td>SIGCHLD</td>
+<td>子进程已停止或退出</td>
+</tr>
+<tr>
+<td>SIGCONT</td>
+<td>*让暂停的进程继续执行</td>
+</tr>
+<tr>
+<td>SIGSTOP</td>
+<td>*停止执行(即“暂停”)</td>
+</tr>
+<tr>
+<td>SIGTSTP</td>
+<td>中断挂起</td>
+</tr>
+<tr>
+<td>SIGTTIN</td>
+<td>后台进程尝试读操作</td>
+</tr>
+<tr>
+<td>SIGTTOU</td>
+<td>后台进程尝试写</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>剑指 Offer II 004. 只出现一次的数字</title>
+    <url>/2022/01/26/offer004//</url>
+    <content><![CDATA[<p>给你一个整数数组 nums ，除某个元素仅出现 <strong>一次</strong> 外，其余每个元素都恰出现 <strong>三次</strong> 。请你找出并返回那个只出现了一次的元素。</p>
+<p> </p>
+<p><strong>示例 1：</strong></p>
+<blockquote>
+<p><strong>输入：</strong>nums = [2,2,3,2]<br><br><strong>输出：</strong>3<br></p>
+</blockquote>
+<p><strong>示例 2：</strong></p>
+<blockquote>
+<p><strong>输入：</strong>nums = [0,1,0,1,0,1,100]<br><br><strong>输出：</strong>100<br>
+ </p>
+</blockquote>
+<p><strong>提示：</strong></p>
+<ul>
+<li>1 &lt;= nums.length &lt;= 3 * 104</li>
+<li>-231 &lt;= nums[i] &lt;= 231 - 1</li>
+<li>nums 中，除某个元素仅出现 一次 外，其余每个元素都恰出现 三次</li>
+</ul>
+<p><strong>代码</strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">singleNumber</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> a=<span class="number">0</span>,b=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> num:nums)  b=~a&amp;(b^num),a=~b&amp;(a^num);</span><br><span class="line">        <span class="keyword">return</span> b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="题目链接"><a href="#题目链接" class="headerlink" title="题目链接"></a><a href="https://leetcode-cn.com/problems/WGki4K/">题目链接</a></h1>]]></content>
+      <categories>
+        <category>力扣</category>
+      </categories>
+      <tags>
+        <tag>力扣</tag>
       </tags>
   </entry>
   <entry>
@@ -1361,121 +1572,6 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
-    <title>Linux下的signal</title>
-    <url>/2022/02/01/signal//</url>
-    <content><![CDATA[<table>
-<thead>
-<tr>
-<th>信号</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>SIGABORT</td>
-<td>进程异常终止</td>
-</tr>
-<tr>
-<td>SIGALRM</td>
-<td>超时告警</td>
-</tr>
-<tr>
-<td>SIGFPE</td>
-<td>浮点运算异常</td>
-</tr>
-<tr>
-<td>SIGHUP</td>
-<td>连接挂断</td>
-</tr>
-<tr>
-<td>SIGILL</td>
-<td>非法指令</td>
-</tr>
-<tr>
-<td>SIGINT</td>
-<td>终端中断  (Ctrl+C将产生该信号)</td>
-</tr>
-<tr>
-<td>SIGKILL</td>
-<td>*终止进程</td>
-</tr>
-<tr>
-<td>SIGPIPE</td>
-<td>向没有读进程的管道写数据</td>
-</tr>
-<tr>
-<td>SIGQUIT</td>
-<td>终端退出（Ctrl+\将产生该信号</td>
-</tr>
-<tr>
-<td>SIGSEGV</td>
-<td>无效内存段访问</td>
-</tr>
-<tr>
-<td>SIGTERM</td>
-<td>终止</td>
-</tr>
-<tr>
-<td>SIGUSR1</td>
-<td>*用户自定义信号1</td>
-</tr>
-<tr>
-<td>SIGUSR2</td>
-<td>*用户自定义信号2</td>
-</tr>
-<tr>
-<td>以上信号如果不被捕获，则进程接受到后都会终止！</td>
-<td>以上信号如果不被捕获，则进程接受到后都会终止！</td>
-</tr>
-<tr>
-<td>SIGCHLD</td>
-<td>子进程已停止或退出</td>
-</tr>
-<tr>
-<td>SIGCONT</td>
-<td>*让暂停的进程继续执行</td>
-</tr>
-<tr>
-<td>SIGSTOP</td>
-<td>*停止执行(即“暂停”)</td>
-</tr>
-<tr>
-<td>SIGTSTP</td>
-<td>中断挂起</td>
-</tr>
-<tr>
-<td>SIGTTIN</td>
-<td>后台进程尝试读操作</td>
-</tr>
-<tr>
-<td>SIGTTOU</td>
-<td>后台进程尝试写</td>
-</tr>
-</tbody></table>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sort求第k小的数</title>
-    <url>/2022/01/05/sort2//</url>
-    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/70c19c413d312378.png"><br>题目描述<br>输入 nn（1 \le n &lt; 50000001≤n&lt;5000000 且 nn 为奇数）个数字 a_ia<br>i<br>​<br> （1 \le a_i &lt; {10}^91≤a<br>i<br>​<br> &lt;10<br>9<br> ），输出这些数字的第 kk 小的数。最小的数是第 00 小。</p>
-<p>请尽量不要使用 nth_element 来写本题，因为本题的重点在于练习分治算法。</p>
-<p>输入格式<br>无</p>
-<p>输出格式<br>无</p>
-<p>输入输出样例<br>输入 #1复制<br>5 1<br>4 3 2 1 5<br>输出 #1复制<br>2</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">5e6</span>+<span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> k;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r) <span class="keyword">return</span> ;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> i=l<span class="number">-1</span>, j=r+<span class="number">1</span>,val = q[l+r&gt;&gt;<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">do</span> i++; <span class="keyword">while</span>(q[i]&lt;val);</span><br><span class="line">        <span class="keyword">do</span> j--; <span class="keyword">while</span>(q[j]&gt;val);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(i&lt;j) <span class="built_in">swap</span>(q[i],q[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(k&lt;=j)</span><br><span class="line">        <span class="built_in">quick_sort</span>(l,j);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">quick_sort</span>(j+<span class="number">1</span>,r);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cin&gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">quick_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; q[k] &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>快速排序</title>
     <url>/2022/01/05/sort//</url>
     <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/e89e1d4856450600.png"><br>题目描述<br>利用快速排序算法将读入的 NN 个数从小到大排序后输出。</p>
@@ -1486,6 +1582,38 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
 <p>输出<br>1 2 4 4 5</p>
 <p>说明/提示<br>对于 20%20% 的数据，有 N\leq 10^3N≤10<br>3；<br>对于 100%100% 的数据，有 N\leq 10^5N≤10<br>5。</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span> ;</span><br><span class="line">    <span class="keyword">int</span> i=l<span class="number">-1</span>,j=r+<span class="number">1</span>,val=q[l+r&gt;&gt;<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;j)&#123;</span><br><span class="line">        <span class="keyword">do</span> i++;<span class="keyword">while</span>(q[i]&lt;val);</span><br><span class="line">        <span class="keyword">do</span> j--;<span class="keyword">while</span>(q[j]&gt;val);</span><br><span class="line">    <span class="keyword">if</span>(i&lt;j) <span class="built_in">swap</span>(q[i],q[j]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">quick_sort</span>(l,j);</span><br><span class="line">    <span class="built_in">quick_sort</span>(j+<span class="number">1</span>,r);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cin&gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">quick_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cout&lt;&lt;q[i]&lt;&lt;<span class="string">&#x27; &#x27;</span>;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>表达式求值</title>
+    <url>/2022/01/08/value//</url>
+    <content><![CDATA[<p>给定一个表达式，其中运算符仅包含 +,-,*,/（加 减 乘 整除），可能包含括号，请你求出表达式的最终值。</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>数据保证给定的表达式合法。</li>
+<li>题目保证符号 - 只作为减号出现，不会作为负号出现，例如，-1+2,(2+2)*(-(1+1)+2) 之类表达式均不会出现。</li>
+<li>题目保证表达式中所有数字均为正整数。</li>
+<li>题目保证表达式在中间计算过程以及结果中，均不超过 231−1。</li>
+<li>题目中的整除是指向 0 取整，也就是说对于大于 0 的结果向下取整，例如 5/3=1，对于小于 0 的结果向上取整，例如 5/(1−4)=−1。</li>
+<li>C++和Java中的整除默认是向零取整；Python中的整除//默认向下取整，因此Python的eval()函数中的整除也是向下取整，在本题中不能直接使用。</li>
+</ul>
+<p><strong>输入格式</strong><br>共一行，为给定表达式。</p>
+<p><strong>输出格式</strong><br>共一行，为表达式的结果。</p>
+<p><strong>数据范围</strong><br>表达式的长度不超过(\10^5)</p>
+<p><strong>输入样例：</strong></p>
+<blockquote>
+<p>(2+2)*(1+1)</p>
+</blockquote>
+<p><strong>输出样例：</strong></p>
+<blockquote>
+<p>8</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line">stack&lt;<span class="keyword">int</span>&gt; num;</span><br><span class="line">stack&lt;<span class="keyword">char</span>&gt; op;</span><br><span class="line"></span><br><span class="line">unordered_map&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt; pr=&#123;&#123;<span class="string">&#x27;+&#x27;</span>,<span class="number">1</span>&#125;,&#123;<span class="string">&#x27;-&#x27;</span>,<span class="number">1</span>&#125;,&#123;<span class="string">&#x27;*&#x27;</span>,<span class="number">2</span>&#125;,&#123;<span class="string">&#x27;/&#x27;</span>,<span class="number">2</span>&#125;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">eval</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> b=num.<span class="built_in">top</span>();num.<span class="built_in">pop</span>();</span><br><span class="line">    <span class="keyword">int</span> a=num.<span class="built_in">top</span>();num.<span class="built_in">pop</span>();</span><br><span class="line">    <span class="keyword">char</span> c=op.<span class="built_in">top</span>();op.<span class="built_in">pop</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> s=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in"><span class="keyword">switch</span></span>(c)&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;+&#x27;</span>:   s=a+b; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;-&#x27;</span>:   s=a-b; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;*&#x27;</span>:   s=a*b; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;/&#x27;</span>:   s=a/b; <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    num.<span class="built_in">push</span>(s);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    string str;</span><br><span class="line">    cin&gt;&gt;str;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;str.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">        <span class="keyword">auto</span> c=str[i];</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">isdigit</span>(c))&#123;</span><br><span class="line">            <span class="keyword">int</span> j,n=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(j=i;j&lt;str.<span class="built_in">size</span>() &amp;&amp; <span class="built_in">isdigit</span>(str[j]);j++)&#123;</span><br><span class="line">                n=n*<span class="number">10</span>+(str[j]-<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            num.<span class="built_in">push</span>(n);</span><br><span class="line">            i=j<span class="number">-1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&#x27;(&#x27;</span>)op.<span class="built_in">push</span>(c);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&#x27;)&#x27;</span>)&#123;</span><br><span class="line">            <span class="keyword">while</span>(op.<span class="built_in">size</span>() &amp;&amp; op.<span class="built_in">top</span>()!=<span class="string">&#x27;(&#x27;</span>) <span class="built_in">eval</span>();</span><br><span class="line">            op.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">while</span>(op.<span class="built_in">size</span>() &amp;&amp; pr[op.<span class="built_in">top</span>()]&gt;=pr[c]) <span class="built_in">eval</span>();</span><br><span class="line">            op.<span class="built_in">push</span>(c);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(op.<span class="built_in">size</span>()) <span class="built_in">eval</span>();</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; num.<span class="built_in">top</span>() &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -1537,30 +1665,14 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
-    <title>表达式求值</title>
-    <url>/2022/01/08/value//</url>
-    <content><![CDATA[<p>给定一个表达式，其中运算符仅包含 +,-,*,/（加 减 乘 整除），可能包含括号，请你求出表达式的最终值。</p>
-<p><strong>注意：</strong></p>
-<ul>
-<li>数据保证给定的表达式合法。</li>
-<li>题目保证符号 - 只作为减号出现，不会作为负号出现，例如，-1+2,(2+2)*(-(1+1)+2) 之类表达式均不会出现。</li>
-<li>题目保证表达式中所有数字均为正整数。</li>
-<li>题目保证表达式在中间计算过程以及结果中，均不超过 231−1。</li>
-<li>题目中的整除是指向 0 取整，也就是说对于大于 0 的结果向下取整，例如 5/3=1，对于小于 0 的结果向上取整，例如 5/(1−4)=−1。</li>
-<li>C++和Java中的整除默认是向零取整；Python中的整除//默认向下取整，因此Python的eval()函数中的整除也是向下取整，在本题中不能直接使用。</li>
-</ul>
-<p><strong>输入格式</strong><br>共一行，为给定表达式。</p>
-<p><strong>输出格式</strong><br>共一行，为表达式的结果。</p>
-<p><strong>数据范围</strong><br>表达式的长度不超过(\10^5)</p>
-<p><strong>输入样例：</strong></p>
-<blockquote>
-<p>(2+2)*(1+1)</p>
-</blockquote>
-<p><strong>输出样例：</strong></p>
-<blockquote>
-<p>8</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unordered_map&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line">stack&lt;<span class="keyword">int</span>&gt; num;</span><br><span class="line">stack&lt;<span class="keyword">char</span>&gt; op;</span><br><span class="line"></span><br><span class="line">unordered_map&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt; pr=&#123;&#123;<span class="string">&#x27;+&#x27;</span>,<span class="number">1</span>&#125;,&#123;<span class="string">&#x27;-&#x27;</span>,<span class="number">1</span>&#125;,&#123;<span class="string">&#x27;*&#x27;</span>,<span class="number">2</span>&#125;,&#123;<span class="string">&#x27;/&#x27;</span>,<span class="number">2</span>&#125;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">eval</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> b=num.<span class="built_in">top</span>();num.<span class="built_in">pop</span>();</span><br><span class="line">    <span class="keyword">int</span> a=num.<span class="built_in">top</span>();num.<span class="built_in">pop</span>();</span><br><span class="line">    <span class="keyword">char</span> c=op.<span class="built_in">top</span>();op.<span class="built_in">pop</span>();</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> s=<span class="number">0</span>;</span><br><span class="line">    <span class="built_in"><span class="keyword">switch</span></span>(c)&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;+&#x27;</span>:   s=a+b; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;-&#x27;</span>:   s=a-b; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;*&#x27;</span>:   s=a*b; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;/&#x27;</span>:   s=a/b; <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    num.<span class="built_in">push</span>(s);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    string str;</span><br><span class="line">    cin&gt;&gt;str;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;str.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">        <span class="keyword">auto</span> c=str[i];</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">isdigit</span>(c))&#123;</span><br><span class="line">            <span class="keyword">int</span> j,n=<span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span>(j=i;j&lt;str.<span class="built_in">size</span>() &amp;&amp; <span class="built_in">isdigit</span>(str[j]);j++)&#123;</span><br><span class="line">                n=n*<span class="number">10</span>+(str[j]-<span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            num.<span class="built_in">push</span>(n);</span><br><span class="line">            i=j<span class="number">-1</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&#x27;(&#x27;</span>)op.<span class="built_in">push</span>(c);</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(c==<span class="string">&#x27;)&#x27;</span>)&#123;</span><br><span class="line">            <span class="keyword">while</span>(op.<span class="built_in">size</span>() &amp;&amp; op.<span class="built_in">top</span>()!=<span class="string">&#x27;(&#x27;</span>) <span class="built_in">eval</span>();</span><br><span class="line">            op.<span class="built_in">pop</span>();</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">while</span>(op.<span class="built_in">size</span>() &amp;&amp; pr[op.<span class="built_in">top</span>()]&gt;=pr[c]) <span class="built_in">eval</span>();</span><br><span class="line">            op.<span class="built_in">push</span>(c);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(op.<span class="built_in">size</span>()) <span class="built_in">eval</span>();</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; num.<span class="built_in">top</span>() &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    <title>sort求第k小的数</title>
+    <url>/2022/01/05/sort2//</url>
+    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/70c19c413d312378.png"><br>题目描述<br>输入 nn（1 \le n &lt; 50000001≤n&lt;5000000 且 nn 为奇数）个数字 a_ia<br>i<br>​<br> （1 \le a_i &lt; {10}^91≤a<br>i<br>​<br> &lt;10<br>9<br> ），输出这些数字的第 kk 小的数。最小的数是第 00 小。</p>
+<p>请尽量不要使用 nth_element 来写本题，因为本题的重点在于练习分治算法。</p>
+<p>输入格式<br>无</p>
+<p>输出格式<br>无</p>
+<p>输入输出样例<br>输入 #1复制<br>5 1<br>4 3 2 1 5<br>输出 #1复制<br>2</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">5e6</span>+<span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> k;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r) <span class="keyword">return</span> ;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> i=l<span class="number">-1</span>, j=r+<span class="number">1</span>,val = q[l+r&gt;&gt;<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">do</span> i++; <span class="keyword">while</span>(q[i]&lt;val);</span><br><span class="line">        <span class="keyword">do</span> j--; <span class="keyword">while</span>(q[j]&gt;val);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(i&lt;j) <span class="built_in">swap</span>(q[i],q[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(k&lt;=j)</span><br><span class="line">        <span class="built_in">quick_sort</span>(l,j);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">quick_sort</span>(j+<span class="number">1</span>,r);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cin&gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">quick_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; q[k] &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法</category>
       </categories>
