@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Space">
+
+
+    <meta name="subtitle" content=" ">
+
+
+
+
+<title>线程 | Space Blog</title>
+
+
+
+    <link rel="icon" href="/favico.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Space Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Space Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">线程</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Space</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">二月 10, 2022&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Linux/">Linux</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h1><blockquote>
+<p>线程，是进程内部的一个控制序列。<br><br>即使不使用线程，进程内部也有一个执行线程。<br><br><br><br><strong>类比</strong>：创建一个进程，类似于“克隆”一个家庭。<br>该“家庭”与原来的家庭完全相同<br>但是新“家庭”和原来的家庭完全独立。<br>进程包含一个或多个线程，类似于一个家庭包含一个或多个家庭成员。<br><br> 家庭内的各成员同时做各自的事情（父亲工作、母亲持家、小孩上学）<br>而对于家庭外部的人来说，这个家庭同时在做多件事情。<br>家庭内的每个成员，就是一个线程。<br>各个家庭成员有自己的个人资源（线程有自己的局部变量）<br>但是所有家庭成员都能共享这个家庭的资源:房子、汽车、家庭的公共资金。<br>（同一个进程内的各个线程，能够共享整个进程的全局变量，除了线程的局部变量外，其他资源都共享）</p>
+</blockquote>
+<p><code>注意：单核处理器上，同一个时刻只能运行一个线程。</code><br><code>但是对于用户而言，感觉如同同时执行了多个线程一样</code><br><code>（各线程在单核CPU上切换，在一段时间内，同时执行了多个线程）</code></p>
+<hr>
+<h1 id="为什么使用线程"><a href="#为什么使用线程" class="headerlink" title="为什么使用线程"></a>为什么使用线程</h1><blockquote>
+<ul>
+<li><strong>使用fork创建进程以执行新的任务，该方式的代价很高。</strong></li>
+</ul>
+</blockquote>
+<ul>
+<li><strong>多个进程间不会直接共享内存</strong></li>
+<li><strong>线程是进程的基本执行单元，一个进程的所有任务都在线程中执行，进程要想执行任务，必须得有线程，进程至少要有一条线程，程序启动会默认开启一条线程，这条线程被称为主线程或 UI 线程</strong></li>
+</ul>
+<hr>
+<h1 id="线程的优点与缺点"><a href="#线程的优点与缺点" class="headerlink" title="线程的优点与缺点"></a>线程的优点与缺点</h1><blockquote>
+<p><strong>优点:</strong> <strong>创建线程比创建进程，开销要小。</strong><br><br><br><strong>缺点:<br></strong></p>
+</blockquote>
+<ol>
+<li><strong>多线程编程，需特别小心，很容易发生错误。</strong><br></li>
+<li><strong>多线程调试很困难。</strong><br></li>
+<li><strong>把一个任务划分为两部分，用两个线程在单处理器上运行时，不一定更快。除非能确定这两个部分能同时执行、且运行在多处理器上。</strong><br></li>
+</ol>
+<hr>
+<h1 id="线程的应用场合"><a href="#线程的应用场合" class="headerlink" title="线程的应用场合"></a>线程的应用场合</h1><blockquote>
+<ol>
+<li><strong>需要让用户感觉在同时做多件事情时，比如，处理文档的进程，一个线程处理用户编辑，一个线程同时统计用户的字数.</strong><br></li>
+<li><strong>当一个应用程序，需要同时处理输入、计算、输出时，可开3个线程，分别处理输入、计算、输出。让用户感觉不到等待。</strong><br></li>
+<li><strong>高并发编程。</strong><br></li>
+</ol>
+</blockquote>
+<hr>
+<h1 id="线程的使用"><a href="#线程的使用" class="headerlink" title="线程的使用"></a>线程的使用</h1><h2 id="线程的创建"><a href="#线程的创建" class="headerlink" title="线程的创建"></a>线程的创建</h2><pre><code>pthread_create
+</code></pre>
+<p>原型:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">pthread_create</span> <span class="params">(</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="keyword">pthread_t</span> *thread,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="keyword">pthread_attr_t</span> *attr,</span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="keyword">void</span> *(*start_routine)(<span class="keyword">void</span>*), </span></span></span><br><span class="line"><span class="params"><span class="function">            <span class="keyword">void</span> *arg)</span></span>;         </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数：<strong>thread</strong>, 指向新线程的标识符。<br><br>           通过该指针返回所创建线程的标识符。<br><br>          <strong>attr</strong>, 用来设置新线程的属性。<br><br>           一般取默认属性，<strong>即该参数取NULL</strong><br><br>           <strong>start_routine</strong>, 该线程的处理函数<br><br>           该函数的返回类型和参数类型都是<strong>void</strong> *<strong>arg</strong>, 线程处理函数 <strong>start_routine</strong> 的参数<br><br><br><strong>功能</strong>：创建一个新线程，同时指定该线程的属性、执行函数、执行函数的参数通过参数1返回该线程的标识符。<br><br><br><strong>返回值</strong>：成功，返回0<br>   失败，返回错误代码<br><strong>注意：大部分pthread_开头的函数成功时返回0，失败时返回错误码（而不是-1）</strong><br><strong>注意：使用fork创建进程后，进程马上就启动，但是是和父进程同时执行fork后的代码。</strong><br><br><strong>使用pthread_create创建线程后，新线程马上就启动，即执行对应的线程处理函数。</strong></p>
+</blockquote>
+<hr>
+<h2 id="线程的终止"><a href="#线程的终止" class="headerlink" title="线程的终止"></a>线程的终止</h2><pre><code>pthread_exit
+</code></pre>
+<p>原型:<br></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span>  <span class="title">pthread_exit</span> <span class="params">(<span class="keyword">void</span> *retval)</span></span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>功能：在线程函数内部调用该函数。<br><br>终止该线程，并通过参数retval返回一个指针。<br><br>该指针不能指向该线程的局部变量。<br></p>
+</blockquote>
+<hr>
+<h2 id="等待线程的结束"><a href="#等待线程的结束" class="headerlink" title="等待线程的结束"></a>等待线程的结束</h2><pre><code>pthread_join
+</code></pre>
+<p>原型:<br></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">pthread_join</span>  <span class="params">(<span class="keyword">pthread_t</span> th,<span class="keyword">void</span> **thread_return)</span></span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数：<strong>th</strong>,  指定等待的线程 <strong>thread_return</strong>, 指向该线程函数的返回值,线程函数的返回值类型为** void*** ，故该参数的类型为<strong>void</strong>**<br><br>功能：类似与进程中的 <strong>waitpid</strong>等待指定的线程结束，并使参数指向该线程函数的返回值（用 <strong>pthread_exit</strong> 返回的值）</p>
+</blockquote>
+<hr>
+<h2 id="线程的编译"><a href="#线程的编译" class="headerlink" title="线程的编译"></a>线程的编译</h2><blockquote>
+<ol>
+<li><strong>编译时</strong>，定义宏**_REENTRANT**<br><pre><code>   即： **gcc -D_REENTRANT  （#define REENTRANT)**
+</code></pre>
+<br>
+       **功能**：告诉编译器，编译时需要可重入功能.
+            即使得，在编译时，编译部分函数的可重入版本.
+<br></li>
+</ol>
+<p><strong>注：在单线程程序中，整个程序都是顺序执行的，一个函数在同一时刻只能被一个函数调用，但在多线程中，由于并发性，一个函数可能同时被多个函数调用，此时这个函数就成了临界资源，很容易造成调用函数处理结果的相互影响，如果一个函数在多线程并发的环境中每次被调用产生的结果是不确定的，我们就说这个函数是”不可重入的”/“线程不安全”的。</strong><br><br><br><br>2. <strong>编译时</strong>，指定线程库<br><br>       即: <strong>gcc -lpthread</strong><br><br>        功能：使用系统默认的<strong>NPTL</strong>线程库,<br>               即在默认路径中寻找库文件<strong>libpthread.so</strong><br>               默认路径为**/usr/lib<strong>和</strong>/usr/local/lib**<br><br><br><br>   当系统默认使用的不是<strong>NPTL</strong>线程库时（系统较老，2003年以前）<br>       指定：<strong>gcc  -L/usr/lib/nptl   -lpthread</strong><br>       补充： <strong>-L</strong> 指定库文件所在的目录<br>               <strong>-l</strong> 指定库文件的名称(<strong>-lpthread</strong> ,指库文件名为<strong>libpthread.so</strong>)<br>        <br><br>   总结：一般使用如下形式即可<strong>gcc   -D_REENTRANT   -lpthread    mythread.c    -o   mythread</strong></p>
+</blockquote>
+<p><strong>例:</strong><br></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> my_global;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span>* <span class="title">my_thread_handle</span><span class="params">(<span class="keyword">void</span> *arg)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> val;</span><br><span class="line"></span><br><span class="line">	val = *((<span class="keyword">int</span>*)arg);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;new thread begin, arg=%d\n&quot;</span>, val);</span><br><span class="line">	my_global += val;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">sleep</span>(<span class="number">3</span>);</span><br><span class="line">	<span class="comment">//线程结束</span></span><br><span class="line">	<span class="built_in">pthread_exit</span>(&amp;my_global);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//  不再执行</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;new thread end\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">pthread_t</span>  mythread;</span><br><span class="line">	<span class="keyword">int</span> arg;</span><br><span class="line">	<span class="keyword">int</span> ret;</span><br><span class="line">	<span class="keyword">void</span> *thread_return;</span><br><span class="line"></span><br><span class="line">	arg = <span class="number">100</span>;</span><br><span class="line">	my_global = <span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;my_global=%d\n&quot;</span>, my_global);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;ready create thread...\n&quot;</span>);</span><br><span class="line">	</span><br><span class="line">	ret = <span class="built_in">pthread_create</span>(&amp;mythread, <span class="number">0</span>, my_thread_handle, &amp;arg);</span><br><span class="line">	<span class="keyword">if</span> (ret != <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;create thread failed!\n&quot;</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;wait thread finished...\n&quot;</span>);</span><br><span class="line">	ret = <span class="built_in">pthread_join</span>(mythread, &amp;thread_return);</span><br><span class="line">	<span class="keyword">if</span> (ret != <span class="number">0</span>) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;pthread_join failed!\n&quot;</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;wait thread end, return value is %d\n&quot;</span>, *((<span class="keyword">int</span>*)thread_return));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;my_global=%d\n&quot;</span>, my_global);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;create thread finished!\n&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Space</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://spaceout.cn/2022/02/10/pthread/">https://spaceout.cn/2022/02/10/pthread/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Linux/"># Linux</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2022/02/07/MallocFree/">高并发传统方式的弊端以及解决方式</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span></a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
