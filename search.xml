@@ -1528,15 +1528,15 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
 <p>原型:<br></p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">pthread_join</span>  <span class="params">(<span class="keyword">pthread_t</span> th,<span class="keyword">void</span> **thread_return)</span></span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>参数：<strong>th</strong>,  指定等待的线程 <strong>thread_return</strong>, 指向该线程函数的返回值,线程函数的返回值类型为** void*** ，故该参数的类型为<strong>void</strong>**<br><br>功能：类似与进程中的 <strong>waitpid</strong>等待指定的线程结束，并使参数指向该线程函数的返回值（用 <strong>pthread_exit</strong> 返回的值）</p>
+<p>参数：<strong>th</strong>,  指定等待的线程 <strong>thread_return</strong>, 指向该线程函数的返回值,线程函数的返回值类型为** void* ** ，故该参数的类型为<strong>void</strong>**<br><br>功能：类似与进程中的 <strong>waitpid</strong>等待指定的线程结束，并使参数指向该线程函数的返回值（用 <strong>pthread_exit</strong> 返回的值）</p>
 </blockquote>
 <hr>
 <h2 id="线程的编译"><a href="#线程的编译" class="headerlink" title="线程的编译"></a>线程的编译</h2><blockquote>
 <ol>
-<li><strong>编译时</strong>，定义宏**_REENTRANT**<br><pre><code>   即： **gcc -D_REENTRANT  （#define REENTRANT)**
+<li><strong>编译时，定义宏_REENTRANT</strong><br><pre><code> 即:**gcc -D_REENTRANT (#define REENTRANT)**
 </code></pre>
 <br>
-       **功能**：告诉编译器，编译时需要可重入功能.
+    **功能**：告诉编译器，编译时需要可重入功能.
             即使得，在编译时，编译部分函数的可重入版本.
 <br></li>
 </ol>
@@ -1618,7 +1618,7 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
 <blockquote>
 <p>参数：<strong>cond</strong>,  条件变量指针</p>
 </blockquote>
-<h4 id="等待条件变量-超时被唤醒"><a href="#等待条件变量-超时被唤醒" class="headerlink" title="等待条件变量/超时被唤醒"></a>等待条件变量/超时被唤醒</h4><p><code>pthread_cond_timedwait</code><br>等待条件变量cond被唤醒,直到由一个信号或广播，或绝对时间 <strong>abstime</strong> 到 ** * ** 才唤醒该线程<br><br><strong>原型：</strong><br></p>
+<h4 id="等待条件变量-超时被唤醒"><a href="#等待条件变量-超时被唤醒" class="headerlink" title="等待条件变量/超时被唤醒"></a>等待条件变量/超时被唤醒</h4><p><code>pthread_cond_timedwait</code><br>等待条件变量cond被唤醒,直到由一个信号或广播，或绝对时间 <strong>abstime</strong> 到  * 才唤醒该线程<br><br><strong>原型：</strong><br></p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_cond_timedwait</span> <span class="params">(<span class="keyword">pthread_cond_t</span> *cond, <span class="keyword">pthread_mutex_t</span> *mutex, <span class="keyword">const</span> struct timespec *abstime)</span></span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>参数：<strong>cond</strong>,  条件变量指针<br>      <strong>pthread_mutex_t * mutex</strong> 互斥量<br><br>      <strong>const struct timespec * abstime</strong> 等待被唤醒的绝对超时时间</p>
