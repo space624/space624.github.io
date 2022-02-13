@@ -303,11 +303,13 @@
 <h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><blockquote>
 <p>什么是信号量<br><br> 此时所指的“信号量”是指用于同一个进程内多个线程之间的信号量。<br> 即<strong>POSIX</strong>信号量，而不是<strong>System V</strong>信号量（用于进程之间的同步)<br><br><br> 用于线程的信号量的原理，与用于进程之间的信号量的原理相同。<br> 都有<strong>P</strong>操作、<strong>V</strong>操作。<br><br> 信号量的表示：<strong>sem_t</strong>  类型</p>
 </blockquote>
-<h3 id="信号量初始化"><a href="#信号量初始化" class="headerlink" title="信号量初始化"></a>信号量初始化</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">**原型**:</span><br><span class="line">```cpp</span><br><span class="line">int sem_init(sem_t  *sem，int  pshared, unsigned int value);</span><br></pre></td></tr></table></figure>
+<h3 id="信号量初始化"><a href="#信号量初始化" class="headerlink" title="信号量初始化"></a>信号量初始化</h3><p><code>sem_init</code><br><strong>原型</strong>:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sem_init</span><span class="params">(<span class="keyword">sem_t</span>  *sem，<span class="keyword">int</span>  pshared, <span class="keyword">unsigned</span> <span class="keyword">int</span> value)</span></span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p><strong>功能</strong>：对信号量进行初始化<br><br> <strong>参数</strong>：<br>sem,  指向被初始化的信号量<br><br>  pshared, 0：表示该信号量是该进程内使用的“<strong>局部信号量</strong>”， 不再被其它进程共享。非0：该信号量可被其他进程共享，<strong>Linux</strong>不支持这种信号量<br><br>     <strong>value</strong>,  信号量的初值。&gt;= 0<br><br>    <strong>返回值</strong>：成功，返回0<br>                    失败， 返回错误码</p>
 </blockquote>
-<h3 id="信号量的P操作"><a href="#信号量的P操作" class="headerlink" title="信号量的P操作"></a>信号量的P操作</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">**原型:**</span><br><span class="line">```cpp</span><br><span class="line">int sem_wait(sem_t *sem);</span><br></pre></td></tr></table></figure>
+<h3 id="信号量的P操作"><a href="#信号量的P操作" class="headerlink" title="信号量的P操作"></a>信号量的P操作</h3><p><code>sem_wait</code><br><strong>原型:</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sem_wait</span><span class="params">(<span class="keyword">sem_t</span> *sem)</span></span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>返回值:成功,返回0<br><br>失败  :返回错误代码</p>
 </blockquote>
@@ -333,7 +335,7 @@
 <h4 id="互斥量的初始化"><a href="#互斥量的初始化" class="headerlink" title="互斥量的初始化"></a>互斥量的初始化</h4><p><strong>pthread_mutex_init</strong><br><br><strong>原型:</strong><br></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_mutex_init</span><span class="params">(<span class="keyword">pthread_mutex_t</span> *mutex, <span class="keyword">pthread_mutexattr_t</span> *attr)</span></span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>**参数:**<strong>mutex</strong>，指被初始化的互斥量<br><br><strong>attr</strong>，指向互斥量的属性<br><br><strong>一般取默认属性（当一个线程已获取互斥量后，该线程再次获取该信号量，将导致死锁!)</strong></p>
+<p><strong>参数:mutex</strong>，指被初始化的互斥量<br><br><strong>attr</strong>，指向互斥量的属性<br><br><strong>一般取默认属性（当一个线程已获取互斥量后，该线程再次获取该信号量，将导致死锁!)</strong></p>
 </blockquote>
 <h4 id="互斥量的获取"><a href="#互斥量的获取" class="headerlink" title="互斥量的获取"></a>互斥量的获取</h4><p><code>pthread_mutex_lock</code><br><strong>原型：</strong><br></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span>  <span class="title">pthread_mutex_lock</span> <span class="params">(<span class="keyword">pthread_mutex_t</span> *mutex)</span></span>;</span><br></pre></td></tr></table></figure>
@@ -351,23 +353,28 @@
 <blockquote>
 <p><strong>参数:</strong> <strong>cond</strong> 条件变量指针<br><br><strong>attr</strong>    条件变量高级属性<br><br>可man查看 需要安装:<strong>apt-get install manpages-posix-dev</strong></p>
 </blockquote>
-<h4 id="唤醒一个等待线程"><a href="#唤醒一个等待线程" class="headerlink" title="唤醒一个等待线程"></a>唤醒一个等待线程</h4><figure class="highlight plaintext"><figcaption><span>通知条件变量,唤醒一个等待者<br></span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">**原型：**&lt;br&gt;</span><br><span class="line">```cpp</span><br><span class="line">int pthread_cond_signal (pthread_cond_t *cond);</span><br></pre></td></tr></table></figure>
+<h4 id="唤醒一个等待线程"><a href="#唤醒一个等待线程" class="headerlink" title="唤醒一个等待线程"></a>唤醒一个等待线程</h4><p><code>pthread_cond_signal</code><br>通知条件变量,唤醒一个等待者<br><strong>原型：</strong><br></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_cond_signal</span> <span class="params">(<span class="keyword">pthread_cond_t</span> *cond)</span></span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>参数：<strong>cond</strong>,  条件变量指针</p>
 </blockquote>
-<h4 id="唤醒所有等待该条件变量的线程"><a href="#唤醒所有等待该条件变量的线程" class="headerlink" title="唤醒所有等待该条件变量的线程"></a>唤醒所有等待该条件变量的线程</h4><figure class="highlight plaintext"><figcaption><span>广播条件变量</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">**原型：** &lt;br&gt;</span><br><span class="line">```cpp</span><br><span class="line">int pthread_cond_broadcast (pthread_cond_t *cond);</span><br></pre></td></tr></table></figure>
+<h4 id="唤醒所有等待该条件变量的线程"><a href="#唤醒所有等待该条件变量的线程" class="headerlink" title="唤醒所有等待该条件变量的线程"></a>唤醒所有等待该条件变量的线程</h4><p><code>pthread_cond_broadcast</code><br>广播条件变量<br><strong>原型：</strong> <br></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_cond_broadcast</span> <span class="params">(<span class="keyword">pthread_cond_t</span> *cond)</span></span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>参数：<strong>cond</strong>,  条件变量指针</p>
 </blockquote>
-<h4 id="等待条件变量-超时被唤醒"><a href="#等待条件变量-超时被唤醒" class="headerlink" title="等待条件变量/超时被唤醒"></a>等待条件变量/超时被唤醒</h4><figure class="highlight plaintext"><figcaption><span>等待条件变量cond被唤醒,直到由一个信号或广播，或绝对时间 **abstime** 到 ** * ** 才唤醒该线程<br></span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">**原型：**&lt;br&gt;</span><br><span class="line">```cpp</span><br><span class="line">int pthread_cond_timedwait (pthread_cond_t *cond, pthread_mutex_t *mutex, const struct timespec *abstime);</span><br></pre></td></tr></table></figure>
+<h4 id="等待条件变量-超时被唤醒"><a href="#等待条件变量-超时被唤醒" class="headerlink" title="等待条件变量/超时被唤醒"></a>等待条件变量/超时被唤醒</h4><p><code>pthread_cond_timedwait</code><br>等待条件变量cond被唤醒,直到由一个信号或广播，或绝对时间 <strong>abstime</strong> 到 ** * ** 才唤醒该线程<br><br><strong>原型：</strong><br></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_cond_timedwait</span> <span class="params">(<span class="keyword">pthread_cond_t</span> *cond, <span class="keyword">pthread_mutex_t</span> *mutex, <span class="keyword">const</span> struct timespec *abstime)</span></span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>参数：<strong>cond</strong>,  条件变量指针<br>      <strong>pthread_mutex_t</strong>** * mutex** 互斥量<br><br>      <strong>const struct timespec</strong>** * abstime** 等待被唤醒的绝对超时时间</p>
+<p>参数：<strong>cond</strong>,  条件变量指针<br>      <strong>pthread_mutex_t * mutex</strong> 互斥量<br><br>      <strong>const struct timespec * abstime</strong> 等待被唤醒的绝对超时时间</p>
 </blockquote>
-<h4 id="等待条件变量被唤醒"><a href="#等待条件变量被唤醒" class="headerlink" title="等待条件变量被唤醒"></a>等待条件变量被唤醒</h4><figure class="highlight plaintext"><figcaption><span>等待条件变量cond被唤醒(由一个信号或者广播)</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">**原型：** &lt;br&gt;</span><br><span class="line">```cpp</span><br><span class="line">int pthread_cond_wait (pthread_cond_t *cond, pthread_mutex_t *mutex);</span><br></pre></td></tr></table></figure>
+<h4 id="等待条件变量被唤醒"><a href="#等待条件变量被唤醒" class="headerlink" title="等待条件变量被唤醒"></a>等待条件变量被唤醒</h4><p><code>pthread_cond_wait</code><br>等待条件变量cond被唤醒(由一个信号或者广播)<br><strong>原型：</strong> <br></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_cond_wait</span> <span class="params">(<span class="keyword">pthread_cond_t</span> *cond, <span class="keyword">pthread_mutex_t</span> *mutex)</span></span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>参数：<strong>cond</strong>,  条件变量指针<br>      <strong>pthread_mutex_t</strong>** * mutex** 互斥量<br><br>常见错误码：  [<strong>EINVAL</strong>] <strong>cond或mutex无效</strong>,<br><br>[<strong>EINVAL</strong>] 同时等待不同的互斥量  <br><br>[<strong>EINVAL</strong>] 主调线程没有占有互斥量 <br></p>
+<p>参数：<strong>cond</strong>,  条件变量指针<br>      <strong>pthread_mutex_t * mutex</strong> 互斥量<br><br>常见错误码：  [<strong>EINVAL</strong>] <strong>cond或mutex无效</strong>,<br><br>[<strong>EINVAL</strong>] 同时等待不同的互斥量  <br><br>[<strong>EINVAL</strong>] 主调线程没有占有互斥量 <br></p>
 </blockquote>
-<h4 id="释放-销毁条件变量"><a href="#释放-销毁条件变量" class="headerlink" title="释放/销毁条件变量"></a>释放/销毁条件变量</h4><figure class="highlight plaintext"><figcaption><span>待销毁的条件变量</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">**原型：** &lt;br&gt;</span><br><span class="line">```cpp</span><br><span class="line">int pthread_cond_destroy (pthread_cond_t *cond);</span><br></pre></td></tr></table></figure>
+<h4 id="释放-销毁条件变量"><a href="#释放-销毁条件变量" class="headerlink" title="释放/销毁条件变量"></a>释放/销毁条件变量</h4><p><code>pthread_cond_destroy</code><br>待销毁的条件变量<br><strong>原型：</strong> <br></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_cond_destroy</span> <span class="params">(<span class="keyword">pthread_cond_t</span> *cond)</span></span>;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>参数：cond,  条件变量指针</p>
 </blockquote>
