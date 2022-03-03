@@ -15,7 +15,7 @@
 
 
 
-<title>剑指 Offer II 002. 二进制加法 | Space Blog</title>
+<title>堆栈平衡及其注意事项 | Space Blog</title>
 
 
 
@@ -42,45 +42,6 @@
 
     
     
-        
-            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    "HTML-CSS": {
-        preferredFont: "TeX",
-        availableFonts: ["STIX","TeX"],
-        linebreaks: { automatic:true },
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
-        processEscapes: true,
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
-        Macros: { href: "{}" }
-    },
-    messageStyle: "none"
-    });
-</script>
-<!-- 给MathJax元素添加has-jax class -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-<!-- 通过连接CDN加载MathJax的js代码 -->
-<script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-
-
         
     
 
@@ -168,11 +129,73 @@
                 <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">剑指 Offer II 002. 二进制加法</h1>
+            <h1 class="post-title">堆栈平衡及其注意事项</h1>
             
                 <div class="post-meta">
                     
@@ -181,14 +204,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">一月 26, 2022&nbsp;&nbsp;0:00:00</a>
+                        Date: <a href="#">三月 3, 2022&nbsp;&nbsp;0:00:00</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/%E5%8A%9B%E6%89%A3/">力扣</a>
+                                <a href="/categories/%E9%80%86%E5%90%91/">逆向</a>
                             
                         </span>
                     
@@ -197,30 +220,24 @@
         </header>
 
         <div class="post-content">
-            <p>给定两个 01 字符串 a 和 b ，请计算它们的和，并以二进制字符串的形式输出。</p>
-<p>输入为 <strong>非空</strong> 字符串且只包含数字 1 和 0。</p>
-<p> </p>
-<p><strong>示例 1:</strong><br></p>
-<blockquote>
-<p><strong>输入:</strong> a = “11”, b = “10”<br><br><strong>输出:</strong> “101”<br></p>
+            <p><strong>我们的call xxx == jmp xxx<br></strong></p>
+<h2 id="1-内平栈"><a href="#1-内平栈" class="headerlink" title="1 内平栈"></a>1 内平栈</h2><blockquote>
+<p>执行完call,把堆栈加回来,这是内平栈<br></p>
 </blockquote>
-<p><strong>示例 2:</strong><br></p>
-<blockquote>
-<p><strong>输入:</strong> a = “1010”, b = “1011”<br><br><strong>输出:</strong> “10101”<br>
- </p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">retn <span class="number">4</span> == add esp,<span class="number">4</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="2-外平栈"><a href="#2-外平栈" class="headerlink" title="2 外平栈"></a>2 外平栈</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">push eax&lt;br&gt;</span><br><span class="line">call xxx&lt;br&gt;</span><br><span class="line">d esp,<span class="number">4</span>&lt;br&gt;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="pushad-与-popad"><a href="#pushad-与-popad" class="headerlink" title="pushad 与 popad"></a>pushad 与 popad</h2><h2 id="首先需要保证堆栈平衡否则没有用"><a href="#首先需要保证堆栈平衡否则没有用" class="headerlink" title="首先需要保证堆栈平衡否则没有用"></a><strong>首先需要保证堆栈平衡否则没有用</strong></h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">保存现场</span><br><span class="line">pushad</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">清理现场</span><br><span class="line">popad</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="3-怎么保证堆栈平衡"><a href="#3-怎么保证堆栈平衡" class="headerlink" title="3 怎么保证堆栈平衡"></a>3 怎么保证堆栈平衡</h2><blockquote>
+<p><strong>注:内存需要保证可写性</strong><br></p>
 </blockquote>
-<p><strong>提示：</strong></p>
-<ul>
-<li>每个字符串仅由字符 ‘0’ 或 ‘1’ 组成。</li>
-<li>1 &lt;= a.length, b.length &lt;= 10^4</li>
-<li>字符串如果不是 “0” ，就都不含前导零。</li>
-</ul>
-<p><strong>代码</strong><br></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">addBinary</span><span class="params">(string a, string b)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">reverse</span>(a.<span class="built_in">begin</span>(),a.<span class="built_in">end</span>());</span><br><span class="line">        <span class="built_in">reverse</span>(b.<span class="built_in">begin</span>(),b.<span class="built_in">end</span>());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> t=<span class="number">0</span>;</span><br><span class="line">        string res;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;a.<span class="built_in">size</span>() || i&lt;b.<span class="built_in">size</span>()||t;i++)&#123;</span><br><span class="line">             <span class="keyword">if</span>(i &lt; a.<span class="built_in">size</span>()) t += (a[i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            <span class="keyword">if</span>(i &lt; b.<span class="built_in">size</span>()) t += (b[i] - <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            res += (t % <span class="number">2</span> % <span class="number">10</span> + <span class="string">&#x27;0&#x27;</span>);</span><br><span class="line">            t /= <span class="number">2</span>;</span><br><span class="line">        &#125;</span><br><span class="line">         <span class="built_in">reverse</span>(res.<span class="built_in">begin</span>(),res.<span class="built_in">end</span>());</span><br><span class="line">         <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<br>
-# [题目链接](https://leetcode-cn.com/problems/JFETK5)
-
-
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mov [xxxxx],esp</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">mov esp,[xxxxx]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>或<br></strong></p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pushad&lt;br&gt;</span><br><span class="line">mov [xxxxx],esp&lt;br&gt;</span><br><span class="line">...&lt;br&gt;</span><br><span class="line">...&lt;br&gt;</span><br><span class="line">mov esp,[xxxxx]&lt;br&gt;</span><br><span class="line">popad&lt;br&gt;</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -234,7 +251,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://spaceout.cn/2022/01/26/offer002/">https://spaceout.cn/2022/01/26/offer002/</a></span>
+                        <span><a href="https://spaceout.cn/2022/03/03/%E5%A0%86%E6%A0%88%E5%B9%B3%E8%A1%A1/">https://spaceout.cn/2022/03/03/%E5%A0%86%E6%A0%88%E5%B9%B3%E8%A1%A1/</a></span>
                     </p>
                 
                 
@@ -258,7 +275,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/%E5%8A%9B%E6%89%A3/"># 力扣</a>
+                        <a href="/tags/%E9%80%86%E5%90%91/"># 逆向</a>
                     
                         
                 </span>
@@ -271,10 +288,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/01/26/offer001/">剑指 Offer II 001. 整数除法</a>
             
-            
-            <a class="next" rel="next" href="/2022/01/26/offer004/">剑指 Offer II 004. 只出现一次的数字</a>
+            <a class="next" rel="next" href="/2022/02/10/pthread/">线程</a>
             
         </section>
 
