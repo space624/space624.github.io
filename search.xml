@@ -1838,7 +1838,7 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
 <blockquote>
 <p><strong>或<br></strong></p>
 </blockquote>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">pushad&lt;br&gt;</span><br><span class="line">mov [xxxxx],esp&lt;br&gt;</span><br><span class="line">...&lt;br&gt;</span><br><span class="line">...&lt;br&gt;</span><br><span class="line">mov esp,[xxxxx]&lt;br&gt;</span><br><span class="line">popad&lt;br&gt;</span><br></pre></td></tr></table></figure>]]></content>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">pushad</span><br><span class="line">mov [xxxxx],esp</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">mov esp,[xxxxx]</span><br><span class="line">popad</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>逆向</category>
       </categories>
