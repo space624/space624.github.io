@@ -158,7 +158,9 @@
         </header>
 
         <div class="post-content">
-            <p><strong>逆向:<br></strong><br><a href="https://spaceout.cn/2022/03/06/EFLAGS%E7%9B%B8%E5%85%B3%E6%8C%87%E4%BB%A4/">EFLAGS相关跳转指令</a><br><br><a href="https://spaceout.cn/2022/03/06/%E6%B1%87%E7%BC%96%E8%AF%AD%E5%8F%A5IF_ELSE/">汇编语句IF_ELSE</a><br><br><strong>C代码案列:</strong><br></p>
+            <p><strong>逆向:<br></strong><br><a href="https://spaceout.cn/tags/%E9%80%86%E5%90%91/">逆向文章</a><br></p>
+<hr>
+<p><strong>C代码案列:</strong><br></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">int</span> *argv[])</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> day = <span class="number">0x306</span>;</span><br><span class="line">	<span class="built_in"><span class="keyword">switch</span></span> (day)</span><br><span class="line">	&#123;</span><br><span class="line">	<span class="keyword">case</span> <span class="number">0x306</span>:</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;2022年3月6日&quot;</span>);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	<span class="keyword">case</span> <span class="number">0x307</span>:</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;2022年3月7日&quot;</span>);</span><br><span class="line">	<span class="keyword">case</span> <span class="number">0x308</span>:</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;2022年3月8日&quot;</span>);</span><br><span class="line">	<span class="keyword">default</span>:</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;该干什么干什么&quot;</span>);</span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>为什么只写一个break？<br>是为了在汇编代码中有更好的展示</p>
@@ -226,7 +228,7 @@
                 <a class="prev" rel="prev" href="/2022/03/06/IF_ELSE/">IF_ELSE语句与汇编</a>
             
             
-            <a class="next" rel="next" href="/2022/03/03/StackBalancing/">堆栈平衡及其注意事项</a>
+            <a class="next" rel="next" href="/2022/03/06/For/">For语句与汇编</a>
             
         </section>
 

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Space">
+
+
+    <meta name="subtitle" content=" ">
+
+
+
+
+<title>For语句与汇编 | Space Blog</title>
+
+
+
+    <link rel="icon" href="/favico.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Space Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Space Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">For语句与汇编</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Space</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 6, 2022&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E9%80%86%E5%90%91/">逆向</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><strong>逆向:<br></strong><br><a href="https://spaceout.cn/tags/%E9%80%86%E5%90%91/">逆向文章</a><br></p>
+<hr>
+<p><strong>C代码预览</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">int</span> *argv[])</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(; i &lt; <span class="number">0x100</span>; i++) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;这是第 %d 次循环!\n&quot;</span>, i+<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>下断点转到反汇编</strong></p>
+<p><img src="https://i.bmp.ovh/imgs/2022/03/ca075732bb4a2aca.png"></p>
+<p><strong>汇编代码讲解</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line"><span class="number">002</span>A4158  mov         dword ptr [i],<span class="number">0</span>  </span><br><span class="line">	<span class="keyword">for</span>(; i &lt; <span class="number">0x100</span>; i++) &#123;</span><br><span class="line"><span class="number">002</span>A415F  jmp         main+<span class="number">3</span>Ah (<span class="number">02</span>A416Ah)  <span class="comment">//直接跳转至02A416A 进行判断(第8行)</span></span><br><span class="line"><span class="number">002</span>A4161  mov         eax,dword ptr [i]    <span class="comment">//i的值给eax</span></span><br><span class="line"><span class="number">002</span>A4164  add         eax,<span class="number">1</span>  			   <span class="comment">//eax+1</span></span><br><span class="line"><span class="number">002</span>A4167  mov         dword ptr [i],eax    </span><br><span class="line"><span class="number">002</span>A416A  cmp         dword ptr [i],<span class="number">100</span>h   <span class="comment">//判断</span></span><br><span class="line"><span class="number">002</span>A4171  jge         main+<span class="number">59</span>h (<span class="number">02</span>A4189h)  <span class="comment">//若&gt;=则跳转(第21行进行运行)</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;这是第 %d 次循环!\n&quot;</span>, i+<span class="number">1</span>);</span><br><span class="line"><span class="number">002</span>A4173  mov         eax,dword ptr [i]  </span><br><span class="line"><span class="number">002</span>A4176  add         eax,<span class="number">1</span>  </span><br><span class="line"><span class="number">002</span>A4179  push        eax  </span><br><span class="line"><span class="number">002</span>A417A  push        offset string <span class="string">&quot;\xd5\xe2\xca\xc7\xb5\xda %d \xb4\xce\xd1\xad\xbb\xb7!\n&quot;</span> (<span class="number">02</span>A6BCCh)  </span><br><span class="line"><span class="number">002</span>A417F  call        _printf (<span class="number">02</span>A1370h)  </span><br><span class="line"><span class="number">002</span>A4184  add         esp,<span class="number">8</span>  </span><br><span class="line">	&#125;</span><br><span class="line"><span class="number">002</span>A4187  jmp         main+<span class="number">31</span>h (<span class="number">02</span>A4161h)  </span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line"><span class="number">002</span>A4189  mov         esi,esp  </span><br><span class="line"><span class="number">002</span>A418B  push        offset string <span class="string">&quot;pause&quot;</span> (<span class="number">02</span>A6BE0h)  </span><br><span class="line"><span class="number">002</span>A4190  call        dword ptr [__imp__system (<span class="number">02</span>AA174h)]  </span><br><span class="line"><span class="number">002</span>A4196  add         esp,<span class="number">4</span>  </span><br><span class="line"><span class="number">002</span>A4199  cmp         esi,esp  </span><br><span class="line"><span class="number">002</span>A419B  call        __RTC_CheckEsp (<span class="number">02</span>A120Dh)  </span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<p><strong><a href="https://spaceout.cn/2022/03/06/EFLAGS/">不清楚EFLAGS的可以点击查看</a></strong></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Space</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://spaceout.cn/2022/03/06/For/">https://spaceout.cn/2022/03/06/For/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span></span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E9%80%86%E5%90%91/"># 逆向</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/03/06/Switch/">Switch语句与汇编</a>
+            
+            
+            <a class="next" rel="next" href="/2022/03/03/StackBalancing/">堆栈平衡及其注意事项</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span></a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
