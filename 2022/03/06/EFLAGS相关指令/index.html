@@ -15,7 +15,7 @@
 
 
 
-<title>Socket-Ip地址转换 | Space Blog</title>
+<title>EFLAGS相关跳转指令 | Space Blog</title>
 
 
 
@@ -195,7 +195,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Socket-Ip地址转换</h1>
+            <h1 class="post-title">EFLAGS相关跳转指令</h1>
             
                 <div class="post-meta">
                     
@@ -204,14 +204,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">一月 2, 2022&nbsp;&nbsp;0:00:00</a>
+                        Date: <a href="#">三月 6, 2022&nbsp;&nbsp;0:00:00</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/Linux/">Linux</a>
+                                <a href="/categories/%E9%80%86%E5%90%91/">逆向</a>
                             
                         </span>
                     
@@ -220,14 +220,10 @@
         </header>
 
         <div class="post-content">
-            <p><img src="https://i.bmp.ovh/imgs/2022/01/16056322709f2b74.png"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;arpa/inet.h&gt;</span><br><span class="line">int inet_pton(int af, const char *src, void *dst);</span><br><span class="line">const char *inet_ntop(int af, const void *src, char *dst, socklen_t size);</span><br></pre></td></tr></table></figure>
-<p><strong>af 取值可选为 AF_INET 和 AF_INET6 ，即和 ipv4 和ipv6对应</strong><br><strong>支持IPv4和IPv6</strong></p>
-<p><strong>其中inet_pton和inet_ntop不仅可以转换IPv4的in_addr，还可以转换IPv6的in6_addr.</strong><br>因此函数接口是void *addrptr. </p>
-<h1 id="列"><a href="#列" class="headerlink" title="列:"></a>列:</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> ip[] = <span class="string">&quot;2.3.4.5&quot;</span>;</span><br><span class="line">    <span class="keyword">char</span> server_ip[<span class="number">64</span>];</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">server_addr</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//转换为网络字节序</span></span><br><span class="line">    <span class="built_in">inet_pton</span>(AF_INET, ip, &amp;server_addr.sin_addr.s_addr);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;s_addr: %x\n&quot;</span>,server_addr.sin_addr.s_addr);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;s_addr from net to host : %x\n&quot;</span>, <span class="built_in">ntohl</span>(server_addr.sin_addr.s_addr));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//网络字节序转换为字符串</span></span><br><span class="line">    <span class="built_in">inet_ntop</span>(AF_INET, &amp;server_addr.sin_addr.s_addr, server_ip, <span class="built_in"><span class="keyword">sizeof</span></span>(server_ip));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;server ip : %s\n&quot;</span>,server_ip);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong>输出结果为:</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s_addr: 5040302</span><br><span class="line">s_addr from net to host : 2030405</span><br><span class="line">server ip : 2.3.4.5</span><br></pre></td></tr></table></figure>
-
+            <p>|–|–|<br>|JCC指令|中文含义|英文原意|检查符号位|典型C应用|<br>|JZ/JE    |若为0则跳转;若相等则跳转| jump if zero; jump if equal| ZF = 1| if(i == j);if(i == 0);|<br>|JNZ/JNE|若不为0则跳转;若不相等则跳转|jump if not zero;jump if not equal |ZF = 0| if(i != j);if(i != 0);|<br>|JS| 若为负数则跳转|jump if sign| SF = 1|if(i &lt; 0);|<br>|JNS| 若为正则跳转| jump if not sign|SF = 0|if(i &gt; 0);|<br>|JP/JPE|若1出现次数为偶数则跳转| jump if Parity(Event)|PF = 1|(null)|<br>|JNP/JPO|若1出现次数为奇数则跳转| jump if Parity(Odd) |PF = 0|(null)|<br>|JO|若溢出则跳转|jump if overflow|OF = 1|(null)|<br>|JNO|若无溢出则跳转|jump if not overflow|OF = 0|(null)|<br>|JC/JB/JNAE|若进位则跳转;若低于则跳转;若不高于等于则跳转|jump if carry;jump if below;jump if not above equal|CF = 1|if(i &lt; j);|<br>|JNC/JNB/JAE|若无进位则跳转;若不低于则跳转;若高于等于则跳转;|jump if not carry;jump if  not below;jump if above equal|CF = 0|if(i &gt;= j);|<br>|JBE/JNA|若低于等于则跳转;若不高于则跳转|jump if below equal;jump if not above|ZF = 1 或 CF = 1|if(i &lt;= j);|<br>|JNBE/JA|若不低于等于则跳转;若高于则跳转|jump if not below equal;jump if above|ZF = 0 或 CF = 0|if(i &gt; j);|<br>|JL/JNGE|若小于则跳转;若不大于等于则跳转|jump if less;jump if not greater equal|SF != OF|if(si &lt; sj);|<br>|JNL/JGE|若不小于则跳转;若大于等于则跳转;|jump if not less;jump if greater equal|SF = OF|if(si &gt;= sj);|<br>|JLE/JNG|若小于等于则跳转;若不大于则跳转|jump if less equal;jump if not greater| ZF != OF 或 ZF = 1| if(si &lt;= sj)|<br>|JNLE/JG| 若不小于等于则跳转;若大于则跳转| jump if not less equal; jump if greater| SF = OF 且 ZF = )| if(si &gt; sj)|</p>
+<h2 id="跳转前相关比较指令"><a href="#跳转前相关比较指令" class="headerlink" title="跳转前相关比较指令"></a>跳转前相关比较指令</h2><blockquote>
+<p>$\color{red}{cmp op1 op2}$<br><br>说明:第一个擦破做减去第二个操作数,但不影响第两个操作数的值,它影响flag的 <strong>CF,ZF,OF,AE,PF;</strong><br><br>$\color{red}{test op1 op2}$<br><br>说明:将两个操作数进行逻辑与运算,并根据运算结果设置相关的标志位.他影响flag的 CF,OF为0,并且还影响<strong>SF,ZF,pF.<br></strong></p>
+</blockquote>
 
         </div>
 
@@ -242,7 +238,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://spaceout.cn/2022/01/02/SocketIP/">https://spaceout.cn/2022/01/02/SocketIP/</a></span>
+                        <span><a href="https://spaceout.cn/2022/03/06/EFLAGS%E7%9B%B8%E5%85%B3%E6%8C%87%E4%BB%A4/">https://spaceout.cn/2022/03/06/EFLAGS%E7%9B%B8%E5%85%B3%E6%8C%87%E4%BB%A4/</a></span>
                     </p>
                 
                 
@@ -266,7 +262,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/Linux/"># Linux</a>
+                        <a href="/tags/%E9%80%86%E5%90%91/"># 逆向</a>
                     
                         
                 </span>
@@ -279,10 +275,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/01/05/sort2/">sort求第k小的数</a>
             
-            
-            <a class="next" rel="next" href="/2021/12/29/ReverseOrder/">逆向基础命令</a>
+            <a class="next" rel="next" href="/2022/03/03/%E5%A0%86%E6%A0%88%E5%B9%B3%E8%A1%A1/">堆栈平衡及其注意事项</a>
             
         </section>
 

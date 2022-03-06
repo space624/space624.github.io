@@ -226,7 +226,7 @@
 </blockquote>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">retn <span class="number">4</span> == add esp,<span class="number">4</span></span><br></pre></td></tr></table></figure>
 <hr>
-<h2 id="2-外平栈"><a href="#2-外平栈" class="headerlink" title="2 外平栈"></a>2 外平栈</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">push eax&lt;br&gt;</span><br><span class="line">call xxx&lt;br&gt;</span><br><span class="line">d esp,<span class="number">4</span>&lt;br&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="2-外平栈"><a href="#2-外平栈" class="headerlink" title="2 外平栈"></a>2 外平栈</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">push eax</span><br><span class="line">call xxx</span><br><span class="line">d esp,<span class="number">4</span></span><br></pre></td></tr></table></figure>
 <hr>
 <h2 id="pushad-与-popad"><a href="#pushad-与-popad" class="headerlink" title="pushad 与 popad"></a>pushad 与 popad</h2><h2 id="首先需要保证堆栈平衡否则没有用"><a href="#首先需要保证堆栈平衡否则没有用" class="headerlink" title="首先需要保证堆栈平衡否则没有用"></a><strong>首先需要保证堆栈平衡否则没有用</strong></h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">保存现场</span><br><span class="line">pushad</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">清理现场</span><br><span class="line">popad</span><br></pre></td></tr></table></figure>
 <hr>
@@ -287,6 +287,8 @@
             </div>
         </section>
         <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/03/06/EFLAGS%E7%9B%B8%E5%85%B3%E6%8C%87%E4%BB%A4/">EFLAGS相关跳转指令</a>
             
             
             <a class="next" rel="next" href="/2022/02/10/pthread/">线程</a>
