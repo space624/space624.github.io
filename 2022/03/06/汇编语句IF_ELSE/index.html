@@ -224,9 +224,9 @@
 <h1 id="在汇编中if与else的写法"><a href="#在汇编中if与else的写法" class="headerlink" title="在汇编中if与else的写法"></a>在汇编中if与else的写法</h1><p><strong>C代码预览:</strong><br></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">int</span> *argv[])</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> day = <span class="number">306</span>;</span><br><span class="line">	<span class="keyword">if</span> (day == <span class="number">306</span>) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;是2022年3月06日\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;......\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <br>
-**在vs中下断点进行调试右键进入反汇编**
+**在vs中下断点进行调试右键进入反汇编**<br>
 <img src="img/20223601.png">
-**可以看到汇编语句中 cmp对day进行判断若是成哥则使用jne进行跳转执行**
+**可以看到汇编语句中 cmp对day进行判断若是成哥则使用jne进行跳转执行**<br>
 <img src="img/20223602.png">
 **汇编代码预览:**<br>
 

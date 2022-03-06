@@ -45,6 +45,24 @@
       </tags>
   </entry>
   <entry>
+    <title>网络编程bin函数</title>
+    <url>/2021/12/20/Bin//</url>
+    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>sockfd：</strong><br>    socket文件描述符<br><strong>addr:</strong><br>    构造出IP地址加端口号<br><strong>addrlen:</strong><br>    sizeof(addr)长度<br>返回值：<br>    成功返回0，失败返回-1, 设置errno</p>
+</blockquote>
+<p>*<em>服务器程序所监听的网络地址和端口号通常是固定不变的，客户端程序得知服务器程序的地址和端口号后就可以向服务器发起连接，因此服务器需要调用bind绑定一个固定的网络地址和端口号。<br>bind()的作用是将参数sockfd和addr绑定在一起，使sockfd这个用于网络通讯的文件描述符监听addr所描述的地址和端口号。前面讲过，struct sockaddr <em>是一个通用指针类型，addr参数实际上可以接受多种协议的sockaddr结构体，而它们的长度各不相同，所以需要第三个参数addrlen指定结构体的长度。</em></em></p>
+<h3 id="列"><a href="#列" class="headerlink" title="列:"></a>列:</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct sockaddr_in servaddr;</span><br><span class="line">bzero(&amp;servaddr, sizeof(servaddr));</span><br><span class="line">servaddr.sin_family = AF_INET;</span><br><span class="line">servaddr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">servaddr.sin_port = htons(6666);</span><br></pre></td></tr></table></figure>
+<p><strong>首先将整个结构体清零，然后设置地址类型为AF_INET，网络地址为INADDR_ANY，这个宏表示本地的任意IP地址，因为服务器可能有多个网卡，每个网卡也可能绑定多个IP地址，这样设置可以在所有的IP地址上监听，直到与某个客户端建立了连接时才确定下来到底用哪个IP地址，端口号为6666。</strong></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>EFLAGS相关跳转指令</title>
     <url>/2022/03/06/EFLAGS%E7%9B%B8%E5%85%B3%E6%8C%87%E4%BB%A4//</url>
     <content><![CDATA[<table>
@@ -182,47 +200,6 @@
       </tags>
   </entry>
   <entry>
-    <title>网络编程bin函数</title>
-    <url>/2021/12/20/Bin//</url>
-    <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><strong>sockfd：</strong><br>    socket文件描述符<br><strong>addr:</strong><br>    构造出IP地址加端口号<br><strong>addrlen:</strong><br>    sizeof(addr)长度<br>返回值：<br>    成功返回0，失败返回-1, 设置errno</p>
-</blockquote>
-<p>*<em>服务器程序所监听的网络地址和端口号通常是固定不变的，客户端程序得知服务器程序的地址和端口号后就可以向服务器发起连接，因此服务器需要调用bind绑定一个固定的网络地址和端口号。<br>bind()的作用是将参数sockfd和addr绑定在一起，使sockfd这个用于网络通讯的文件描述符监听addr所描述的地址和端口号。前面讲过，struct sockaddr <em>是一个通用指针类型，addr参数实际上可以接受多种协议的sockaddr结构体，而它们的长度各不相同，所以需要第三个参数addrlen指定结构体的长度。</em></em></p>
-<h3 id="列"><a href="#列" class="headerlink" title="列:"></a>列:</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">struct sockaddr_in servaddr;</span><br><span class="line">bzero(&amp;servaddr, sizeof(servaddr));</span><br><span class="line">servaddr.sin_family = AF_INET;</span><br><span class="line">servaddr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">servaddr.sin_port = htons(6666);</span><br></pre></td></tr></table></figure>
-<p><strong>首先将整个结构体清零，然后设置地址类型为AF_INET，网络地址为INADDR_ANY，这个宏表示本地的任意IP地址，因为服务器可能有多个网卡，每个网卡也可能绑定多个IP地址，这样设置可以在所有的IP地址上监听，直到与某个客户端建立了连接时才确定下来到底用哪个IP地址，端口号为6666。</strong></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Gtest安装以及错误解决</title>
-    <url>/2021/12/14/Gtest//</url>
-    <content><![CDATA[<h1 id="Gtest安装"><a href="#Gtest安装" class="headerlink" title="Gtest安装"></a><strong>Gtest安装</strong></h1><ul>
-<li><code> sudo apt-get install git</code></li>
-<li><code> git clone https://github.com/google/googletest.git</code></li>
-<li> 或者在<a href="https://github.com/google/googletest">Windows浏览器下载</a>再利用samba服务器传输到Linux下</li>
-<li> <code>cd googletest </code></li>
-<li> <code>cmake .</code></li>
-<li> <code>make</code></li>
-<li> <code>ls lib</code></li>
-</ul>
-<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><h2 id="在make时报错"><a href="#在make时报错" class="headerlink" title="在make时报错:"></a><strong>在make时报错:</strong></h2><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://s3.bmp.ovh/imgs/2021/12/054ee1afb84325bb.png"></h2><p><strong>在 CMakeList.txt 里面加上</strong><br><code> SET(CMAKE_CXX_FLAGS &quot;-std=c++11&quot;)</code></p>
-<hr>
-<h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://i.bmp.ovh/imgs/2021/12/bedd24703dac8e3b.png"></h2><p><strong>再次执行</strong><code>cmake .</code> <strong>&amp;&amp;</strong> <code>cmake</code></p>
-<h2 id="成功"><a href="#成功" class="headerlink" title="成功:"></a><strong>成功:</strong></h2><h2 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="https://i.bmp.ovh/imgs/2021/12/ebe147683b8300ef.png"></h2>]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>函数模板与类模板</title>
     <url>/2021/12/11/FunctionClassTemplate//</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><strong>C++提供了模板(template)编程的概念。所谓模板，实际上是建立一个通用函数或类，其类内部的类型和函数的形参类型不具体指定，用一个虚拟的类型来代表。这种通用的方式称为模板。模板是泛型编程的基础,泛型编程即以一种独立于任何特定类型的方式编写代码。</strong></p>
@@ -339,6 +316,34 @@
       </tags>
   </entry>
   <entry>
+    <title>Gtest安装以及错误解决</title>
+    <url>/2021/12/14/Gtest//</url>
+    <content><![CDATA[<h1 id="Gtest安装"><a href="#Gtest安装" class="headerlink" title="Gtest安装"></a><strong>Gtest安装</strong></h1><ul>
+<li><code> sudo apt-get install git</code></li>
+<li><code> git clone https://github.com/google/googletest.git</code></li>
+<li> 或者在<a href="https://github.com/google/googletest">Windows浏览器下载</a>再利用samba服务器传输到Linux下</li>
+<li> <code>cd googletest </code></li>
+<li> <code>cmake .</code></li>
+<li> <code>make</code></li>
+<li> <code>ls lib</code></li>
+</ul>
+<h2 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h2><h2 id="在make时报错"><a href="#在make时报错" class="headerlink" title="在make时报错:"></a><strong>在make时报错:</strong></h2><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://s3.bmp.ovh/imgs/2021/12/054ee1afb84325bb.png"></h2><p><strong>在 CMakeList.txt 里面加上</strong><br><code> SET(CMAKE_CXX_FLAGS &quot;-std=c++11&quot;)</code></p>
+<hr>
+<h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="https://i.bmp.ovh/imgs/2021/12/bedd24703dac8e3b.png"></h2><p><strong>再次执行</strong><code>cmake .</code> <strong>&amp;&amp;</strong> <code>cmake</code></p>
+<h2 id="成功"><a href="#成功" class="headerlink" title="成功:"></a><strong>成功:</strong></h2><h2 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="https://i.bmp.ovh/imgs/2021/12/ebe147683b8300ef.png"></h2>]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>IF_ELSE语句与汇编</title>
+    <url>/2022/03/06/IF-ELSE%E8%AF%AD%E5%8F%A5%E4%B8%8E%E6%B1%87%E7%BC%96//</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>网络编程listen函数</title>
     <url>/2021/12/20/Listen//</url>
     <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int listen(int sockfd, int backlog);</span><br></pre></td></tr></table></figure>
@@ -356,11 +361,6 @@
       <tags>
         <tag>Linux</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>IF_ELSE语句与汇编</title>
-    <url>/2022/03/06/IF-ELSE%E8%AF%AD%E5%8F%A5%E4%B8%8E%E6%B1%87%E7%BC%96//</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>MakeFile</title>
@@ -739,28 +739,6 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
-    <title>Sigaction</title>
-    <url>/2022/02/02/Sigaction//</url>
-    <content><![CDATA[<p> <strong>sigaction</strong>与<strong>signal</strong>的区别： <strong>sigaction</strong>比<strong>signal</strong>更“<strong>健壮</strong>”，建议使用<strong>sigaction</strong><br></p>
-<p>结构struct sigaction</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sigaction</span> &#123;</span></span><br><span class="line">       <span class="built_in"><span class="keyword">void</span></span> (*sa_handler)(<span class="keyword">int</span>);   <span class="comment">/* 信号的响应函数 */</span></span><br><span class="line">       <span class="keyword">sigset_t</span>   sa_mask;          <span class="comment">/* 屏蔽信号集 */</span>                         </span><br><span class="line">       <span class="keyword">int</span> sa_flags;                <span class="comment">/* 当sa_flags中包含 SA_RESETHAND时，接受到该信号并调用指定的信号处理函数执行之后，把该信号的响应行为重置为默认行为SIG_DFL */</span></span><br><span class="line">            ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>补充：</p>
-<blockquote>
-<p>当<strong>sa_mask</strong>包含某个信号A时，则在信号处理函数执行期间，如果发生了该信号A，则阻塞该信号A(即暂时不响应该信号），直到信号处理函数执行结束。即，信号处理函数执行完之后，再响应该信号A</p>
-</blockquote>
-<p>不管怎么按Ctrl+c都不会退出只有后台kill掉进程:<br><br><strong>用sigaction改变响应动作</strong><br></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myhandle</span><span class="params">(<span class="keyword">int</span> sig)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Catch a signal : %d\n&quot;</span>, sig);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sigaction</span> <span class="title">act</span>;</span></span><br><span class="line"></span><br><span class="line">	act.sa_handler = myhandle;</span><br><span class="line">	<span class="built_in">sigemptyset</span>(&amp;act.sa_mask);</span><br><span class="line">       act.sa_flags = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">sigaction</span>(SIGINT, &amp;act, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">        </span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Ctrl+c第二次退出程序:<br><br><strong>用sigaction恢复默认动作<br></strong></p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myhandle</span><span class="params">(<span class="keyword">int</span> sig)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Catch a signal : %d\n&quot;</span>, sig);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sigaction</span> <span class="title">act</span>;</span></span><br><span class="line"></span><br><span class="line">	act.sa_handler = myhandle;</span><br><span class="line">	<span class="built_in">sigemptyset</span>(&amp;act.sa_mask);</span><br><span class="line">	<span class="comment">//act.sa_flags = 0;</span></span><br><span class="line">	act.sa_flags = SA_RESETHAND;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">sigaction</span>(SIGINT, &amp;act, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>C++流(读写文件)</title>
     <url>/2021/11/29/ReadWrite//</url>
     <content><![CDATA[<h1 id="读写文本文件"><a href="#读写文本文件" class="headerlink" title="读写文本文件"></a>读写文本文件</h1><blockquote>
@@ -908,17 +886,39 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
-    <title>Socket-Ip地址转换</title>
-    <url>/2022/01/02/SocketIP//</url>
-    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/16056322709f2b74.png"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;arpa/inet.h&gt;</span><br><span class="line">int inet_pton(int af, const char *src, void *dst);</span><br><span class="line">const char *inet_ntop(int af, const void *src, char *dst, socklen_t size);</span><br></pre></td></tr></table></figure>
-<p><strong>af 取值可选为 AF_INET 和 AF_INET6 ，即和 ipv4 和ipv6对应</strong><br><strong>支持IPv4和IPv6</strong></p>
-<p><strong>其中inet_pton和inet_ntop不仅可以转换IPv4的in_addr，还可以转换IPv6的in6_addr.</strong><br>因此函数接口是void *addrptr. </p>
-<h1 id="列"><a href="#列" class="headerlink" title="列:"></a>列:</h1><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> ip[] = <span class="string">&quot;2.3.4.5&quot;</span>;</span><br><span class="line">    <span class="keyword">char</span> server_ip[<span class="number">64</span>];</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">server_addr</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//转换为网络字节序</span></span><br><span class="line">    <span class="built_in">inet_pton</span>(AF_INET, ip, &amp;server_addr.sin_addr.s_addr);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;s_addr: %x\n&quot;</span>,server_addr.sin_addr.s_addr);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;s_addr from net to host : %x\n&quot;</span>, <span class="built_in">ntohl</span>(server_addr.sin_addr.s_addr));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//网络字节序转换为字符串</span></span><br><span class="line">    <span class="built_in">inet_ntop</span>(AF_INET, &amp;server_addr.sin_addr.s_addr, server_ip, <span class="built_in"><span class="keyword">sizeof</span></span>(server_ip));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;server ip : %s\n&quot;</span>,server_ip);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong>输出结果为:</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">s_addr: 5040302</span><br><span class="line">s_addr from net to host : 2030405</span><br><span class="line">server ip : 2.3.4.5</span><br></pre></td></tr></table></figure>
-
+    <title>逆向基础命令</title>
+    <url>/2021/12/29/ReverseOrder//</url>
+    <content><![CDATA[<h1 id="move"><a href="#move" class="headerlink" title="move:"></a>move:</h1><p><code>mov eax,0xABC     将0xABC 赋值给edx        直接寻址</code><br><code>mov eax,edi        将edi的值赋值给edx        寄存器寻址</code><br><code>mov eax,[edx]    *edx的值赋值给edx        间接寻址</code><br><code>mov eax,[edx+1]    *edx+1的值赋值给edx    变址寻址</code><br><strong>注:</strong><br><code>mov 0xABC , eax  不允许</code><br><code>mov[eax],[edx]   不允许</code></p>
+<h1 id="add"><a href="#add" class="headerlink" title="add"></a>add</h1><p><code>add eax,ebx</code><br><code>eax=eax+ebx    直接寻址与间接寻址都可以</code></p>
+<h1 id="inc"><a href="#inc" class="headerlink" title="inc"></a>inc</h1><p><code>inc eax</code><br><code>eax=eax+1    当前值+1    自增</code></p>
+<h1 id="sub"><a href="#sub" class="headerlink" title="sub"></a>sub</h1><p><code>sub eax,ebx</code><br><code>eax=eax-ebx</code></p>
+<p>#dec<br><code>dec eax</code><br><code>eax=eax+1   当前值-1    自减</code></p>
+<h1 id="push-and-pop"><a href="#push-and-pop" class="headerlink" title="push and pop"></a>push and pop</h1><p><code>push与pop需要先了解堆栈</code><br><code>堆栈有中: EBP与ESP</code><br><code>EBP,ESP</code><br><code>ESP - EBP &lt; 0==</code><br><strong>得出:</strong><br><strong>EBP大ESP小</strong><br><code>push 1之后 1将会存入到 ESP的内存里面</code><br><code>每次push之后将会把esp-4再将push的存入esp内</code><br><code>push是每次往上走</code><br><code>pop eax 拿出堆栈顶部的内容给 pop指定的地址(只能是寄存器)</code><br><code>pop是每次往下走</code></p>
+<h1 id="jmp"><a href="#jmp" class="headerlink" title="jmp"></a>jmp</h1><p><strong>jmp    无条件跳转</strong><br><code>EIP 是控制代码执行的位置 第1行，第2行，第3行... , 第i行</code><br><code>当我想在执行到第2行的时候跳转到 第i行就需要使用jump</code><br><code>就如在当前函数内部调用其他函数</code><br><code>当其他函数执行完毕时会回到当前函数里面继续执行</code><br><strong>JCXZ AND JECXZ</strong><br><code>1.根据ECX,CX寄存器来判断跳转</code><br><code>2.根据 EFLAGS 来跳转 8个标志位来进行</code></p>
+<p>#call and ret<br><code>call和ret是封装好的，是配对的，call之后必有ret</code><br><code>与jump一样</code></p>
 ]]></content>
+      <categories>
+        <category>汇编</category>
+      </categories>
+      <tags>
+        <tag>逆向</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Sigaction</title>
+    <url>/2022/02/02/Sigaction//</url>
+    <content><![CDATA[<p> <strong>sigaction</strong>与<strong>signal</strong>的区别： <strong>sigaction</strong>比<strong>signal</strong>更“<strong>健壮</strong>”，建议使用<strong>sigaction</strong><br></p>
+<p>结构struct sigaction</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sigaction</span> &#123;</span></span><br><span class="line">       <span class="built_in"><span class="keyword">void</span></span> (*sa_handler)(<span class="keyword">int</span>);   <span class="comment">/* 信号的响应函数 */</span></span><br><span class="line">       <span class="keyword">sigset_t</span>   sa_mask;          <span class="comment">/* 屏蔽信号集 */</span>                         </span><br><span class="line">       <span class="keyword">int</span> sa_flags;                <span class="comment">/* 当sa_flags中包含 SA_RESETHAND时，接受到该信号并调用指定的信号处理函数执行之后，把该信号的响应行为重置为默认行为SIG_DFL */</span></span><br><span class="line">            ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>补充：</p>
+<blockquote>
+<p>当<strong>sa_mask</strong>包含某个信号A时，则在信号处理函数执行期间，如果发生了该信号A，则阻塞该信号A(即暂时不响应该信号），直到信号处理函数执行结束。即，信号处理函数执行完之后，再响应该信号A</p>
+</blockquote>
+<p>不管怎么按Ctrl+c都不会退出只有后台kill掉进程:<br><br><strong>用sigaction改变响应动作</strong><br></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myhandle</span><span class="params">(<span class="keyword">int</span> sig)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Catch a signal : %d\n&quot;</span>, sig);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sigaction</span> <span class="title">act</span>;</span></span><br><span class="line"></span><br><span class="line">	act.sa_handler = myhandle;</span><br><span class="line">	<span class="built_in">sigemptyset</span>(&amp;act.sa_mask);</span><br><span class="line">       act.sa_flags = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">sigaction</span>(SIGINT, &amp;act, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">        </span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Ctrl+c第二次退出程序:<br><br><strong>用sigaction恢复默认动作<br></strong></p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myhandle</span><span class="params">(<span class="keyword">int</span> sig)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Catch a signal : %d\n&quot;</span>, sig);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">sigaction</span> <span class="title">act</span>;</span></span><br><span class="line"></span><br><span class="line">	act.sa_handler = myhandle;</span><br><span class="line">	<span class="built_in">sigemptyset</span>(&amp;act.sa_mask);</span><br><span class="line">	<span class="comment">//act.sa_flags = 0;</span></span><br><span class="line">	act.sa_flags = SA_RESETHAND;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">sigaction</span>(SIGINT, &amp;act, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Linux</category>
       </categories>
@@ -945,73 +945,16 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
-    <title>逆向基础命令</title>
-    <url>/2021/12/29/ReverseOrder//</url>
-    <content><![CDATA[<h1 id="move"><a href="#move" class="headerlink" title="move:"></a>move:</h1><p><code>mov eax,0xABC     将0xABC 赋值给edx        直接寻址</code><br><code>mov eax,edi        将edi的值赋值给edx        寄存器寻址</code><br><code>mov eax,[edx]    *edx的值赋值给edx        间接寻址</code><br><code>mov eax,[edx+1]    *edx+1的值赋值给edx    变址寻址</code><br><strong>注:</strong><br><code>mov 0xABC , eax  不允许</code><br><code>mov[eax],[edx]   不允许</code></p>
-<h1 id="add"><a href="#add" class="headerlink" title="add"></a>add</h1><p><code>add eax,ebx</code><br><code>eax=eax+ebx    直接寻址与间接寻址都可以</code></p>
-<h1 id="inc"><a href="#inc" class="headerlink" title="inc"></a>inc</h1><p><code>inc eax</code><br><code>eax=eax+1    当前值+1    自增</code></p>
-<h1 id="sub"><a href="#sub" class="headerlink" title="sub"></a>sub</h1><p><code>sub eax,ebx</code><br><code>eax=eax-ebx</code></p>
-<p>#dec<br><code>dec eax</code><br><code>eax=eax+1   当前值-1    自减</code></p>
-<h1 id="push-and-pop"><a href="#push-and-pop" class="headerlink" title="push and pop"></a>push and pop</h1><p><code>push与pop需要先了解堆栈</code><br><code>堆栈有中: EBP与ESP</code><br><code>EBP,ESP</code><br><code>ESP - EBP &lt; 0==</code><br><strong>得出:</strong><br><strong>EBP大ESP小</strong><br><code>push 1之后 1将会存入到 ESP的内存里面</code><br><code>每次push之后将会把esp-4再将push的存入esp内</code><br><code>push是每次往上走</code><br><code>pop eax 拿出堆栈顶部的内容给 pop指定的地址(只能是寄存器)</code><br><code>pop是每次往下走</code></p>
-<h1 id="jmp"><a href="#jmp" class="headerlink" title="jmp"></a>jmp</h1><p><strong>jmp    无条件跳转</strong><br><code>EIP 是控制代码执行的位置 第1行，第2行，第3行... , 第i行</code><br><code>当我想在执行到第2行的时候跳转到 第i行就需要使用jump</code><br><code>就如在当前函数内部调用其他函数</code><br><code>当其他函数执行完毕时会回到当前函数里面继续执行</code><br><strong>JCXZ AND JECXZ</strong><br><code>1.根据ECX,CX寄存器来判断跳转</code><br><code>2.根据 EFLAGS 来跳转 8个标志位来进行</code></p>
-<p>#call and ret<br><code>call和ret是封装好的，是配对的，call之后必有ret</code><br><code>与jump一样</code></p>
-]]></content>
-      <categories>
-        <category>汇编</category>
-      </categories>
-      <tags>
-        <tag>逆向</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Valgrind</title>
-    <url>/2022/01/29/Valgrind//</url>
-    <content><![CDATA[<h1 id="Valgrind-安装"><a href="#Valgrind-安装" class="headerlink" title="Valgrind 安装"></a>Valgrind 安装</h1><ul>
-<li><p><strong>方法 1.  <a href="http://valgrind.org/">valgrind官网下载</a></strong></p>
-</li>
-<li><p><strong>方法 2.  Ubuntu  sudo apt-get install valgrind</strong></p>
-</li>
-</ul>
-<hr>
-<h1 id="Memcheck-检测范围"><a href="#Memcheck-检测范围" class="headerlink" title="Memcheck 检测范围"></a>Memcheck 检测范围</h1><p>   <strong>用来检测c/c++程序中出现的内存问题，所有对内存的读写都会被检测到，一切对malloc()/free()/new/delete的调用都会被捕获。所以，它能检测以下问题:</strong></p>
-<blockquote>
-<ol>
-<li>对未初始化内存的使用； </li>
-<li>读/写释放后的内存块；</li>
-<li>读/写超出malloc等分配的动态内存范围； </li>
-<li>读/写不适当的栈中内存块； </li>
-<li>内存泄漏，指向一块内存的指针永远丢失； </li>
-<li>不正确的malloc/free或new/delete匹配； </li>
-<li> memcpy()相关函数中的dst和src指针重叠问题.</li>
-</ol>
-</blockquote>
-<hr>
-<h1 id="Memcheck-检查步骤及注意事项"><a href="#Memcheck-检查步骤及注意事项" class="headerlink" title="Memcheck 检查步骤及注意事项"></a>Memcheck 检查步骤及注意事项</h1><ul>
-<li>1.在编译程序的时候打开调试模式（gcc编译器的-g选项），以便显示行号，编译时去掉-O1 -O2等优化选项;检查的是C++程序的时候，考虑加上选项： <strong>-fno-inline</strong> ,这样它函数调用链会很清晰<br></li>
-<li>2.执行：<strong>valgrind –tool=memcheck –leak-check=full –log-file=./log.txt  ./YourProgram</strong></li>
-<li>3.程序运行结束，查看 <strong>log.txt</strong> 中的结果.</li>
-</ul>
-<hr>
-<h1 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h1><p>Valgrind(memcheck)包含这7类错误:</p>
-<ul>
-<li><p><strong>1.illegal read/illegal write errors    非法读取/非法写入错误</strong></p>
-</li>
-<li><p><strong>2.use of uninitialised values        使用未初始化的区域</strong></p>
-</li>
-<li><p><strong>3.use of uninitialised or unaddressable values in system calls 系统调用时使用了未初始化或不可寻址的地址</strong></p>
-</li>
-<li><p><strong>4.illegal frees   非法的释放</strong></p>
-</li>
-<li><p><strong>5.when a heap block is freed with an inappropriate deallocation function 分配和释放函数不匹配</strong></p>
-</li>
-<li><p><strong>6.overlapping source and destination blocks   源和目的内存块重叠</strong></p>
-</li>
-<li><p><strong>7.memory leak detection    内存泄漏检测</strong></p>
-<blockquote>
-<p><strong>7.1 Still reachable <br></strong><br>  内存指针还在还有机会使用或者释放，指针指向的动态内存还没有被释放就退出了<br><br>  <strong>7.2 Definitely lost <br></strong><br>  确定的内存泄露，已经不能够访问这块内存<br><br>  <strong>7.3 Indirectly lost <br></strong><br>  指向该内存的指针都位于内存泄露处<br><br>  <strong>7.4 Possibly lost <br></strong><br>  可能的内存泄露，仍然存在某个指针能够访问某块内存，但该指针指向的已经不是该内<br>  存首位置<br><br>  <strong>7.5 Suppressed</strong>  <br><br>  某些库产生的错误不予以提示，这些错误会被统计到suppressed项目<br></p>
-</blockquote>
-</li>
-</ul>
+    <title>Socket-Ip地址转换</title>
+    <url>/2022/01/02/SocketIP//</url>
+    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/16056322709f2b74.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#include &lt;arpa/inet.h&gt;</span><br><span class="line">int inet_pton(int af, const char *src, void *dst);</span><br><span class="line">const char *inet_ntop(int af, const void *src, char *dst, socklen_t size);</span><br></pre></td></tr></table></figure>
+<p><strong>af 取值可选为 AF_INET 和 AF_INET6 ，即和 ipv4 和ipv6对应</strong><br><strong>支持IPv4和IPv6</strong></p>
+<p><strong>其中inet_pton和inet_ntop不仅可以转换IPv4的in_addr，还可以转换IPv6的in6_addr.</strong><br>因此函数接口是void *addrptr. </p>
+<h1 id="列"><a href="#列" class="headerlink" title="列:"></a>列:</h1><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> ip[] = <span class="string">&quot;2.3.4.5&quot;</span>;</span><br><span class="line">    <span class="keyword">char</span> server_ip[<span class="number">64</span>];</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">server_addr</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//转换为网络字节序</span></span><br><span class="line">    <span class="built_in">inet_pton</span>(AF_INET, ip, &amp;server_addr.sin_addr.s_addr);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;s_addr: %x\n&quot;</span>,server_addr.sin_addr.s_addr);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;s_addr from net to host : %x\n&quot;</span>, <span class="built_in">ntohl</span>(server_addr.sin_addr.s_addr));</span><br><span class="line"></span><br><span class="line">    <span class="comment">//网络字节序转换为字符串</span></span><br><span class="line">    <span class="built_in">inet_ntop</span>(AF_INET, &amp;server_addr.sin_addr.s_addr, server_ip, <span class="built_in"><span class="keyword">sizeof</span></span>(server_ip));</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;server ip : %s\n&quot;</span>,server_ip);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>输出结果为:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">s_addr: 5040302</span><br><span class="line">s_addr from net to host : 2030405</span><br><span class="line">server ip : 2.3.4.5</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>Linux</category>
@@ -1072,6 +1015,63 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </categories>
       <tags>
         <tag>C/C++</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Valgrind</title>
+    <url>/2022/01/29/Valgrind//</url>
+    <content><![CDATA[<h1 id="Valgrind-安装"><a href="#Valgrind-安装" class="headerlink" title="Valgrind 安装"></a>Valgrind 安装</h1><ul>
+<li><p><strong>方法 1.  <a href="http://valgrind.org/">valgrind官网下载</a></strong></p>
+</li>
+<li><p><strong>方法 2.  Ubuntu  sudo apt-get install valgrind</strong></p>
+</li>
+</ul>
+<hr>
+<h1 id="Memcheck-检测范围"><a href="#Memcheck-检测范围" class="headerlink" title="Memcheck 检测范围"></a>Memcheck 检测范围</h1><p>   <strong>用来检测c/c++程序中出现的内存问题，所有对内存的读写都会被检测到，一切对malloc()/free()/new/delete的调用都会被捕获。所以，它能检测以下问题:</strong></p>
+<blockquote>
+<ol>
+<li>对未初始化内存的使用； </li>
+<li>读/写释放后的内存块；</li>
+<li>读/写超出malloc等分配的动态内存范围； </li>
+<li>读/写不适当的栈中内存块； </li>
+<li>内存泄漏，指向一块内存的指针永远丢失； </li>
+<li>不正确的malloc/free或new/delete匹配； </li>
+<li> memcpy()相关函数中的dst和src指针重叠问题.</li>
+</ol>
+</blockquote>
+<hr>
+<h1 id="Memcheck-检查步骤及注意事项"><a href="#Memcheck-检查步骤及注意事项" class="headerlink" title="Memcheck 检查步骤及注意事项"></a>Memcheck 检查步骤及注意事项</h1><ul>
+<li>1.在编译程序的时候打开调试模式（gcc编译器的-g选项），以便显示行号，编译时去掉-O1 -O2等优化选项;检查的是C++程序的时候，考虑加上选项： <strong>-fno-inline</strong> ,这样它函数调用链会很清晰<br></li>
+<li>2.执行：<strong>valgrind –tool=memcheck –leak-check=full –log-file=./log.txt  ./YourProgram</strong></li>
+<li>3.程序运行结束，查看 <strong>log.txt</strong> 中的结果.</li>
+</ul>
+<hr>
+<h1 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h1><p>Valgrind(memcheck)包含这7类错误:</p>
+<ul>
+<li><p><strong>1.illegal read/illegal write errors    非法读取/非法写入错误</strong></p>
+</li>
+<li><p><strong>2.use of uninitialised values        使用未初始化的区域</strong></p>
+</li>
+<li><p><strong>3.use of uninitialised or unaddressable values in system calls 系统调用时使用了未初始化或不可寻址的地址</strong></p>
+</li>
+<li><p><strong>4.illegal frees   非法的释放</strong></p>
+</li>
+<li><p><strong>5.when a heap block is freed with an inappropriate deallocation function 分配和释放函数不匹配</strong></p>
+</li>
+<li><p><strong>6.overlapping source and destination blocks   源和目的内存块重叠</strong></p>
+</li>
+<li><p><strong>7.memory leak detection    内存泄漏检测</strong></p>
+<blockquote>
+<p><strong>7.1 Still reachable <br></strong><br>  内存指针还在还有机会使用或者释放，指针指向的动态内存还没有被释放就退出了<br><br>  <strong>7.2 Definitely lost <br></strong><br>  确定的内存泄露，已经不能够访问这块内存<br><br>  <strong>7.3 Indirectly lost <br></strong><br>  指向该内存的指针都位于内存泄露处<br><br>  <strong>7.4 Possibly lost <br></strong><br>  可能的内存泄露，仍然存在某个指针能够访问某块内存，但该指针指向的已经不是该内<br>  存首位置<br><br>  <strong>7.5 Suppressed</strong>  <br><br>  某些库产生的错误不予以提示，这些错误会被统计到suppressed项目<br></p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1155,6 +1155,21 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
+    <title>const</title>
+    <url>/2021/11/22/const//</url>
+    <content><![CDATA[<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> Girl = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">int</span> Woman = <span class="number">30</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> * <span class="keyword">const</span> p = &amp;Girl ;</span><br><span class="line">p = &amp;Woman;	<span class="comment">//错误</span></span><br><span class="line">p = <span class="number">30</span>;		<span class="comment">//错误</span></span><br><span class="line">	</span><br><span class="line"><span class="keyword">int</span> <span class="keyword">const</span> * p1 = &amp;Girl ;</span><br><span class="line">p1 = &amp;Woman;	<span class="comment">//正确</span></span><br><span class="line">p1 = Woman;		<span class="comment">//错误</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> * p2 = &amp;Girl ;</span><br><span class="line">p2 = &amp;Woman;	<span class="comment">//正确</span></span><br><span class="line">p2 = Woman;		<span class="comment">//错误</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> * <span class="keyword">const</span> p3 = &amp;girl;</span><br><span class="line">p3 = &amp;Woman;	<span class="comment">//错误</span></span><br><span class="line">p3 = Woman;		<span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
+
+
+<p>总结: <strong>看 const 离类型近，还是离类型远，离谁进，就修饰谁，谁就不能变</strong></p>
+]]></content>
+      <categories>
+        <category>C/C++</category>
+      </categories>
+      <tags>
+        <tag>C/C++</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>差分数组</title>
     <url>/2022/01/13/difference//</url>
     <content><![CDATA[<p><strong>一维数组差分数组的构建</strong></p>
@@ -1199,39 +1214,6 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
 <p>1≤n,m≤1000,1≤q≤100000, 1≤x1≤x2≤n,1≤y1≤y2≤m,−10^8≤c≤10^8<br>1≤n,m≤1000,1≤q≤100000,1≤x1≤x2≤n,1≤y1≤y2≤m,−10<br>8<br> ≤c≤10<br>8</p>
 <p>xx都在intint范围内</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">1010</span>;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> q[N][N],n,m;</span><br><span class="line"><span class="keyword">long</span> <span class="keyword">long</span> ds[N][N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(<span class="keyword">int</span> x1,<span class="keyword">int</span> y1,<span class="keyword">int</span> x2,<span class="keyword">int</span> y2,<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">	ds[x1][y1] += x;</span><br><span class="line">    ds[x2+<span class="number">1</span>][y1] -=x;</span><br><span class="line">    ds[x1][y2+<span class="number">1</span>] -=x;</span><br><span class="line">    ds[x2+<span class="number">1</span>][y2+<span class="number">1</span>] +=x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ts;</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;m&gt;&gt;ts;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">        	<span class="keyword">int</span> x;</span><br><span class="line">            cin&gt;&gt;x;</span><br><span class="line">            <span class="built_in">insert</span>(i,j,i,j,x);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">while</span>(ts--)&#123;</span><br><span class="line">    	<span class="keyword">int</span> x1,y1,x2,y2,c;</span><br><span class="line">        cin&gt;&gt;x1&gt;&gt;y1&gt;&gt;x2&gt;&gt;y2&gt;&gt;c;</span><br><span class="line">        <span class="built_in">insert</span>(x1,y1,x2,y2,c);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">        	q[i][j]=q[i<span class="number">-1</span>][j]+q[i][j<span class="number">-1</span>]-q[i<span class="number">-1</span>][j<span class="number">-1</span>]+ds[i][j];</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=m;j++)</span><br><span class="line">    		cout &lt;&lt; q[i][j] &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">          cout &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>const</title>
-    <url>/2021/11/22/const//</url>
-    <content><![CDATA[<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> Girl = <span class="number">18</span>;</span><br><span class="line"><span class="keyword">int</span> Woman = <span class="number">30</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> * <span class="keyword">const</span> p = &amp;Girl ;</span><br><span class="line">p = &amp;Woman;	<span class="comment">//错误</span></span><br><span class="line">p = <span class="number">30</span>;		<span class="comment">//错误</span></span><br><span class="line">	</span><br><span class="line"><span class="keyword">int</span> <span class="keyword">const</span> * p1 = &amp;Girl ;</span><br><span class="line">p1 = &amp;Woman;	<span class="comment">//正确</span></span><br><span class="line">p1 = Woman;		<span class="comment">//错误</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> * p2 = &amp;Girl ;</span><br><span class="line">p2 = &amp;Woman;	<span class="comment">//正确</span></span><br><span class="line">p2 = Woman;		<span class="comment">//错误</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> * <span class="keyword">const</span> p3 = &amp;girl;</span><br><span class="line">p3 = &amp;Woman;	<span class="comment">//错误</span></span><br><span class="line">p3 = Woman;		<span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
-
-
-<p>总结: <strong>看 const 离类型近，还是离类型远，离谁进，就修饰谁，谁就不能变</strong></p>
-]]></content>
-      <categories>
-        <category>C/C++</category>
-      </categories>
-      <tags>
-        <tag>C/C++</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>归并排序</title>
-    <url>/2022/01/05/mergesort//</url>
-    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/d69e487339a6b8cc.png"><br>给定你一个长度为 n 的整数数列。</p>
-<p>请你使用归并排序对这个数列按照从小到大进行排序。</p>
-<p>并将排好序的数列按顺序输出。</p>
-<p>输入格式<br>输入共两行，第一行包含整数 n。</p>
-<p>第二行包含 n 个整数（所有整数均在 1∼109 范围内），表示整个数列。</p>
-<p>输出格式<br>输出共一行，包含 n 个整数，表示排好序的数列。</p>
-<p>数据范围<br>1≤n≤100000<br>输入样例：<br>5<br>3 1 2 4 5<br>输出样例：<br>1 2 3 4 5</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> s[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="built_in">merge_sort</span>(l,mid);</span><br><span class="line">    <span class="built_in">merge_sort</span>(mid+<span class="number">1</span>,r);</span><br><span class="line">    <span class="keyword">int</span> i=l;</span><br><span class="line">    <span class="keyword">int</span> j=mid+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> k=l;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid &amp;&amp; j&lt;=r)&#123;</span><br><span class="line">        <span class="keyword">if</span>(q[i]&lt;q[j])   s[k++]=q[i++];</span><br><span class="line">        <span class="keyword">else</span>    s[k++]=q[j++];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)   s[k++]=q[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r) s[k++]=q[j++];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memcpy</span>(q+l,s+l,<span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>)*(r-l+<span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cin &gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">merge_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cout &lt;&lt; q[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    cout &lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>算法</category>
       </categories>
@@ -1293,6 +1275,24 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </categories>
       <tags>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>归并排序</title>
+    <url>/2022/01/05/mergesort//</url>
+    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/d69e487339a6b8cc.png"><br>给定你一个长度为 n 的整数数列。</p>
+<p>请你使用归并排序对这个数列按照从小到大进行排序。</p>
+<p>并将排好序的数列按顺序输出。</p>
+<p>输入格式<br>输入共两行，第一行包含整数 n。</p>
+<p>第二行包含 n 个整数（所有整数均在 1∼109 范围内），表示整个数列。</p>
+<p>输出格式<br>输出共一行，包含 n 个整数，表示排好序的数列。</p>
+<p>数据范围<br>1≤n≤100000<br>输入样例：<br>5<br>3 1 2 4 5<br>输出样例：<br>1 2 3 4 5</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstring&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> s[N];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">merge_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="built_in">merge_sort</span>(l,mid);</span><br><span class="line">    <span class="built_in">merge_sort</span>(mid+<span class="number">1</span>,r);</span><br><span class="line">    <span class="keyword">int</span> i=l;</span><br><span class="line">    <span class="keyword">int</span> j=mid+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> k=l;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid &amp;&amp; j&lt;=r)&#123;</span><br><span class="line">        <span class="keyword">if</span>(q[i]&lt;q[j])   s[k++]=q[i++];</span><br><span class="line">        <span class="keyword">else</span>    s[k++]=q[j++];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)   s[k++]=q[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r) s[k++]=q[j++];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">memcpy</span>(q+l,s+l,<span class="built_in"><span class="keyword">sizeof</span></span>(<span class="keyword">int</span>)*(r-l+<span class="number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    cin &gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cin &gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">merge_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)    cout &lt;&lt; q[i] &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">    cout &lt;&lt;endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -1615,6 +1615,139 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
+    <title>Linux下的signal</title>
+    <url>/2022/02/01/signal//</url>
+    <content><![CDATA[<table>
+<thead>
+<tr>
+<th>信号</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SIGABORT</td>
+<td>进程异常终止</td>
+</tr>
+<tr>
+<td>SIGALRM</td>
+<td>超时告警</td>
+</tr>
+<tr>
+<td>SIGFPE</td>
+<td>浮点运算异常</td>
+</tr>
+<tr>
+<td>SIGHUP</td>
+<td>连接挂断</td>
+</tr>
+<tr>
+<td>SIGILL</td>
+<td>非法指令</td>
+</tr>
+<tr>
+<td>SIGINT</td>
+<td>终端中断  (Ctrl+C将产生该信号)</td>
+</tr>
+<tr>
+<td>SIGKILL</td>
+<td>*终止进程</td>
+</tr>
+<tr>
+<td>SIGPIPE</td>
+<td>向没有读进程的管道写数据</td>
+</tr>
+<tr>
+<td>SIGQUIT</td>
+<td>终端退出（Ctrl+\将产生该信号</td>
+</tr>
+<tr>
+<td>SIGSEGV</td>
+<td>无效内存段访问</td>
+</tr>
+<tr>
+<td>SIGTERM</td>
+<td>终止</td>
+</tr>
+<tr>
+<td>SIGUSR1</td>
+<td>*用户自定义信号1</td>
+</tr>
+<tr>
+<td>SIGUSR2</td>
+<td>*用户自定义信号2</td>
+</tr>
+<tr>
+<td>以上信号如果不被捕获，则进程接受到后都会终止！</td>
+<td>以上信号如果不被捕获，则进程接受到后都会终止！</td>
+</tr>
+<tr>
+<td>SIGCHLD</td>
+<td>子进程已停止或退出</td>
+</tr>
+<tr>
+<td>SIGCONT</td>
+<td>*让暂停的进程继续执行</td>
+</tr>
+<tr>
+<td>SIGSTOP</td>
+<td>*停止执行(即“暂停”)</td>
+</tr>
+<tr>
+<td>SIGTSTP</td>
+<td>中断挂起</td>
+</tr>
+<tr>
+<td>SIGTTIN</td>
+<td>后台进程尝试读操作</td>
+</tr>
+<tr>
+<td>SIGTTOU</td>
+<td>后台进程尝试写</td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>快速排序</title>
+    <url>/2022/01/05/sort//</url>
+    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/e89e1d4856450600.png"><br>题目描述<br>利用快速排序算法将读入的 NN 个数从小到大排序后输出。</p>
+<p>快速排序是信息学竞赛的必备算法之一。对于快速排序不是很了解的同学可以自行上网查询相关资料，掌握后独立完成。（C++ 选手请不要试图使用 STL，虽然你可以使用 sort 一遍过，但是你并没有掌握快速排序算法的精髓。）</p>
+<p>输入格式<br>第 11 行为一个正整数 NN，第 22 行包含 NN 个空格隔开的正整数 a_ia<br>i<br>​<br> ，为你需要进行排序的数，数据保证了 A_iA<br>i<br>​<br>  不超过 10^910<br>9<br> 。</p>
+<p>输出格式<br>将给定的 NN 个数从小到大输出，数之间空格隔开，行末换行且无空格。</p>
+<p>输入输出样例<br>输入<br>5<br>4 2 4 5 1</p>
+<p>输出<br>1 2 4 4 5</p>
+<p>说明/提示<br>对于 20%20% 的数据，有 N\leq 10^3N≤10<br>3；<br>对于 100%100% 的数据，有 N\leq 10^5N≤10<br>5。</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span> ;</span><br><span class="line">    <span class="keyword">int</span> i=l<span class="number">-1</span>,j=r+<span class="number">1</span>,val=q[l+r&gt;&gt;<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;j)&#123;</span><br><span class="line">        <span class="keyword">do</span> i++;<span class="keyword">while</span>(q[i]&lt;val);</span><br><span class="line">        <span class="keyword">do</span> j--;<span class="keyword">while</span>(q[j]&gt;val);</span><br><span class="line">    <span class="keyword">if</span>(i&lt;j) <span class="built_in">swap</span>(q[i],q[j]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">quick_sort</span>(l,j);</span><br><span class="line">    <span class="built_in">quick_sort</span>(j+<span class="number">1</span>,r);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cin&gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">quick_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cout&lt;&lt;q[i]&lt;&lt;<span class="string">&#x27; &#x27;</span>;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sort求第k小的数</title>
+    <url>/2022/01/05/sort2//</url>
+    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/70c19c413d312378.png"><br>题目描述<br>输入 nn（1 \le n &lt; 50000001≤n&lt;5000000 且 nn 为奇数）个数字 a_ia<br>i<br>​<br> （1 \le a_i &lt; {10}^91≤a<br>i<br>​<br> &lt;10<br>9<br> ），输出这些数字的第 kk 小的数。最小的数是第 00 小。</p>
+<p>请尽量不要使用 nth_element 来写本题，因为本题的重点在于练习分治算法。</p>
+<p>输入格式<br>无</p>
+<p>输出格式<br>无</p>
+<p>输入输出样例<br>输入 #1复制<br>5 1<br>4 3 2 1 5<br>输出 #1复制<br>2</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">5e6</span>+<span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> k;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r) <span class="keyword">return</span> ;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> i=l<span class="number">-1</span>, j=r+<span class="number">1</span>,val = q[l+r&gt;&gt;<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">do</span> i++; <span class="keyword">while</span>(q[i]&lt;val);</span><br><span class="line">        <span class="keyword">do</span> j--; <span class="keyword">while</span>(q[j]&gt;val);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(i&lt;j) <span class="built_in">swap</span>(q[i],q[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(k&lt;=j)</span><br><span class="line">        <span class="built_in">quick_sort</span>(l,j);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">quick_sort</span>(j+<span class="number">1</span>,r);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cin&gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">quick_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; q[k] &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>线程</title>
     <url>/2022/02/10/pthread//</url>
     <content><![CDATA[<h1 id="什么是线程"><a href="#什么是线程" class="headerlink" title="什么是线程"></a>什么是线程</h1><blockquote>
@@ -1785,139 +1918,6 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
       </tags>
   </entry>
   <entry>
-    <title>快速排序</title>
-    <url>/2022/01/05/sort//</url>
-    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/e89e1d4856450600.png"><br>题目描述<br>利用快速排序算法将读入的 NN 个数从小到大排序后输出。</p>
-<p>快速排序是信息学竞赛的必备算法之一。对于快速排序不是很了解的同学可以自行上网查询相关资料，掌握后独立完成。（C++ 选手请不要试图使用 STL，虽然你可以使用 sort 一遍过，但是你并没有掌握快速排序算法的精髓。）</p>
-<p>输入格式<br>第 11 行为一个正整数 NN，第 22 行包含 NN 个空格隔开的正整数 a_ia<br>i<br>​<br> ，为你需要进行排序的数，数据保证了 A_iA<br>i<br>​<br>  不超过 10^910<br>9<br> 。</p>
-<p>输出格式<br>将给定的 NN 个数从小到大输出，数之间空格隔开，行末换行且无空格。</p>
-<p>输入输出样例<br>输入<br>5<br>4 2 4 5 1</p>
-<p>输出<br>1 2 4 4 5</p>
-<p>说明/提示<br>对于 20%20% 的数据，有 N\leq 10^3N≤10<br>3；<br>对于 100%100% 的数据，有 N\leq 10^5N≤10<br>5。</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">100010</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r)    <span class="keyword">return</span> ;</span><br><span class="line">    <span class="keyword">int</span> i=l<span class="number">-1</span>,j=r+<span class="number">1</span>,val=q[l+r&gt;&gt;<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i&lt;j)&#123;</span><br><span class="line">        <span class="keyword">do</span> i++;<span class="keyword">while</span>(q[i]&lt;val);</span><br><span class="line">        <span class="keyword">do</span> j--;<span class="keyword">while</span>(q[j]&gt;val);</span><br><span class="line">    <span class="keyword">if</span>(i&lt;j) <span class="built_in">swap</span>(q[i],q[j]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">quick_sort</span>(l,j);</span><br><span class="line">    <span class="built_in">quick_sort</span>(j+<span class="number">1</span>,r);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cin&gt;&gt;n;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cin&gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">quick_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cout&lt;&lt;q[i]&lt;&lt;<span class="string">&#x27; &#x27;</span>;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux下的signal</title>
-    <url>/2022/02/01/signal//</url>
-    <content><![CDATA[<table>
-<thead>
-<tr>
-<th>信号</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>SIGABORT</td>
-<td>进程异常终止</td>
-</tr>
-<tr>
-<td>SIGALRM</td>
-<td>超时告警</td>
-</tr>
-<tr>
-<td>SIGFPE</td>
-<td>浮点运算异常</td>
-</tr>
-<tr>
-<td>SIGHUP</td>
-<td>连接挂断</td>
-</tr>
-<tr>
-<td>SIGILL</td>
-<td>非法指令</td>
-</tr>
-<tr>
-<td>SIGINT</td>
-<td>终端中断  (Ctrl+C将产生该信号)</td>
-</tr>
-<tr>
-<td>SIGKILL</td>
-<td>*终止进程</td>
-</tr>
-<tr>
-<td>SIGPIPE</td>
-<td>向没有读进程的管道写数据</td>
-</tr>
-<tr>
-<td>SIGQUIT</td>
-<td>终端退出（Ctrl+\将产生该信号</td>
-</tr>
-<tr>
-<td>SIGSEGV</td>
-<td>无效内存段访问</td>
-</tr>
-<tr>
-<td>SIGTERM</td>
-<td>终止</td>
-</tr>
-<tr>
-<td>SIGUSR1</td>
-<td>*用户自定义信号1</td>
-</tr>
-<tr>
-<td>SIGUSR2</td>
-<td>*用户自定义信号2</td>
-</tr>
-<tr>
-<td>以上信号如果不被捕获，则进程接受到后都会终止！</td>
-<td>以上信号如果不被捕获，则进程接受到后都会终止！</td>
-</tr>
-<tr>
-<td>SIGCHLD</td>
-<td>子进程已停止或退出</td>
-</tr>
-<tr>
-<td>SIGCONT</td>
-<td>*让暂停的进程继续执行</td>
-</tr>
-<tr>
-<td>SIGSTOP</td>
-<td>*停止执行(即“暂停”)</td>
-</tr>
-<tr>
-<td>SIGTSTP</td>
-<td>中断挂起</td>
-</tr>
-<tr>
-<td>SIGTTIN</td>
-<td>后台进程尝试读操作</td>
-</tr>
-<tr>
-<td>SIGTTOU</td>
-<td>后台进程尝试写</td>
-</tr>
-</tbody></table>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sort求第k小的数</title>
-    <url>/2022/01/05/sort2//</url>
-    <content><![CDATA[<p><img src="https://i.bmp.ovh/imgs/2022/01/70c19c413d312378.png"><br>题目描述<br>输入 nn（1 \le n &lt; 50000001≤n&lt;5000000 且 nn 为奇数）个数字 a_ia<br>i<br>​<br> （1 \le a_i &lt; {10}^91≤a<br>i<br>​<br> &lt;10<br>9<br> ），输出这些数字的第 kk 小的数。最小的数是第 00 小。</p>
-<p>请尽量不要使用 nth_element 来写本题，因为本题的重点在于练习分治算法。</p>
-<p>输入格式<br>无</p>
-<p>输出格式<br>无</p>
-<p>输入输出样例<br>输入 #1复制<br>5 1<br>4 3 2 1 5<br>输出 #1复制<br>2</p>
-<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">5e6</span>+<span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> k;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r) <span class="keyword">return</span> ;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> i=l<span class="number">-1</span>, j=r+<span class="number">1</span>,val = q[l+r&gt;&gt;<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">do</span> i++; <span class="keyword">while</span>(q[i]&lt;val);</span><br><span class="line">        <span class="keyword">do</span> j--; <span class="keyword">while</span>(q[j]&gt;val);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(i&lt;j) <span class="built_in">swap</span>(q[i],q[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(k&lt;=j)</span><br><span class="line">        <span class="built_in">quick_sort</span>(l,j);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">quick_sort</span>(j+<span class="number">1</span>,r);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cin&gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">quick_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; q[k] &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>静态双链表</title>
     <url>/2022/01/08/staticdoubleList//</url>
     <content><![CDATA[<p>实现一个双链表，双链表初始为空，支持 5 种操作：</p>
@@ -2027,9 +2027,9 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
 <h1 id="在汇编中if与else的写法"><a href="#在汇编中if与else的写法" class="headerlink" title="在汇编中if与else的写法"></a>在汇编中if与else的写法</h1><p><strong>C代码预览:</strong><br></p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc,<span class="keyword">int</span> *argv[])</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> day = <span class="number">306</span>;</span><br><span class="line">	<span class="keyword">if</span> (day == <span class="number">306</span>) &#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;是2022年3月06日\n&quot;</span>);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;......\n&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <br>
-**在vs中下断点进行调试右键进入反汇编**
+**在vs中下断点进行调试右键进入反汇编**<br>
 <img src="img/20223601.png">
-**可以看到汇编语句中 cmp对day进行判断若是成哥则使用jne进行跳转执行**
+**可以看到汇编语句中 cmp对day进行判断若是成哥则使用jne进行跳转执行**<br>
 <img src="img/20223602.png">
 **汇编代码预览:**<br>
 
