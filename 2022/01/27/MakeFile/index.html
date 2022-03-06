@@ -259,7 +259,7 @@
         </header>
 
         <div class="post-content">
-            <p><font color='red'> <strong>为什么要用MakeFile?</strong> </font><br></p>
+            <p><font color="red"> <strong>为什么要用MakeFile?</strong> </font><br></p>
 <blockquote>
 <p><strong>当工程文件需要编译大多数文件时每个文件都需要输入文件名进行编译，出错率高，并且不方便。</strong></p>
 </blockquote>
@@ -277,8 +277,8 @@
 <blockquote>
 <p><em>1）</em><strong>如果这个工程没有编译过，那么我们的所有C文件都要编译并被链接。<br></strong><br><em>2）</em><strong>如果这个工程的某几个C文件被修改，那么我们只编译被修改的C文件，并链接目标程序。<br></strong><br><em>3）</em><strong>如果这个工程的头文件被改变了，那么我们需要编译引用了这几个头文件的C文件，并链接目标程序。</strong></p>
 </blockquote>
-<p>只要我们的<font color='red'> <strong>Makefile</strong> </font>写得够好，我们只用一个<font color='red'> <strong>make</strong> </font>命令就可以完成，make命令会自动智能地根据当前的文件修改的情况来确定哪些文件需要重编译，从而自己编译所需要的文件和链接目标程序。</p>
-<p><font color='red'> <strong>Makefile</strong> </font>的<strong>规则:</strong></p>
+<p>只要我们的<font color="red"> <strong>Makefile</strong> </font>写得够好，我们只用一个<font color="red"> <strong>make</strong> </font>命令就可以完成，make命令会自动智能地根据当前的文件修改的情况来确定哪些文件需要重编译，从而自己编译所需要的文件和链接目标程序。</p>
+<p><font color="red"> <strong>Makefile</strong> </font>的<strong>规则:</strong></p>
 <blockquote>
 <p>target … : prerequisites …<br><br>command<br>…<br>…</p>
 </blockquote>
@@ -291,7 +291,7 @@
 <blockquote>
 <p><strong>command也就是make需要执行的命令。（任意的Shell命令）</strong></p>
 </blockquote>
-<p>这是一个文件的<strong>依赖关系</strong>，也就是说，target这一个或多个的目标文件依赖于prerequisites中的文件，其生成规则定义在command中。说白一点就是说，prerequisites中如果有一个以上的文件比target文件要新的话，command所定义的命令就会被执行。这就是<font color='red'> <strong>Makefile</strong> </font>的规则。也就是<font color='red'> <strong>Makefile</strong> </font>中最<strong>核心</strong>的内容。</p>
+<p>这是一个文件的<strong>依赖关系</strong>，也就是说，target这一个或多个的目标文件依赖于prerequisites中的文件，其生成规则定义在command中。说白一点就是说，prerequisites中如果有一个以上的文件比target文件要新的话，command所定义的命令就会被执行。这就是<font color="red"> <strong>Makefile</strong> </font>的规则。也就是<font color="red"> <strong>Makefile</strong> </font>中最<strong>核心</strong>的内容。</p>
 <h2 id="一个范例："><a href="#一个范例：" class="headerlink" title="一个范例："></a><strong>一个范例：</strong><br></h2><p><strong>hellospeak.h:</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/d5eb9c8515c41f80.png"><br><br><br><strong>speak.h</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/db3fc86d82cc2da3.png"><br><br><br><strong>speak.c:</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/f081c8addf6fb283.png"><br><br><br><strong>若是用gcc编译将执行三步:</strong><br><img src="https://i.bmp.ovh/imgs/2022/01/bc93ac67bfd7422a.png"></p>
 <p><strong>CmakeFile范例</strong><br></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">hello_demo : hellospeak.o speak.o                                           </span><br><span class="line">        gcc -o hello_demo hellospeak.o speak.o                               </span><br><span class="line"></span><br><span class="line">hellospeak.o : hellospeak.c speak.h                                           </span><br><span class="line">        gcc -c hellospeak.c                                                </span><br><span class="line">speak.o : speak.c  speak.h                                                  </span><br><span class="line">        gcc -c speak.c                                                    </span><br><span class="line">clean :  <span class="comment">/*执行 make clean 将会删除下面文件*/</span>                                                    </span><br><span class="line">        rm hello_demo speak.o  hellospeak.o                                </span><br></pre></td></tr></table></figure>

@@ -222,7 +222,7 @@
         <div class="post-content">
             <h1 id="弊端一"><a href="#弊端一" class="headerlink" title="弊端一."></a>弊端一.</h1><p><strong>高并发时较小内存块使用导致内存调用频繁,降低了系统的执行效率</strong><br><img src="https://i.bmp.ovh/imgs/2022/02/80a0fb343bb8e2fc.png"></p>
 <hr>
-<h1 id="弊端二"><a href="#弊端二" class="headerlink" title="弊端二."></a>弊端二.</h1><p><strong>频繁使用时增加了系统内存的碎片,降低内存使用效率</strong><br><br>&emsp;    <font color=GoldenRod>内部碎片</font> –&emsp;已经被分配出去(能明确指出属于哪个进程) 却不能利用的内存空间;<br><br>  &emsp;&emsp;&emsp;<font color=red>产生根源</font><strong>1.内存分配必须起始于可被 4、8 或 16 整除（视处理器体系结构而定）的地址<br></strong><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;<strong>2.MMU的分页机制的限制</strong><br><br><br></p>
+<h1 id="弊端二"><a href="#弊端二" class="headerlink" title="弊端二."></a>弊端二.</h1><p><strong>频繁使用时增加了系统内存的碎片,降低内存使用效率</strong><br><br>&emsp;    <font color="GoldenRod">内部碎片</font> –&emsp;已经被分配出去(能明确指出属于哪个进程) 却不能利用的内存空间;<br><br>  &emsp;&emsp;&emsp;<font color="red">产生根源</font><strong>1.内存分配必须起始于可被 4、8 或 16 整除（视处理器体系结构而定）的地址<br></strong><br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;<strong>2.MMU的分页机制的限制</strong><br><br><br></p>
 <table>
 <thead>
 <tr>
@@ -259,9 +259,9 @@
 </tbody></table>
 <hr>
 <h1 id="弊端三"><a href="#弊端三" class="headerlink" title="弊端三."></a>弊端三.</h1><p><strong>没有垃圾回收机制,容易造成内存泄露,导致内存枯竭</strong><br></p>
-<p><font color=red><strong>情形一:</strong></font></p>
+<p><font color="red"><strong>情形一:</strong></font></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">log_error</span><span class="params">(<span class="keyword">char</span> *reason)</span></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> *p1;</span><br><span class="line">	p1 = <span class="built_in">malloc</span>(<span class="number">100</span>);</span><br><span class="line">	<span class="built_in">sprintf</span>(p1,<span class="string">&quot;The f1 error occurred because of &#x27;%s&#x27;,reason&quot;</span>);</span><br><span class="line">	<span class="built_in">log</span>(p1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><font color=red><strong>情形二:</strong></font></p>
+<p><font color="red"><strong>情形二:</strong></font></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getkey</span><span class="params">(<span class="keyword">char</span> *filename)</span></span>&#123;</span><br><span class="line">	FILE *fp;</span><br><span class="line">	<span class="keyword">int</span> key;</span><br><span class="line">	fp=<span class="built_in">fopen</span>(filename,<span class="string">&quot;r&quot;</span>);</span><br><span class="line">	<span class="built_in">fscanf</span>(sp,<span class="string">&quot;%d&quot;</span>,&amp;key);</span><br><span class="line">	<span class="comment">//fclose(fp);</span></span><br><span class="line">	<span class="keyword">return</span> key;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <hr>
 <h1 id="弊端四"><a href="#弊端四" class="headerlink" title="弊端四."></a>弊端四.</h1><p><strong>内存分配与释放的逻辑在程序中相隔较远时,降低程序的稳定性</strong><br></p>
@@ -269,7 +269,7 @@
 <p><strong>↓↓↓</strong></p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> stu_name[MAX];		<span class="comment">//全局变量</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">getName</span><span class="params">(<span class="keyword">int</span> stu_no)</span></span>&#123;</span><br><span class="line">	<span class="comment">//查找相应的学号并赋值给 stu_name</span></span><br><span class="line">	<span class="built_in">snprintf</span>(stu_name,MAX,<span class="string">&quot;%s&quot;</span>,name);</span><br><span class="line">	<span class="keyword">return</span> stu_name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <hr>
-<h1 id="解决弊端"><a href="#解决弊端" class="headerlink" title="解决弊端"></a>解决弊端</h1><h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://i.bmp.ovh/imgs/2022/02/a6cc9e72b22931e9.png"></h2><h1 id="内存管理组件选择"><a href="#内存管理组件选择" class="headerlink" title="内存管理组件选择"></a>内存管理组件选择</h1><table>
+<h1 id="解决弊端"><a href="#解决弊端" class="headerlink" title="解决弊端"></a>解决弊端</h1><h2 id><a href="#" class="headerlink" title></a><img src="https://i.bmp.ovh/imgs/2022/02/a6cc9e72b22931e9.png"></h2><h1 id="内存管理组件选择"><a href="#内存管理组件选择" class="headerlink" title="内存管理组件选择"></a>内存管理组件选择</h1><table>
 <thead>
 <tr>
 <th></th>
@@ -280,45 +280,45 @@
 </thead>
 <tbody><tr>
 <td><strong>概念</strong></td>
-<td><font color=DarkSalmon><strong>Glibc自带</strong></font></td>
-<td><font color=DarkSalmon><strong>Google开源</strong></font></td>
-<td><font color=DarkSalmon><strong>Jason Evans</strong></font><br><font color=red>(FreeBSD著名开发人员)</font></td>
+<td><font color="DarkSalmon"><strong>Glibc自带</strong></font></td>
+<td><font color="DarkSalmon"><strong>Google开源</strong></font></td>
+<td><font color="DarkSalmon"><strong>Jason Evans</strong></font><br><font color="red">(FreeBSD著名开发人员)</font></td>
 </tr>
 <tr>
-<td><strong>性能</strong><br><font color=red>(一次malloc/free操作)</td>
-<td><font color=DarkSalmon><strong>300ns</strong></font></td>
-<td><font color=DarkSalmon><strong>50ns</strong></font></td>
-<td><font color=DarkSalmon>**&lt;=50ns**</font></td>
+<td><strong>性能</strong><br><font color="red">(一次malloc/free操作)</font></td>
+<td><font color="DarkSalmon"><strong>300ns</strong></font></td>
+<td><font color="DarkSalmon"><strong>50ns</strong></font></td>
+<td><font color="DarkSalmon">**&lt;=50ns**</font></td>
 </tr>
 <tr>
 <td><strong>弊端</strong></td>
-<td><font color=DarkSalmon><strong>锁机制减低性能,容易导致内存碎片</strong></font></td>
-<td><font color=DarkSalmon><strong>1%左右的额外内存开销</strong></font></td>
-<td><font color=DarkSalmon><strong>1%左右的额外内存开销</strong></font></td>
+<td><font color="DarkSalmon"><strong>锁机制减低性能,容易导致内存碎片</strong></font></td>
+<td><font color="DarkSalmon"><strong>1%左右的额外内存开销</strong></font></td>
+<td><font color="DarkSalmon"><strong>1%左右的额外内存开销</strong></font></td>
 </tr>
 <tr>
 <td><strong>优点</strong></td>
-<td><font color=DarkSalmon><strong>传统,稳定</strong></font></td>
-<td><font color=DarkSalmon><strong>线程本地缓存,多线程分配效率高</strong></font></td>
-<td><font color=DarkSalmon><strong>线程本地缓存,多核多线程分配效率相当高</strong></font></td>
+<td><font color="DarkSalmon"><strong>传统,稳定</strong></font></td>
+<td><font color="DarkSalmon"><strong>线程本地缓存,多线程分配效率高</strong></font></td>
+<td><font color="DarkSalmon"><strong>线程本地缓存,多核多线程分配效率相当高</strong></font></td>
 </tr>
 <tr>
 <td><strong>使用方式</strong></td>
-<td><font color=DarkSalmon><strong>Glibc 编译</strong></font></td>
-<td><font color=DarkSalmon><strong>动态链接库</strong></font></td>
-<td><font color=DarkSalmon><strong>动态链接库</strong></font></td>
+<td><font color="DarkSalmon"><strong>Glibc 编译</strong></font></td>
+<td><font color="DarkSalmon"><strong>动态链接库</strong></font></td>
+<td><font color="DarkSalmon"><strong>动态链接库</strong></font></td>
 </tr>
 <tr>
 <td><strong>谁在用</strong></td>
-<td><font color=DarkSalmon><strong>较普通</strong></font></td>
-<td><font color=DarkSalmon><strong>safari、chrome等</strong></font></td>
-<td><font color=DarkSalmon><strong>facebook、firefox等</strong></font></td>
+<td><font color="DarkSalmon"><strong>较普通</strong></font></td>
+<td><font color="DarkSalmon"><strong>safari、chrome等</strong></font></td>
+<td><font color="DarkSalmon"><strong>facebook、firefox等</strong></font></td>
 </tr>
 <tr>
 <td><strong>适用场景</strong></td>
-<td><font color=DarkSalmon><strong>除特别追求高效内存分配以外的</strong></font></td>
-<td><font color=DarkSalmon><strong>多线程下高校内存分配</strong></font></td>
-<td><font color=DarkSalmon><strong>多线程下高效内存分配</strong></font></td>
+<td><font color="DarkSalmon"><strong>除特别追求高效内存分配以外的</strong></font></td>
+<td><font color="DarkSalmon"><strong>多线程下高校内存分配</strong></font></td>
+<td><font color="DarkSalmon"><strong>多线程下高效内存分配</strong></font></td>
 </tr>
 </tbody></table>
 
