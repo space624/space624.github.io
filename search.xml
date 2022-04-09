@@ -2107,4 +2107,16 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
         <tag>算法</tag>
       </tags>
   </entry>
+  <entry>
+    <title>设计RandomPool结构</title>
+    <url>/2022/04/10/RandomPool//</url>
+    <content><![CDATA[<p><strong>[题目]</strong><br><br><strong>设计一种结构,在该结构中有如下三个功能:</strong><br></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">```delete(key)：将原本在结构中的某个key移除```&lt;br&gt;</span><br><span class="line">```getRandom()：等概率随机返回结构中的任何一个key```&lt;br&gt;</span><br><span class="line">**[要求]**&lt;br&gt;</span><br><span class="line">&gt;insert、delete和getRandom方法的时间复杂度嗾使O(1)</span><br><span class="line"></span><br><span class="line">```cpp</span><br><span class="line">#include &lt;map&gt;</span><br><span class="line">#include &lt;string&gt;</span><br><span class="line"></span><br><span class="line">int size;</span><br><span class="line"></span><br><span class="line">template&lt;typename K&gt;</span><br><span class="line">std::map&lt;K, int&gt; keyIndexMap;</span><br><span class="line"></span><br><span class="line">template&lt;typename K&gt;</span><br><span class="line">std::map&lt;int, K&gt; indexKeyMap;</span><br><span class="line"></span><br><span class="line">template&lt;typename K&gt;</span><br><span class="line">void insert_(K key) &#123;</span><br><span class="line">	if (keyIndexMap.count(key)) &#123;	//若之前加过就跳过</span><br><span class="line">		keyIndexMap.insert(key, size);</span><br><span class="line">		indexKeyMap.insert(++size, key);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">template&lt;typename K&gt;</span><br><span class="line">void delete_(K key) &#123;</span><br><span class="line">	if (keyIndexMap.count(key)) &#123;</span><br><span class="line">		int deleteIndex = keyIndexMap[key];</span><br><span class="line">		int lastIndex = --size;</span><br><span class="line">		auto lastKey = indexKeyMap[lastIndex];</span><br><span class="line">		keyIndexMap.insert(lastIndex, deleteIndex);</span><br><span class="line">		indexKeyMap.insert(deleteIndex, lastIndex);</span><br><span class="line">		keyIndexMap.erase(key);</span><br><span class="line">		indexKeyMap.erase(lastIndex);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">template&lt;typename K&gt;</span><br><span class="line">void getRandom() &#123;</span><br><span class="line"></span><br><span class="line">	if (size == 0) &#123;</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line">	int randomIndex = static_cast&lt;int&gt;(rand()*size);	//0 ~ size - 1</span><br><span class="line">	return indexKeyMap[randomIndex];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
 </search>
