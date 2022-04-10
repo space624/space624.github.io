@@ -15,7 +15,7 @@
 
 
 
-<title>sort求第k小的数 | Space Blog</title>
+<title>岛问题 | Space Blog</title>
 
 
 
@@ -133,7 +133,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">sort求第k小的数</h1>
+            <h1 class="post-title">岛问题</h1>
             
                 <div class="post-meta">
                     
@@ -142,7 +142,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">一月 5, 2022&nbsp;&nbsp;0:00:00</a>
+                        Date: <a href="#">四月 10, 2022&nbsp;&nbsp;0:00:00</a>
                         </span>
                     
                     
@@ -158,12 +158,15 @@
         </header>
 
         <div class="post-content">
-            <p><img src="https://i.bmp.ovh/imgs/2022/01/70c19c413d312378.png"><br>题目描述<br>输入 nn（1 \le n &lt; 50000001≤n&lt;5000000 且 nn 为奇数）个数字 a_ia<br>i<br>​<br> （1 \le a_i &lt; {10}^91≤a<br>i<br>​<br> &lt;10<br>9<br> ），输出这些数字的第 kk 小的数。最小的数是第 00 小。</p>
-<p>请尽量不要使用 nth_element 来写本题，因为本题的重点在于练习分治算法。</p>
-<p>输入格式<br>无</p>
-<p>输出格式<br>无</p>
-<p>输入输出样例<br>输入 #1复制<br>5 1<br>4 3 2 1 5<br>输出 #1复制<br>2</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> N=<span class="number">5e6</span>+<span class="number">10</span>;</span><br><span class="line"><span class="keyword">int</span> q[N],n;</span><br><span class="line"><span class="keyword">int</span> k;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quick_sort</span><span class="params">(<span class="keyword">int</span> l,<span class="keyword">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r) <span class="keyword">return</span> ;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> i=l<span class="number">-1</span>, j=r+<span class="number">1</span>,val = q[l+r&gt;&gt;<span class="number">1</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">do</span> i++; <span class="keyword">while</span>(q[i]&lt;val);</span><br><span class="line">        <span class="keyword">do</span> j--; <span class="keyword">while</span>(q[j]&gt;val);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(i&lt;j) <span class="built_in">swap</span>(q[i],q[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(k&lt;=j)</span><br><span class="line">        <span class="built_in">quick_sort</span>(l,j);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">quick_sort</span>(j+<span class="number">1</span>,r);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ios::<span class="built_in">sync_with_stdio</span>(<span class="literal">false</span>);</span><br><span class="line">    cin&gt;&gt;n&gt;&gt;k;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++) cin&gt;&gt;q[i];</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">quick_sort</span>(<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    </span><br><span class="line">    cout &lt;&lt; q[k] &lt;&lt; endl;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <p>【题目】<br><br>一个矩阵中只有0和1两种值，每个位置都可以和字节的上、下、左、右 四个位置相连，如果有一片1连在一起，这个部分叫做一个岛，求一个矩阵中有多少个岛？<br></p>
+<blockquote>
+<p>【举例】<br><br>001010<br><br>111010<br><br>100100<br><br>000000<br><br><strong>这个矩阵中有三个岛</strong></p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">countIslands</span><span class="params">(std::vector&lt;std::vector&lt;<span class="keyword">int</span>&gt;&gt;m)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (m.<span class="built_in">size</span>() == <span class="literal">NULL</span> || m[<span class="number">0</span>].<span class="built_in">size</span>() == <span class="literal">NULL</span>)	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> N = m.<span class="built_in">size</span>();	<span class="comment">//行号</span></span><br><span class="line">	<span class="keyword">int</span> M = m[<span class="number">0</span>].<span class="built_in">size</span>();	<span class="comment">//列号</span></span><br><span class="line">	<span class="keyword">int</span> res = <span class="number">0</span>;	<span class="comment">//岛的数量</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//从左往右，从上往下</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; ++i) &#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; M; j++) &#123;</span><br><span class="line">			<span class="keyword">if</span> (m[i][j] == <span class="number">1</span>) &#123;	<span class="comment">//如果等于1就++并进入感染过程</span></span><br><span class="line">				++res;		<span class="comment">//几个岛</span></span><br><span class="line">				<span class="built_in">infect</span>(m, i, j, N, M);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">infect</span><span class="params">(std::vector&lt;std::vector&lt;<span class="keyword">int</span>&gt;&gt;m, <span class="keyword">int</span> i, <span class="keyword">int</span> j, <span class="keyword">int</span> N, <span class="keyword">int</span> M)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (i &lt; <span class="number">0</span> || i &gt;= N || j &lt; <span class="number">0</span> || j &gt;= M || m[i][j] != <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">	</span><br><span class="line">	m[i][j] = <span class="number">2</span>;</span><br><span class="line">	<span class="built_in">infect</span>(m, i + <span class="number">1</span>, j, N, M);</span><br><span class="line">	<span class="built_in">infect</span>(m, i - <span class="number">1</span>, j, N, M);</span><br><span class="line">	<span class="built_in">infect</span>(m, i, j + <span class="number">1</span>, N, M);</span><br><span class="line">	<span class="built_in">infect</span>(m, i, j - <span class="number">1</span>, N, M);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>【进阶】<br><br>如何设计一个并行算法解决这个问题<br></p>
+
         </div>
 
         
@@ -177,7 +180,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://spaceout.cn/2022/01/05/sort2/">https://spaceout.cn/2022/01/05/sort2/</a></span>
+                        <span><a href="https://spaceout.cn/2022/04/10/Infect/">https://spaceout.cn/2022/04/10/Infect/</a></span>
                     </p>
                 
                 
@@ -214,10 +217,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2022/01/05/sort/">快速排序</a>
+                <a class="prev" rel="prev" href="/2022/04/10/BitMap2/">BitArr || BitMap</a>
             
             
-            <a class="next" rel="next" href="/2022/01/02/SocketIP/">Socket-Ip地址转换</a>
+            <a class="next" rel="next" href="/2022/04/10/RandomPool/">设计RandomPool结构</a>
             
         </section>
 
