@@ -2183,4 +2183,19 @@ Qt提供的调色板类 QPalette 专门用于管理部件的外观显示,相当�
         <tag>算法</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Master公式</title>
+    <url>/2022/04/17/Master//</url>
+    <content><![CDATA[<blockquote>
+<p>形如<br><br><code>T(N)= a * T(N/b)+ O(Nd)(其中的a、b、d都是常数)</code><br><br><code>的递归函数，可以直接通过Master公式来确定时间复杂度</code><br></p>
+<p><code>如果log(b,a)&lt; d，复杂度为O(N d)&lt;br&gt; </code>如果log(ba) &gt; d，复杂度为O(Nalog(b,a))<code>&lt;br&gt; </code>如果log(b,a) == d，复杂度为O(Nd * logN)```<br></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
 </search>
